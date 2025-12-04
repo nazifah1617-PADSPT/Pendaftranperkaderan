@@ -248,7 +248,7 @@
    <div id="adminDashboard" class="hidden container mx-auto px-4 max-w-4xl py-8">
     <div class="glass-card rounded-3xl p-8">
         <div class="flex justify-between items-center mb-6 border-b pb-4">
-            <h2 class="text-3xl font-bold text-gray-800">Papan Pemuka Admin</h2>
+            <h2 class="text-3xl font-bold text-gray-800">Dashboard Admin</h2>
             <button onclick="logoutAdmin()" class="text-sm text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-300 hover:bg-red-50 transition duration-200">
                 Log Keluar
             </button>
@@ -302,6 +302,12 @@
                     <tr><td colspan="5" class="py-4 text-center text-gray-500">Memuatkan data...</td></tr>
                 </tbody>
             </table>
+        </div>
+        <!-- DEBUGGING TOOL -->
+        <div class="mt-4 no-print">
+             <button onclick="debugHeaders()" class="text-xs text-gray-600 hover:text-red-700 border border-gray-300 px-3 py-1 rounded-full">
+                Tunjukkan Header CSV Mentah
+            </button>
         </div>
         <p id="dataStatusMessage" class="text-sm text-blue-600 mt-4 italic">
             *Data dimuatkan secara langsung dari Google Sheet.
@@ -475,17 +481,92 @@
 
 
   <script>
+    // ====================================================================
+    // Bahagian Konfigurasi Header (WAJIB DISESUAIKAN)
+    // ====================================================================
+    
+    // Kunci yang diperlukan oleh kod JavaScript (TIDAK BOLEH DITUKAR)
+    const REQUIRED_KEYS = [
+        'timestamp', 'nama', 'ic', 'telefon', 'daerah', 'negeri', 
+        'email', 'siri', 'tarikh', 'kehadiran', 'komen'
+    ];
+
+    /* * KONFIGURASI SHEET_HEADER_MAP (DIKEMASKINI) *
+     * Map ini memetakan [NAMA LAJUR DALAM GOOGLE SHEET ANDA] kepada 
+     * [KUNCI YANG DIPERLUKAN OLEH KOD DI ATAS].
+     * Penterjemahan berdasarkan input anda:
+     * - 'no kp' -> 'ic'
+     * - 'emel' -> 'email'
+    */
+    const SHEET_HEADER_MAP = {
+        // Nama kolom Sheet (HARUS HURUF KECIL) : Kunci JavaScript (WAJIB IKUT REQUIRED_KEYS)
+        // Kunci asas anda: timestamp, nama, telefon, daerah, negeri, siri, tarikh, kehadiran, komen
+        'no kp': 'ic',       
+        'emel': 'email',     
+    };
+    // ====================================================================
+
+    // Peta Paparan Laporan untuk menghasilkan header dan data yang diminta (9 lajur)
+    const REPORT_COLUMN_MAP = [
+        { key: 'nama', label: 'Nama' },
+        { key: 'ic', label: 'No KP' },
+        { key: 'telefon', label: 'Telefon' },
+        { key: 'negeri', label: 'Negeri' },
+        { key: 'daerah', label: 'Daerah' },
+        { key: 'email', label: 'Emel' },
+        { key: 'kehadiran', label: 'Kehadiran' },
+        { key: 'komen', label: 'Komen' },
+        { key: 'siri', label: 'Siri' },
+    ];
+
+
     // Konstanta Kata Laluan Admin
     const ADMIN_PASSWORD = 'padspt1617';
     let realRegistrations = []; // Variabel untuk menyimpan data sebenar dari Sheet
     let currentFilteredData = []; // Data yang sedang dipaparkan/ditapis
 
-    // URL Apps Script anda
+    // URL Apps Script anda (Hanya digunakan untuk hantar borang)
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJf5VOkmm5rs1mcRLYFW7nklt82ExSnt4VVnRAIz4CnKcXtQUdyc1WBCMdev2iQex3/exec';
+    
+    // URL CSV untuk pengambilan data
+    const CSV_DATA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVuXTBG4keekYEdzrx5MG4oqDrCnXvO307S4yK86uzKHp4l5UiqTek8hTQm-p6LTt4NU5UJl9exGje/pub?output=csv';
+
+    /**
+     * DEBUGGING TOOL: Mengambil header CSV mentah dan memaparkannya.
+     */
+    async function debugHeaders() {
+        const dataStatusMessage = document.getElementById('dataStatusMessage');
+        dataStatusMessage.textContent = "Mengambil header...";
+        
+        try {
+            const response = await fetch(CSV_DATA_URL); 
+            const csvText = await response.text();
+            
+            const rows = csvText.trim().split('\n');
+            if (rows.length === 0) {
+                dataStatusMessage.textContent = "RALAT: Tiada data CSV ditemui.";
+                return;
+            }
+            
+            // Ambil baris pertama (header) dan bersihkan
+            const rawHeaders = rows[0].split(',').map(h => h.replace(/^"|"$/g, '').trim().toLowerCase()); 
+            
+            dataStatusMessage.innerHTML = `
+                <span class="font-bold text-red-600">HEADER MENTAH DARI CSV:</span>
+                <ul class="list-disc list-inside mt-2 text-left mx-auto max-w-sm text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">
+                    ${rawHeaders.map(h => `<li>'${h}'</li>`).join('')}
+                </ul>
+                <p class="text-red-500 mt-2">Gunakan string ini (cth: 'no kp') di bahagian kiri SHEET_HEADER_MAP.</p>
+            `;
+
+        } catch (error) {
+            dataStatusMessage.textContent = `RALAT DEBUG: Gagal mencapai CSV. ${error.message}`;
+        }
+    }
 
 
     /**
-     * Mengambil data sebenar dari Google Sheet dan mengemas kini dashboard.
+     * Mengambil data CSV dari Google Sheet dan memprosesnya.
      */
     async function fetchRegistrations() {
         const tableBody = document.getElementById('participantsTableBody');
@@ -493,36 +574,56 @@
         tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-blue-500">Memuatkan data dari Google Sheet...</td></tr>';
         dataStatusMessage.textContent = "Memuatkan data...";
         
-        // Membina URL untuk mod pengambilan data
-        const dataFetchURL = `${GOOGLE_SCRIPT_URL}?action=getData`;
-
         try {
-            const response = await fetch(dataFetchURL, { method: 'GET' });
+            const response = await fetch(CSV_DATA_URL); 
+            const csvText = await response.text();
             
-            // Cuba parse sebagai JSON dahulu.
-            let rawText = await response.text();
-            
-            // Cuba membersihkan respons jika ada sebarang tambahan di luaran
-            const jsonStart = rawText.indexOf('[');
-            const jsonEnd = rawText.lastIndexOf(']') + 1;
-            
-            if (jsonStart === -1 || jsonEnd === 0) {
-                 throw new Error("Respons Apps Script tidak mengandungi data JSON yang sah. Sila semak Logs Apps Script.");
+            const rows = csvText.trim().split('\n');
+            if (rows.length <= 1) {
+                realRegistrations = [];
+                throw new Error("Tiada data pendaftaran ditemui dalam Sheet (hanya header).");
             }
+            
+            // 1. Ambil header dan tukar ke lowercase untuk pemetaan
+            const csvHeaders = rows[0].split(',').map(h => h.replace(/^"|"$/g, '').trim().toLowerCase()); 
+            
+            const data = [];
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i].split(',');
+                const obj = {};
+                
+                csvHeaders.forEach((csvHeader, j) => {
+                    // Membersihkan nilai (buang petikan jika ada dan trim)
+                    const value = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
+                    
+                    // 2. Gunakan header CSV sebagai kunci data selepas terjemahan (jika ada)
+                    const expectedKey = SHEET_HEADER_MAP[csvHeader] || csvHeader; 
+                    
+                    if (REQUIRED_KEYS.includes(expectedKey)) {
+                        obj[expectedKey] = value;
+                    } 
+                });
 
-            rawText = rawText.substring(jsonStart, jsonEnd);
-            const data = JSON.parse(rawText);
+                // Pastikan objek mempunyai semua kunci yang diperlukan (walaupun kosong)
+                REQUIRED_KEYS.forEach(key => {
+                    if (!obj.hasOwnProperty(key)) {
+                        obj[key] = '';
+                    }
+                });
+
+                data.push(obj);
+            }
 
             realRegistrations = data; // Simpan data sebenar
             
-            initializeSeriesFilter(realRegistrations); // Mula-mula, sediakan penapis siri
+            initializeSeriesFilter(realRegistrations); // Sediakan penapis siri
             filterDashboard(); // Tapis dan paparkan semua data secara lalai
             
             dataStatusMessage.textContent = `Data berjaya dimuatkan. Jumlah rekod: ${realRegistrations.length}`;
 
         } catch (error) {
-            console.error("Gagal mengambil data dari Google Sheets:", error);
-            dataStatusMessage.textContent = `Ralat memuatkan data: ${error.message}. Sila pastikan Apps Script telah diterbitkan (URL /exec) dengan kod yang betul.`;
+            console.error("Gagal mengambil atau memparsing data CSV:", error);
+            dataStatusMessage.textContent = `Ralat memuatkan data: ${error.message}. Sila pastikan pautan CSV Google Sheet diterbitkan dengan betul (Public View).`;
             tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-red-500">Gagal memuatkan data. Sila semak konsol untuk maklumat lanjut.</td></tr>';
         }
     }
@@ -653,7 +754,7 @@
 
     /**
      * Menghasilkan HTML untuk jadual peserta (digunakan untuk Dashboard dan Laporan)
-     * Tambah lajur telefon di Dashboard (hidden sm:table-cell)
+     * Dashboard: Nama, IC, Telefon, Negeri, Kehadiran (top 10 filtered)
      */
     function generateParticipantTable(data, isReport = false) {
         let html = '';
@@ -680,7 +781,8 @@
                 ${isReport ? `<td class="py-3 px-4 text-xs">${(p.komen || '-')}</td>` : ''}
                 ${isReport ? `<td class="py-3 px-4 text-xs">${(p.siri || 'N/A')}</td>` : ''}
                 ${isReport ? `<td class="py-3 px-4 text-xs">${(p.tarikh || 'N/A')}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.timestamp || 'N/A').substring(0, 10)}</td>` : ''}
+                <!-- TIMESTAMP DIBUANG DARI LAPORAN -->
+                
             </tr>`;
         });
         
@@ -743,31 +845,44 @@
         });
 
         // 4. Bina Jadual Laporan Penuh
+        let headerHtml = REPORT_COLUMN_MAP.map(col => `<th class="py-3 px-4">${col.label}</th>`).join('');
+        
+        let bodyHtml = '';
+        if (total > 0) {
+            bodyHtml = data.map(p => {
+                const statusClass = p.kehadiran === 'YA' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
+                const rowClass = 'text-sm'; // Simple class for printing
+
+                let rowCells = REPORT_COLUMN_MAP.map(col => {
+                    let value = p[col.key] || 'N/A';
+                    
+                    if (col.key === 'kehadiran') {
+                        return `<td class="py-3 px-4"><span class="${statusClass}">${value}</span></td>`;
+                    }
+                    if (col.key === 'email' || col.key === 'komen') {
+                        return `<td class="py-3 px-4 text-xs">${value}</td>`;
+                    }
+                    return `<td class="py-3 px-4">${value}</td>`;
+                }).join('');
+                
+                return `<tr class="${rowClass} border-b border-gray-100">${rowCells}</tr>`;
+            }).join('');
+        } else {
+            bodyHtml = `<tr><td colspan="${REPORT_COLUMN_MAP.length}" class="py-4 text-center text-gray-500">Tiada data pendaftaran direkodkan.</td></tr>`;
+        }
+
         let reportHtml = `
             <table class="min-w-full border-collapse">
                 <thead class="bg-gray-200 border-b-2 border-gray-300">
                     <tr class="text-left text-sm font-semibold uppercase text-gray-700">
-                        <th class="py-3 px-4 w-1/6">Nama</th>
-                        <th class="py-3 px-4 w-1/12">No KP</th>
-                        <th class="py-3 px-4 w-1/12">Telefon</th>
-                        <th class="py-3 px-4 w-1/12">Negeri</th>
-                        <th class="py-3 px-4 w-1/12">Daerah</th>
-                        <th class="py-3 px-4 w-1/6">Emel</th>
-                        <th class="py-3 px-4 w-1/12">Kehadiran</th>
-                        <th class="py-3 px-4 w-1/6">Komen</th>
-                        <th class="py-3 px-4 w-1/12">Siri</th>
-                        <th class="py-3 px-4 w-1/12">Tarikh Prog.</th>
-                        <th class="py-3 px-4 w-1/12">Masa Daftar</th>
+                        ${headerHtml}
                     </tr>
                 </thead>
                 <tbody>
+                    ${bodyHtml}
+                </tbody>
+            </table>
         `;
-        if (total > 0) {
-            reportHtml += generateParticipantTable(data, true); // true = mod laporan
-        } else {
-            reportHtml += '<tr><td colspan="11" class="py-4 text-center text-gray-500">Tiada data pendaftaran direkodkan.</td></tr>';
-        }
-        reportHtml += `</tbody></table>`;
         reportTableContainer.innerHTML = reportHtml;
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
