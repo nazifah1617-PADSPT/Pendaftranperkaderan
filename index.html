@@ -7,153 +7,397 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
+  
+        /* Ciri-ciri Laman Web Kerajaan & Kontras Tinggi */
         body { 
             font-family: 'Inter', sans-serif; 
-            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
+            /* Latar Belakang Biru Gelap yang Formal */
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); 
             min-height: 100vh;
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            /* Ditukar kepada kad solid, mengurangkan efek blur untuk profesionalisme */
+            background: #ffffff; 
+            border: 1px solid #e5e7eb; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .input-modern {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-color: #d1d5db; /* Border kelabu standard */
         }
         .input-modern:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.25);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px -2px rgba(30, 64, 175, 0.1); /* Shadow biru lebih formal */
+            border-color: #1e40af; /* Biru tua untuk fokus */
         }
         .btn-gradient {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            /* Biru korporat yang lebih dalam */
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
             transition: all 0.3s ease;
         }
         .btn-gradient:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px -12px rgba(59, 130, 246, 0.4);
-        }
-        .floating-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px -5px rgba(30, 64, 175, 0.4);
         }
         .text-shadow {
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-    </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+        /* Penyesuaian warna kad info untuk kontras yang lebih baik */
+        .info-card-date { background: #d1fae5; border-color: #34d399; }
+        .info-card-time { background: #fffbeb; border-color: #fcd34d; }
+        .info-card-platform { background: #ede9fe; border-color: #a78bfa; }
+
+        /* Gaya Khusus untuk Notifikasi Kejayaan */
+        #successMessage > div {
+            background: #e6ffed; /* Latar belakang hijau cerah */
+            border-color: #38a169; /* Border hijau gelap */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        #successMessage h4 {
+             color: #276749; /* Teks hijau tua */
+        }
+        #successMessage p {
+             color: #38a169; /* Teks hijau sederhana */
+        }
+        /* CSS untuk Paparan Cetak */
+        @media print {
+            body {
+                background: none !important;
+                color: #000;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .glass-card {
+                box-shadow: none !important;
+                border: none !important;
+            }
+            /* Reset margin/padding for print */
+            main {
+                padding: 0 !important;
+            }
+            .container {
+                max-width: none !important;
+                margin: 0 !important;
+            }
+            #adminDashboard {
+                padding: 0;
+            }
+            /* Jadual laporan penuh untuk cetakan */
+            #reportTableContainer table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            #reportTableContainer th, #reportTableContainer td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                vertical-align: top;
+            }
+            #reportTableContainer th {
+                background-color: #f3f4f6;
+            }
+        }
+        .print-only {
+            display: none;
+        }
+  </style>
  </head>
- <body class="min-h-screen"><!-- Background Pattern -->
-  <div class="fixed inset-0 opacity-10">
+ <body class="min-h-screen">
+  <!-- Background Pattern -->
+  <div class="fixed inset-0 opacity-10 no-print">
    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, white 2px, transparent 2px); background-size: 50px 50px;"></div>
   </div>
-  <div class="relative z-10 min-h-screen flex flex-col"><!-- Header Section -->
-   <header class="pt-6 pb-4">
+  <div class="relative z-10 min-h-screen flex flex-col">
+   <!-- Header Section -->
+   <header class="pt-6 pb-4 no-print">
     <div class="container mx-auto px-4 max-w-4xl">
-     <div class="glass-card rounded-2xl p-6 text-center"><!-- Logo Section -->
-      <div class="flex items-center justify-center gap-6 mb-4"><!-- Logo 1 - JAKIM -->
-       <div class="w-20 h-20 flex items-center justify-center"><img src="https://i.postimg.cc/7frn73HY/image.png" alt="Logo JAKIM" class="w-full h-full object-contain" onerror="this.style.display='none';">
-       </div><!-- Logo 2 - JHEAIPP -->
-       <div class="w-20 h-20 flex items-center justify-center"><img src="https://i.postimg.cc/xk8vYgR8/image.png" alt="Logo JHEAIPP" class="w-full h-full object-contain" onerror="this.style.display='none';">
+     <div class="glass-card rounded-2xl p-6 text-center">
+      <!-- Logo Section -->
+      <div class="flex items-center justify-center gap-6 mb-4">
+       <!-- Logo 1 - JAKIM -->
+       <div class="w-20 h-20 flex items-center justify-center">
+        <img src="https://i.postimg.cc/7frn73HY/image.png" alt="Logo JAKIM" class="w-full h-full object-contain" onerror="this.style.display='none';">
        </div>
-      </div><!-- Title -->
-      <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-shadow leading-tight">Program Perkaderan Fuqaha<br><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Guru Takmir JAKIM </span></h1><!-- Subtitle -->
-      <p class="text-lg text-gray-600 mb-6 font-medium">November 2025 • Zon Utara • Siri 08/2025</p><!-- Info Cards -->
+       <!-- Logo 2 - JHEAIPP -->
+       <div class="w-20 h-20 flex items-center justify-center">
+        <img src="https://i.postimg.cc/xk8vYgR8/image.png" alt="Logo JHEAIPP" class="w-full h-full object-contain" onerror="this.style.display='none';">
+       </div>
+      </div>
+      <!-- Title -->
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-shadow leading-tight">
+       Program Perkaderan Fuqaha
+       <br>
+       <span class="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent"> Guru Takmir JAKIM </span>
+      </h1>
+      <!-- Subtitle -->
+      <p class="text-lg text-gray-600 mb-6 font-medium">Disember 2025 • Zon Utara • Siri 09/2025</p>
+      <!-- Info Cards (Tanpa Ikon) -->
       <div class="grid md:grid-cols-3 gap-4">
-       <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-4 border border-emerald-200">
-        <div class="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-         <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-         </svg>
-        </div>
-        <h3 class="font-bold text-emerald-800 text-base mb-1">22-24 November 2025</h3>
-        <p class="text-emerald-600 text-xs">(Sabtu - Isnin)</p>
+       <div class="info-card-date rounded-xl p-4 border text-center">
+        <h3 class="font-bold text-emerald-900 text-base mb-1">6-8 Disember 2025</h3>
+        <p class="text-emerald-700 text-xs">(Sabtu - Isnin)</p>
        </div>
-       <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 border border-amber-200">
-        <div class="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-         <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-         </svg>
-        </div>
-        <h3 class="font-bold text-amber-800 text-base mb-1">8:45 AM - 5:30 PM</h3>
-        <p class="text-amber-600 text-xs">Waktu Malaysia</p>
+       <div class="info-card-time rounded-xl p-4 border text-center">
+        <h3 class="font-bold text-amber-900 text-base mb-1">8:45 AM - 5:30 PM</h3>
+        <p class="text-amber-700 text-xs">Waktu Malaysia</p>
        </div>
-       <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
-        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-         <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
-         </svg>
-        </div>
-        <h3 class="font-bold text-purple-800 text-base mb-1">Video Conference</h3>
-        <p class="text-purple-600 text-xs">Google Meet &amp; Live Facebook</p>
+       <div class="info-card-platform rounded-xl p-4 border text-center">
+        <h3 class="font-bold text-purple-900 text-base mb-1">Video Conference</h3>
+        <p class="text-purple-700 text-xs">Google Meet &amp; Live Facebook</p>
        </div>
       </div>
      </div>
     </div>
-   </header><!-- Main Content -->
-   <main class="flex-1 py-8">
+   </header>
+   
+   <!-- Main Content (Borang Pendaftaran) -->
+   <main class="flex-1 py-8" id="formMain">
     <div class="container mx-auto px-4 max-w-2xl">
-     <div class="glass-card rounded-3xl p-8"><!-- Form Header -->
+     <div class="glass-card rounded-3xl p-8">
+      <!-- Form Header -->
       <div class="text-center mb-8">
-       <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-        <svg class="w-8 h-8 text-white" fill="currentColor" viewbox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /> <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a2 2 0 002 2h6a2 2 0 002-2V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
-        </svg>
-       </div>
        <h2 class="text-3xl font-bold text-gray-800 mb-2">Borang Pendaftaran</h2>
        <p class="text-gray-600">Sila lengkapkan maklumat di bawah untuk mendaftar</p>
-      </div><!-- Registration Form -->
-      <form id="registrationForm" class="space-y-6"><!-- Nama -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> Nama Peserta (Huruf Besar) * </label> <input type="text" id="nama" name="nama" required placeholder="MASUKKAN NAMA PENUH ANDA" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg font-medium uppercase" style="text-transform: uppercase;">
-       </div><!-- IC -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> No Kad Pengenalan * </label> <input type="text" id="ic" name="ic" required placeholder="850008-xx-xxxx" pattern="[0-9]{6}-[0-9]{2}-[0-9]{4}" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg">
+      </div>
+      <!-- Registration Form -->
+      <form id="registrationForm" class="space-y-6">
+       <!-- Nama -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> Nama Peserta (Huruf Besar) * </label>
+        <input type="text" id="nama" name="nama" required placeholder="MASUKKAN NAMA PENUH ANDA" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg font-medium uppercase" style="text-transform: uppercase;">
+       </div>
+       <!-- IC -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> No Kad Pengenalan * </label>
+        <input type="text" id="ic" name="ic" required placeholder="850008-xx-xxxx" pattern="[0-9]{6}-[0-9]{2}-[0-9]{4}" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
         <p class="text-sm text-gray-500 mt-2">Contoh: 850008-14-1234</p>
-       </div><!-- Phone -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> No Telefon Bimbit * </label> <input type="tel" id="telefon" name="telefon" required placeholder="01X-XXXXXXX" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg">
-       </div><!-- District -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> Daerah * </label> <input type="text" id="daerah" name="daerah" required placeholder="MASUKKAN DAERAH ANDA" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg">
-       </div><!-- State -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> Negeri * </label> <select id="negeri" name="negeri" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg"> <option value="">PILIH NEGERI</option> <option value="PULAU PINANG">PULAU PINANG</option> <option value="PERAK">PERAK</option> <option value="KEDAH">KEDAH</option> <option value="PERLIS">PERLIS</option> </select>
-       </div><!-- Email -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> E-mel * </label> <input type="email" id="email" name="email" required placeholder="nama@email.com" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg">
-       </div><!-- Siri -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> Siri * </label> <input type="text" id="siri" name="siri" required value="08/2025" readonly class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl bg-gray-100 text-lg font-medium text-gray-700">
-       </div><!-- Tarikh -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> Tarikh Program * </label> <input type="text" id="tarikh" name="tarikh" required value="22-24 November 2025" readonly class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl bg-gray-100 text-lg font-medium text-gray-700">
-       </div><!-- Attendance -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-4"> Saya akan menghadiri dengan jayanya program ini * </label>
-        <div class="flex gap-8"><label class="flex items-center cursor-pointer"> <input type="radio" name="kehadiran" value="YA" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500"> <span class="ml-3 text-lg font-medium text-gray-700">Ya</span> </label> <label class="flex items-center cursor-pointer"> <input type="radio" name="kehadiran" value="TIDAK" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500"> <span class="ml-3 text-lg font-medium text-gray-700">Tidak</span> </label>
+       </div>
+       <!-- Phone -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> No Telefon Bimbit * </label>
+        <input type="tel" id="telefon" name="telefon" required placeholder="01X-XXXXXXX" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
+       </div>
+       <!-- District -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> Daerah * </label>
+        <input type="text" id="daerah" name="daerah" required placeholder="MASUKKAN DAERAH ANDA" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
+       </div>
+       <!-- State -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> Negeri * </label>
+        <select id="negeri" name="negeri" required class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
+         <option value="">PILIH NEGERI</option>
+         <option value="PULAU PINANG">PULAU PINANG</option>
+         <option value="PERAK">PERAK</option>
+         <option value="KEDAH">KEDAH</option>
+         <option value="PERLIS">PERLIS</option>
+        </select>
+       </div>
+       <!-- Email -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> E-mel * </label>
+        <input type="email" id="email" name="email" required placeholder="nama@email.com" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
+       </div>
+       <!-- Siri -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> Siri * </label>
+        <input type="text" id="siri" name="siri" required value="09/2025" readonly class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl bg-gray-100 text-lg font-medium text-gray-700">
+       </div>
+       <!-- Tarikh -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> Tarikh Program * </label>
+        <input type="text" id="tarikh" name="tarikh" required value="6-8 Disember 2025" readonly class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl bg-gray-100 text-lg font-medium text-gray-700">
+       </div>
+       <!-- Attendance -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-4"> Saya akan menghadiri dengan jayanya program ini * </label>
+        <div class="flex gap-8">
+         <label class="flex items-center cursor-pointer">
+          <input type="radio" name="kehadiran" value="YA" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500">
+          <span class="ml-3 text-lg font-medium text-gray-700">Ya</span>
+         </label>
+         <label class="flex items-center cursor-pointer">
+          <input type="radio" name="kehadiran" value="TIDAK" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500">
+          <span class="ml-3 text-lg font-medium text-gray-700">Tidak</span>
+         </label>
         </div>
-       </div><!-- Comments -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-3"> Komen (Pilihan) </label> <textarea id="komen" name="komen" rows="4" placeholder="Masukkan komen atau catatan tambahan..." class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl input-modern focus:border-blue-500 focus:outline-none bg-white/80 text-lg resize-none"></textarea>
-       </div><!-- Submit Button -->
-       <div class="pt-6"><button type="submit" class="w-full btn-gradient text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-lg relative overflow-hidden group"> <span class="relative z-10 flex items-center justify-center">
-          <svg class="w-6 h-6 mr-3" fill="currentColor" viewbox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-          </svg> Hantar Pendaftaran </span> </button>
+       </div>
+       <!-- Comments -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3"> Komen (Pilihan) </label>
+        <textarea id="komen" name="komen" rows="4" placeholder="Masukkan komen atau catatan tambahan..." class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg resize-none"></textarea>
+       </div>
+       <!-- Submit Button -->
+       <div class="pt-6">
+        <button type="submit" id="submitBtn" class="w-full btn-gradient text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-lg relative overflow-hidden group">
+         <span class="relative z-10 flex items-center justify-center">
+          Hantar Pendaftaran
+         </span>
+        </button>
        </div>
       </form>
      </div>
     </div>
-   </main><!-- Success Message -->
+   </main>
+   
+   <!-- Admin Dashboard (NEW) -->
+   <div id="adminDashboard" class="hidden container mx-auto px-4 max-w-4xl py-8">
+    <div class="glass-card rounded-3xl p-8">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-3xl font-bold text-gray-800">Papan Pemuka Admin</h2>
+            <button onclick="logoutAdmin()" class="text-sm text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-300 hover:bg-red-50 transition duration-200">
+                Log Keluar
+            </button>
+        </div>
+
+        <!-- Filter Siri (NEW) -->
+        <div class="mb-6 flex justify-between items-center no-print">
+            <h3 class="text-xl font-semibold text-gray-700">Statistik Siri:</h3>
+            <select id="siriFilter" onchange="filterDashboard()" class="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <!-- Options akan diisi oleh JS -->
+            </select>
+        </div>
+
+        <!-- Ringkasan Statistik -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-lg">
+                <p class="text-sm text-gray-500">Jumlah Pendaftaran</p>
+                <p class="text-2xl font-bold text-blue-800" id="totalParticipants">Memuatkan...</p>
+            </div>
+            <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg">
+                <p class="text-sm text-gray-500">Kehadiran YA</p>
+                <p class="text-2xl font-bold text-green-800" id="totalYa">Memuatkan...</p>
+            </div>
+            <div class="bg-yellow-50 border-l-4 border-yellow-600 p-4 rounded-lg">
+                <p class="text-sm text-gray-500">Peratus YA</p>
+                <p class="text-2xl font-bold text-yellow-800" id="percentageYa">Memuatkan...</p>
+            </div>
+        </div>
+
+        <!-- Butang Laporan & PDF -->
+        <div class="mb-8 flex gap-4 no-print">
+             <button onclick="showReportPreview()" class="btn-gradient text-white font-bold py-2 px-6 rounded-lg text-base shadow-md">
+                Pratonton Laporan & PDF
+            </button>
+        </div>
+
+        <!-- Senarai Peserta -->
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Senarai Peserta (Terbaru)</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                <thead class="bg-gray-100 border-b border-gray-200">
+                    <tr class="text-left text-xs font-semibold uppercase text-gray-600">
+                        <th class="py-3 px-4">Nama</th>
+                        <th class="py-3 px-4 hidden sm:table-cell">IC</th>
+                        <th class="py-3 px-4 hidden sm:table-cell">Telefon</th>
+                        <th class="py-3 px-4">Negeri</th>
+                        <th class="py-3 px-4">Kehadiran</th>
+                    </tr>
+                </thead>
+                <tbody id="participantsTableBody">
+                    <tr><td colspan="5" class="py-4 text-center text-gray-500">Memuatkan data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p id="dataStatusMessage" class="text-sm text-blue-600 mt-4 italic">
+            *Data dimuatkan secara langsung dari Google Sheet.
+        </p>
+    </div>
+   </div>
+   
+    <!-- Report/PDF Preview (NEW) -->
+    <div id="reportPreview" class="hidden container mx-auto px-4 max-w-4xl py-8">
+        <div class="glass-card rounded-3xl p-8">
+            <div class="print-only text-center mb-8">
+                <!-- Logo Header untuk Cetakan -->
+                <div class="flex items-center justify-center gap-6 mb-4">
+                    <div class="w-16 h-16 flex items-center justify-center">
+                        <img src="https://i.postimg.cc/7frn73HY/image.png" alt="Logo JAKIM" class="w-full h-full object-contain" onerror="this.style.display='none';">
+                    </div>
+                    <div class="w-16 h-16 flex items-center justify-center">
+                        <img src="https://i.postimg.cc/xk8vYgR8/image.png" alt="Logo JHEAIPP" class="w-full h-full object-contain" onerror="this.style.display='none';">
+                    </div>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">LAPORAN PENUH PENDAFTARAN PESERTA</h1>
+                <p class="text-gray-600">Program Perkaderan Fuqaha Guru Takmir JAKIM Siri <span id="reportSiriTitle">SEMUA</span></p>
+                <p class="text-sm text-gray-500 mt-2">Dicetak pada: <span id="printDate"></span></p>
+                <hr class="my-4"/>
+            </div>
+
+            <!-- Butang Cetak (disediakan di Preview) -->
+            <div class="flex justify-between items-center mb-6 no-print">
+                <h2 class="text-2xl font-bold text-gray-800">Pratonton PDF / Laporan</h2>
+                <div>
+                    <button onclick="window.print()" class="btn-gradient text-white font-bold py-2 px-6 rounded-lg text-base shadow-md">
+                        Cetak Laporan
+                    </button>
+                    <button onclick="closeReportPreview()" class="ml-3 text-sm text-gray-600 hover:text-gray-900 px-3 py-2 border rounded-lg hover:bg-gray-50">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ringkasan Laporan -->
+            <div class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4 no-print">
+                <div class="p-3 border rounded-lg bg-gray-50">
+                    <p class="text-xs text-gray-500">Jumlah Peserta</p>
+                    <p class="font-bold text-lg text-gray-800" id="reportTotal">0</p>
+                </div>
+                <div class="p-3 border rounded-lg bg-gray-50">
+                    <p class="text-xs text-gray-500">Ya (Kehadiran)</p>
+                    <p class="font-bold text-lg text-green-700" id="reportYa">0</p>
+                </div>
+                <div class="p-3 border rounded-lg bg-gray-50">
+                    <p class="text-xs text-gray-500">Tidak (Kehadiran)</p>
+                    <p class="font-bold text-lg text-red-700" id="reportTidak">0</p>
+                </div>
+                 <div class="p-3 border rounded-lg bg-gray-50">
+                    <p class="text-xs text-gray-500">Peratus Ya</p>
+                    <p class="font-bold text-lg text-blue-700" id="reportPercentage">0%</p>
+                </div>
+            </div>
+
+            <!-- Jadual Laporan Peserta (Akan dipaparkan di sini) -->
+            <div id="reportTableContainer">
+                <p class="text-center text-gray-500 py-8">Sila muatkan data dahulu di dashboard admin.</p>
+            </div>
+        </div>
+    </div>
+
+
+   <!-- Success Message (Notifikasi Ringkas tanpa Ikon) -->
    <div id="successMessage" class="hidden container mx-auto px-4 max-w-2xl pb-8">
-    <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6">
+    <div class="bg-gradient-to-r from-green-100 to-emerald-200 border-2 border-green-600 rounded-2xl p-6 shadow-xl">
      <div class="flex items-center">
-      <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
-       <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-       </svg>
-      </div>
       <div>
-       <h4 class="text-xl font-bold text-green-800 mb-1">Pendaftaran Berjaya!</h4>
-       <p class="text-green-700">Terima kasih kerana mendaftar. Maklumat pendaftaran anda telah diterima dengan jayanya.</p>
+       <h4 class="text-xl font-bold text-green-900 mb-1">Pendaftaran Berjaya Dihantar!</h4>
+       <p class="text-green-700">Maklumat anda telah direkodkan. Terima kasih.</p>
       </div>
      </div>
     </div>
-   </div><!-- Government Footer -->
-   <footer class="bg-gray-900 text-white mt-12">
-    <div class="container mx-auto px-4 py-8"><!-- Main Footer Content -->
-     <div class="mb-8"><!-- Department Info -->
+   </div>
+   <!-- Error Message (Tanpa Ikon) -->
+   <div id="errorMessage" class="hidden container mx-auto px-4 max-w-2xl pb-8">
+    <div class="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200 rounded-2xl p-6">
+     <div class="flex items-start">
+      <div>
+       <h4 class="text-xl font-bold text-red-800 mb-1">Ralat Pendaftaran!</h4>
+       <p id="errorText" class="text-red-700"></p>
+       <p class="text-red-600 text-sm mt-2">Sila cuba lagi atau hubungi pentadbir jika masalah berterusan.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Government Footer -->
+   <footer class="bg-gray-900 text-white mt-12 no-print">
+    <div class="container mx-auto px-4 py-8">
+     <!-- Main Footer Content -->
+     <div class="mb-8">
+      <!-- Department Info -->
       <div class="text-center">
        <div class="text-center mb-4">
         <h3 class="text-lg font-bold">JHEAIPP</h3>
@@ -161,27 +405,48 @@
        </div>
        <div class="text-sm text-gray-300 space-y-1">
         <p>Lebuh Pantai, 10300 Pulau Pinang</p>
-        <p class="mt-2"><span class="font-medium">Tel:</span> 04-684 7000<br><span class="font-medium">Faks:</span> 04-684 7777<br><span class="font-medium">E-mel:</span> jheaipp@penang.gov.my</p>
+        <p class="mt-2">
+         <span class="font-medium">Tel:</span> 04-684 7000
+         <br>
+         <span class="font-medium">Faks:</span> 04-684 7777
+         <br>
+         <span class="font-medium">E-mel:</span> jheaipp@penang.gov.my
+        </p>
        </div>
       </div>
-     </div><!-- Bottom Footer -->
+     </div>
+     <!-- Bottom Footer -->
      <div class="border-t border-gray-700 pt-6">
       <div class="text-center text-sm text-gray-400 mb-4">
        <p>© 2025 Jabatan Hal Ehwal Agama Islam Negeri Pulau Pinang (JHEAIPP). Hak Cipta Terpelihara.</p>
        <p class="mt-1">Sistem Pendaftaran Program Perkaderan Fuqaha Guru Takmir</p>
-       <div class="mt-3"><span class="px-3 py-1 bg-gray-800 rounded-full text-xs"> Sokongan Teknikal: it.jheaipp@gmail.com </span>
+       <div class="mt-3 inline-flex items-center gap-4">
+        <span class="px-3 py-1 bg-gray-800 rounded-full text-xs"> Sokongan Teknikal: it.jheaipp@gmail.com </span>
+        <!-- Admin Button (MOVED HERE) -->
+        <button onclick="showAdminLogin()" class="text-xs text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-full font-medium transition duration-200">
+           Admin
+        </button>
        </div>
-      </div><!-- System Info -->
-      <div class="text-center">
+      </div>
+      <!-- System Info -->
+      <div class="text-center mt-4">
        <h4 class="text-sm font-bold mb-3 text-gray-300">Maklumat Sistem</h4>
        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-400">
-        <div><span class="block text-gray-500">Versi</span> <span class="font-mono text-blue-300">v2.1.0</span>
+        <div>
+         <span class="block text-gray-500">Versi</span>
+         <span class="font-mono text-blue-300">v2.1.0</span>
         </div>
-        <div><span class="block text-gray-500">Build</span> <span class="font-mono text-blue-300">20250115</span>
+        <div>
+         <span class="block text-gray-500">Build</span>
+         <span class="font-mono text-blue-300">20250115</span>
         </div>
-        <div><span class="block text-gray-500">Status</span> <span class="text-green-400 font-medium">● Aktif</span>
+        <div>
+         <span class="block text-gray-500">Status</span>
+         <span class="text-green-400 font-medium">● Aktif</span>
         </div>
-        <div><span class="block text-gray-500">Kemaskini</span> <span class="font-medium">15 Jan 2025</span>
+        <div>
+         <span class="block text-gray-500">Kemaskini</span>
+         <span class="font-medium">15 Jan 2025</span>
         </div>
        </div>
       </div>
@@ -189,129 +454,453 @@
     </div>
    </footer>
   </div>
+
+  <!-- Modal Login Admin (NEW) -->
+  <div id="adminLoginModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex items-center justify-center transition-opacity duration-300">
+    <div class="bg-white rounded-xl p-8 max-w-sm w-full shadow-2xl transform scale-100 transition-transform duration-300">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Log Masuk Admin</h3>
+        <p class="text-sm text-gray-600 mb-4">Masukkan kata laluan untuk mengakses papan pemuka.</p>
+        <input type="password" id="adminPasswordInput" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-lg" placeholder="Kata Laluan...">
+        <p id="passwordError" class="text-red-500 text-sm mt-2 hidden">Kata laluan salah. Sila cuba lagi.</p>
+        <div class="flex justify-between mt-6">
+            <button onclick="closeAdminLogin()" class="text-sm text-gray-600 hover:text-gray-900 px-4 py-2 border rounded-lg hover:bg-gray-100">
+                Batal
+            </button>
+            <button onclick="loginAdmin()" class="btn-gradient text-white font-bold py-2 px-4 rounded-lg text-base">
+                Log Masuk
+            </button>
+        </div>
+    </div>
+  </div>
+
+
   <script>
-        // Format IC number input
-        document.getElementById('ic').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 6) {
-                value = value.substring(0, 6) + '-' + value.substring(6);
-            }
-            if (value.length >= 9) {
-                value = value.substring(0, 9) + '-' + value.substring(9, 13);
-            }
-            e.target.value = value;
-        });
+    // Konstanta Kata Laluan Admin
+    const ADMIN_PASSWORD = 'padspt1617';
+    let realRegistrations = []; // Variabel untuk menyimpan data sebenar dari Sheet
+    let currentFilteredData = []; // Data yang sedang dipaparkan/ditapis
 
-        // Format phone number
-        document.getElementById('telefon').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 3) {
-                value = value.substring(0, 3) + '-' + value.substring(3);
-            }
-            e.target.value = value;
-        });
+    // URL Apps Script anda
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJf5VOkmm5rs1mcRLYFW7nklt82ExSnt4VVnRAIz4CnKcXtQUdyc1WBCMdev2iQex3/exec';
 
-        // Auto uppercase for name field
-        document.getElementById('nama').addEventListener('input', function(e) {
-            e.target.value = e.target.value.toUpperCase();
-        });
 
-        // Handle form submission
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading state
-            const submitBtn = document.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Menghantar...</span>';
-            submitBtn.disabled = true;
-            
-            // Get form data
-            const formData = new FormData(this);
-            const data = {};
-            for (let [key, value] of formData.entries()) {
-                data[key] = value;
-            }
-            
-            // Validate IC format
-            const icPattern = /^[0-9]{6}-[0-9]{2}-[0-9]{4}$/;
-            if (!icPattern.test(data.ic)) {
-                alert('Sila masukkan No Kad Pengenalan dalam format yang betul: XXXXXX-XX-XXXX');
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                return;
-            }
-            
-            // Add timestamp
-            data.timestamp = new Date().toLocaleString('ms-MY', {
-                timeZone: 'Asia/Kuala_Lumpur',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            
-            // Send to Google Sheets
-            sendToGoogleSheets(data)
-                .then(() => {
-                    // Show success message
-                    document.querySelector('main').style.display = 'none';
-                    document.getElementById('successMessage').classList.remove('hidden');
-                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert('Maaf, terdapat masalah semasa menghantar pendaftaran. Sila cuba lagi.');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
-        });
+    /**
+     * Mengambil data sebenar dari Google Sheet dan mengemas kini dashboard.
+     */
+    async function fetchRegistrations() {
+        const tableBody = document.getElementById('participantsTableBody');
+        const dataStatusMessage = document.getElementById('dataStatusMessage');
+        tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-blue-500">Memuatkan data dari Google Sheet...</td></tr>';
+        dataStatusMessage.textContent = "Memuatkan data...";
+        
+        // Membina URL untuk mod pengambilan data
+        const dataFetchURL = `${GOOGLE_SCRIPT_URL}?action=getData`;
 
-        // Function to send data to Google Sheets
-        function sendToGoogleSheets(data) {
-            return new Promise((resolve, reject) => {
-                console.log('🚀 Menghantar data ke Google Sheets:', data);
-                
-                // **URL WEB APP GOOGLE SHEETS ANDA**
-                const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5uOopvTY94XEfWBDqMGfuAFxB_rtp7TnxIM2zl6tbBYj3hNgECXoXZGEhYL82nAIS/exec';
-                
-                // Check if URL is properly set
-                if (GOOGLE_SCRIPT_URL === 'MASUKKAN_URL_ANDA_DI_SINI') {
-                    alert('⚠️ SETUP BELUM LENGKAP!\n\nSila sambung dengan Google Sheets terlebih dahulu.');
-                    reject(new Error('URL belum ditetapkan'));
-                    return;
-                }
-                
-                // Create URL with parameters
-                const params = new URLSearchParams();
-                for (const key in data) {
-                    params.append(key, data[key]);
-                }
-                
-                const urlWithParams = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
-                
-                // Send data
-                fetch(urlWithParams, {
-                    method: 'GET',
-                    mode: 'no-cors'
-                })
-                .then(() => {
-                    console.log('✅ Data telah dihantar ke Google Sheets');
-                    resolve(true);
-                })
-                .catch(() => {
-                    // Fallback method
-                    const img = new Image();
-                    img.onload = img.onerror = () => {
-                        console.log('✅ Data telah dihantar ke Google Sheets (fallback)');
-                        resolve(true);
-                    };
-                    img.src = urlWithParams;
-                });
-            });
+        try {
+            const response = await fetch(dataFetchURL, { method: 'GET' });
+            
+            // Cuba parse sebagai JSON dahulu.
+            let rawText = await response.text();
+            
+            // Cuba membersihkan respons jika ada sebarang tambahan di luaran
+            const jsonStart = rawText.indexOf('[');
+            const jsonEnd = rawText.lastIndexOf(']') + 1;
+            
+            if (jsonStart === -1 || jsonEnd === 0) {
+                 throw new Error("Respons Apps Script tidak mengandungi data JSON yang sah. Sila semak Logs Apps Script.");
+            }
+
+            rawText = rawText.substring(jsonStart, jsonEnd);
+            const data = JSON.parse(rawText);
+
+            realRegistrations = data; // Simpan data sebenar
+            
+            initializeSeriesFilter(realRegistrations); // Mula-mula, sediakan penapis siri
+            filterDashboard(); // Tapis dan paparkan semua data secara lalai
+            
+            dataStatusMessage.textContent = `Data berjaya dimuatkan. Jumlah rekod: ${realRegistrations.length}`;
+
+        } catch (error) {
+            console.error("Gagal mengambil data dari Google Sheets:", error);
+            dataStatusMessage.textContent = `Ralat memuatkan data: ${error.message}. Sila pastikan Apps Script telah diterbitkan (URL /exec) dengan kod yang betul.`;
+            tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-red-500">Gagal memuatkan data. Sila semak konsol untuk maklumat lanjut.</td></tr>';
         }
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0db1d0d5d9e41e',t:'MTc2MzUzNDIwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    }
+
+    /**
+     * Menyediakan pilihan penapis siri berdasarkan data yang dimuatkan.
+     */
+    function initializeSeriesFilter(data) {
+        const filter = document.getElementById('siriFilter');
+        // Dapatkan siri unik, tapis nilai kosong, dan susun
+        // Pastikan kita menggunakan 'siri' lajur
+        const uniqueSeries = [...new Set(data.map(p => p.siri))].filter(s => s).sort((a, b) => b.localeCompare(a));
+        
+        filter.innerHTML = '<option value="SEMUA">-- SEMUA SIRI --</option>';
+        uniqueSeries.forEach(siri => {
+            filter.innerHTML += `<option value="${siri}">${siri}</option>`;
+        });
+        
+        // Tetapkan siri semasa borang sebagai lalai jika wujud
+        const currentSiri = document.getElementById('siri').value;
+        if (currentSiri && uniqueSeries.includes(currentSiri)) {
+            filter.value = currentSiri;
+        } else {
+             filter.value = 'SEMUA';
+        }
+    }
+
+    /**
+     * Menapis data berdasarkan siri yang dipilih dan mengemas kini dashboard.
+     */
+    function filterDashboard() {
+        const filterValue = document.getElementById('siriFilter').value;
+        
+        if (filterValue === 'SEMUA') {
+            currentFilteredData = realRegistrations;
+        } else {
+            currentFilteredData = realRegistrations.filter(p => p.siri === filterValue);
+        }
+        
+        renderDashboard(currentFilteredData);
+    }
+
+    /**
+     * Helper function to display custom success or error messages, replacing standard alert().
+     * @param {string} type - 'success' or 'error'
+     * @param {string} message - The message content for errors.
+     */
+    function showMessage(type, message) {
+        const success = document.getElementById('successMessage');
+        const error = document.getElementById('errorMessage');
+        const main = document.getElementById('formMain');
+        const admin = document.getElementById('adminDashboard');
+        const report = document.getElementById('reportPreview');
+        
+        // Sembunyikan semua kecuali header dan footer
+        success.classList.add('hidden');
+        error.classList.add('hidden');
+        main.style.display = 'block'; 
+        admin.classList.add('hidden');
+        report.classList.add('hidden');
+
+        if (type === 'success') {
+            main.style.display = 'none'; // Sembunyikan borang selepas kejayaan
+            success.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (type === 'error') {
+            const errorTextElement = document.getElementById('errorText');
+            errorTextElement.textContent = message;
+            error.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (type === 'admin') {
+            main.style.display = 'none';
+            admin.classList.remove('hidden');
+            fetchRegistrations(); // MULA MUAT DATA SEBENAR
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (type === 'form') {
+             // Kembali ke borang pendaftaran
+            main.style.display = 'block';
+        }
+    }
+
+    /**
+     * Memaparkan modal log masuk admin
+     */
+    function showAdminLogin() {
+        document.getElementById('adminLoginModal').classList.remove('hidden');
+        document.getElementById('adminPasswordInput').focus();
+        // Sembunyikan borang pendaftaran semasa log masuk
+        document.getElementById('formMain').style.display = 'none';
+        document.getElementById('successMessage').classList.add('hidden');
+    }
+
+    /**
+     * Menutup modal log masuk admin
+     */
+    function closeAdminLogin() {
+        document.getElementById('adminLoginModal').classList.add('hidden');
+        document.getElementById('passwordError').classList.add('hidden');
+        document.getElementById('adminPasswordInput').value = '';
+        showMessage('form'); // Kembali ke borang pendaftaran
+    }
+
+    /**
+     * Log masuk admin dengan kata laluan ringkas
+     */
+    function loginAdmin() {
+        const passwordInput = document.getElementById('adminPasswordInput');
+        const passwordError = document.getElementById('passwordError');
+        
+        if (passwordInput.value === ADMIN_PASSWORD) {
+            closeAdminLogin();
+            showMessage('admin'); // Panggil showMessage('admin') untuk memuatkan data
+        } else {
+            passwordError.classList.remove('hidden');
+            passwordInput.value = ''; // Kosongkan input
+            passwordInput.focus();
+        }
+    }
+
+    /**
+     * Log keluar admin dan kembali ke borang pendaftaran
+     */
+    function logoutAdmin() {
+        document.getElementById('adminDashboard').classList.add('hidden');
+        showMessage('form');
+    }
+
+
+    /**
+     * Menghasilkan HTML untuk jadual peserta (digunakan untuk Dashboard dan Laporan)
+     * Tambah lajur telefon di Dashboard (hidden sm:table-cell)
+     */
+    function generateParticipantTable(data, isReport = false) {
+        let html = '';
+        // Sort akan menggunakan timestamp sebagai fallback tetapi tidak kritikal untuk fungsi ini.
+        data.sort((a, b) => {
+            const timeA = a.timestamp || '';
+            const timeB = b.timestamp || '';
+            return timeB.localeCompare(timeA); // Susun secara menurun
+        });
+
+        data.forEach((p, index) => {
+            const statusClass = p.kehadiran === 'YA' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
+            const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+
+            html += `<tr class="${rowClass} border-b border-gray-100 hover:bg-gray-100 text-sm">
+                <td class="py-3 px-4">${p.nama || 'N/A'}</td>
+                <td class="py-3 px-4 hidden sm:table-cell">${p.ic || 'N/A'}</td>
+                <td class="py-3 px-4 hidden sm:table-cell">${p.telefon || 'N/A'}</td>
+                <td class="py-3 px-4">${p.negeri || 'N/A'}</td>
+                <td class="py-3 px-4"><span class="${statusClass}">${p.kehadiran || 'TIDAK JAWAB'}</span></td>
+                
+                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.daerah || 'N/A')}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.email || 'N/A')}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.komen || '-')}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.siri || 'N/A')}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.tarikh || 'N/A')}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.timestamp || 'N/A').substring(0, 10)}</td>` : ''}
+            </tr>`;
+        });
+        
+        return html;
+    }
+
+    /**
+     * Memaparkan Dashboard Admin dengan data yang ditapis
+     */
+    function renderDashboard(data) {
+        const tableBody = document.getElementById('participantsTableBody');
+        const total = data.length;
+        const yaCount = data.filter(p => p.kehadiran === 'YA').length;
+        const percentage = total > 0 ? ((yaCount / total) * 100).toFixed(1) : 0;
+        
+        // Kemas kini Statistik Dashboard
+        document.getElementById('totalParticipants').textContent = total;
+        document.getElementById('totalYa').textContent = yaCount;
+        document.getElementById('percentageYa').textContent = `${percentage}%`;
+        
+        // Paparkan Jadual
+        if (total > 0) {
+            // Hadkan kepada 10 rekod terbaru untuk paparan dashboard
+            const dashboardData = [...data].slice(0, 10); // Guna salinan untuk slice
+            tableBody.innerHTML = generateParticipantTable(dashboardData);
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-gray-500">Tiada data pendaftaran direkodkan untuk siri ini.</td></tr>';
+        }
+    }
+
+    /**
+     * Memaparkan Pratonton Laporan (PDF friendly)
+     */
+    function showReportPreview() {
+        const adminDashboard = document.getElementById('adminDashboard');
+        const reportPreview = document.getElementById('reportPreview');
+        const reportTableContainer = document.getElementById('reportTableContainer');
+        const data = currentFilteredData; // Guna data yang sedang ditapis
+        const total = data.length;
+        const yaCount = data.filter(p => p.kehadiran === 'YA').length;
+        const tidakCount = total - yaCount;
+        const percentage = total > 0 ? ((yaCount / total) * 100).toFixed(1) : 0;
+        const siriTitle = document.getElementById('siriFilter').value;
+        
+        // 1. Sembunyikan Dashboard dan paparkan Laporan
+        adminDashboard.classList.add('hidden');
+        reportPreview.classList.remove('hidden');
+
+        // 2. Kemas kini Statistik Laporan
+        document.getElementById('reportTotal').textContent = total;
+        document.getElementById('reportYa').textContent = yaCount;
+        document.getElementById('reportTidak').textContent = tidakCount;
+        document.getElementById('reportPercentage').textContent = `${percentage}%`;
+        document.getElementById('reportSiriTitle').textContent = siriTitle; // Tajuk Siri Laporan
+        
+        // 3. Kemas kini Tarikh Cetak
+        document.getElementById('printDate').textContent = new Date().toLocaleString('ms-MY', {
+            timeZone: 'Asia/Kuala_Lumpur',
+            year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit'
+        });
+
+        // 4. Bina Jadual Laporan Penuh
+        let reportHtml = `
+            <table class="min-w-full border-collapse">
+                <thead class="bg-gray-200 border-b-2 border-gray-300">
+                    <tr class="text-left text-sm font-semibold uppercase text-gray-700">
+                        <th class="py-3 px-4 w-1/6">Nama</th>
+                        <th class="py-3 px-4 w-1/12">No KP</th>
+                        <th class="py-3 px-4 w-1/12">Telefon</th>
+                        <th class="py-3 px-4 w-1/12">Negeri</th>
+                        <th class="py-3 px-4 w-1/12">Daerah</th>
+                        <th class="py-3 px-4 w-1/6">Emel</th>
+                        <th class="py-3 px-4 w-1/12">Kehadiran</th>
+                        <th class="py-3 px-4 w-1/6">Komen</th>
+                        <th class="py-3 px-4 w-1/12">Siri</th>
+                        <th class="py-3 px-4 w-1/12">Tarikh Prog.</th>
+                        <th class="py-3 px-4 w-1/12">Masa Daftar</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        if (total > 0) {
+            reportHtml += generateParticipantTable(data, true); // true = mod laporan
+        } else {
+            reportHtml += '<tr><td colspan="11" class="py-4 text-center text-gray-500">Tiada data pendaftaran direkodkan.</td></tr>';
+        }
+        reportHtml += `</tbody></table>`;
+        reportTableContainer.innerHTML = reportHtml;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Menutup Pratonton Laporan dan kembali ke Dashboard
+     */
+    function closeReportPreview() {
+        document.getElementById('reportPreview').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * Function to send data to Google Sheets Web App.
+     * @param {object} data - The form data object.
+     */
+    function sendToGoogleSheets(data) {
+        return new Promise((resolve, reject) => {
+            console.log('🚀 Menghantar data ke Google Sheets:', data);
+                
+            // URL GOOGLE APP SCRIPT BARU
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJf5VOkmm5rs1mcRLYFW7nklt82ExSnt4VVnRAIz4CnKcXtQUdyc1WBCMdev2iQex3/exec';
+                
+            // Create URL with parameters
+            const params = new URLSearchParams();
+            for (const key in data) {
+                params.append(key, data[key]);
+            }
+                
+            const urlWithParams = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+                
+            // Send data using fetch (method 'GET', mode 'no-cors')
+            fetch(urlWithParams, {
+                method: 'GET',
+                mode: 'no-cors'
+            })
+            .then(() => {
+                console.log('✅ Data telah dihantar ke Google Sheets');
+                resolve(true);
+            })
+            .catch(() => {
+                // Fallback method using Image object (common for Google Scripts in iframes)
+                const img = new Image();
+                img.onload = img.onerror = () => {
+                    console.log('✅ Data telah dihantar ke Google Sheets (fallback)');
+                    resolve(true);
+                };
+                img.src = urlWithParams;
+            });
+        });
+    }
+
+    // Format IC number input
+    document.getElementById('ic').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 6) {
+            value = value.substring(0, 6) + '-' + value.substring(6);
+        }
+        if (value.length >= 9) {
+            value = value.substring(0, 9) + '-' + value.substring(9, 13);
+        }
+        e.target.value = value;
+    });
+
+    // Format phone number
+    document.getElementById('telefon').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 3) {
+            value = value.substring(0, 3) + '-' + value.substring(3);
+        }
+        e.target.value = value;
+    });
+
+    // Auto uppercase for name field
+    document.getElementById('nama').addEventListener('input', function(e) {
+        e.target.value = e.target.value.toUpperCase();
+    });
+
+    // Handle form submission
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Reset error message display
+        document.getElementById('errorMessage').classList.add('hidden');
+            
+        // Show loading state
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Menghantar...</span>';
+        submitBtn.disabled = true;
+            
+        // Get form data
+        const formData = new FormData(this);
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+            data[key] = value;
+        }
+            
+        // Validate IC format
+        const icPattern = /^[0-9]{6}-[0-9]{2}-[0-9]{4}$/;
+        if (!icPattern.test(data.ic)) {
+            showMessage('error', 'Sila masukkan No Kad Pengenalan dalam format yang betul: XXXXXX-XX-XXXX');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            return;
+        }
+            
+        // Add timestamp
+        data.timestamp = new Date().toLocaleString('ms-MY', {
+            timeZone: 'Asia/Kuala_Lumpur',
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+            
+        // Send to Google Sheets
+        try {
+            await sendToGoogleSheets(data);
+            // Show success message and hide form
+            showMessage('success');
+            // Reset form
+            this.reset();
+        } catch (error) {
+            console.error('Error:', error);
+            showMessage('error', 'Maaf, terdapat masalah semasa menghantar pendaftaran. Sila cuba lagi.');
+        } finally {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
+  </script>
+ </body>
 </html>
