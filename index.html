@@ -62,42 +62,27 @@
         }
         /* CSS untuk Paparan Cetak */
         @media print {
-            body {
-                background: none !important;
-                color: #000;
-            }
             .no-print {
                 display: none !important;
             }
             .print-only {
                 display: block !important;
             }
-            .glass-card {
+            #reportPreview .glass-card {
                 box-shadow: none !important;
                 border: none !important;
             }
-            /* Reset margin/padding for print */
-            main {
-                padding: 0 !important;
-            }
-            .container {
-                max-width: none !important;
-                margin: 0 !important;
-            }
-            #adminDashboard {
-                padding: 0;
-            }
-            /* Jadual laporan penuh untuk cetakan */
-            #reportTableContainer table {
+            #reportPreview table {
                 width: 100%;
                 border-collapse: collapse;
+                margin-top: 20px;
             }
-            #reportTableContainer th, #reportTableContainer td {
+            #reportPreview th, #reportPreview td {
                 border: 1px solid #ccc;
                 padding: 8px;
-                vertical-align: top;
+                font-size: 10px;
             }
-            #reportTableContainer th {
+            #reportPreview th {
                 background-color: #f3f4f6;
             }
         }
@@ -189,14 +174,21 @@
        <!-- State -->
        <div>
         <label class="block text-sm font-semibold text-gray-700 mb-3"> Negeri * </label>
-        <select id="negeri" name="negeri" required class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
+        <select id="negeri" name="negeri" required onchange="toggleNegeriLain()" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
          <option value="">PILIH NEGERI</option>
          <option value="PULAU PINANG">PULAU PINANG</option>
          <option value="PERAK">PERAK</option>
          <option value="KEDAH">KEDAH</option>
          <option value="PERLIS">PERLIS</option>
+         <option value="LAIN-LAIN">LAIN-LAIN</option>
         </select>
        </div>
+       <!-- Negeri Lain Input (NEW) -->
+        <div id="negeriLainContainer" class="hidden mt-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-3"> Nyatakan Negeri Lain * </label>
+            <input type="text" id="negeriLain" name="negeriLain" placeholder="Masukkan Negeri Lain" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg uppercase" style="text-transform: uppercase;">
+            <p class="text-sm text-gray-500 mt-2">Cth: SELANGOR, JOHOR</p>
+        </div>
        <!-- Email -->
        <div>
         <label class="block text-sm font-semibold text-gray-700 mb-3"> E-mel * </label>
@@ -254,14 +246,18 @@
             </button>
         </div>
 
-        <!-- Filter Siri (NEW) -->
-        <div class="mb-6 flex justify-between items-center no-print">
-            <h3 class="text-xl font-semibold text-gray-700">Statistik Siri:</h3>
-            <select id="siriFilter" onchange="filterDashboard()" class="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                <!-- Options akan diisi oleh JS -->
-            </select>
+        <!-- Kolum Carian Siri (BARU) -->
+        <div class="mb-6">
+            <label for="siriSearchInput" class="block text-sm font-semibold text-gray-700 mb-2">Carian Siri:</label>
+            <input 
+                type="text" 
+                id="siriSearchInput" 
+                oninput="filterDashboard()" 
+                placeholder="Cth: 09/2025" 
+                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-base"
+            >
         </div>
-
+        
         <!-- Ringkasan Statistik -->
         <div class="grid md:grid-cols-3 gap-6 mb-8">
             <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-lg">
@@ -278,6 +274,7 @@
             </div>
         </div>
 
+
         <!-- Butang Laporan & PDF -->
         <div class="mb-8 flex gap-4 no-print">
              <button onclick="showReportPreview()" class="btn-gradient text-white font-bold py-2 px-6 rounded-lg text-base shadow-md">
@@ -289,10 +286,11 @@
         <h3 class="text-xl font-semibold text-gray-700 mb-4">Senarai Peserta (Terbaru)</h3>
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
-                <thead class="bg-gray-100 border-b border-gray-200">
+                <thead class="bg-gray-100 border-b border-gray-200" id="participantsTableHead">
+                    <!-- STRUKTUR HEADER DASHBOARD DIKEMASKINI -->
                     <tr class="text-left text-xs font-semibold uppercase text-gray-600">
                         <th class="py-3 px-4">Nama</th>
-                        <th class="py-3 px-4 hidden sm:table-cell">IC</th>
+                        <th class="py-3 px-4 hidden sm:table-cell">No KP</th>
                         <th class="py-3 px-4 hidden sm:table-cell">Telefon</th>
                         <th class="py-3 px-4">Negeri</th>
                         <th class="py-3 px-4">Kehadiran</th>
@@ -482,7 +480,7 @@
 
   <script>
     // ====================================================================
-    // Bahagian Konfigurasi Header (WAJIB DISESUAIKAN)
+    // Bahagian Konfigurasi Header (DIKEKALKAN UNTUK KONSISTENSI FORM)
     // ====================================================================
     
     // Kunci yang diperlukan oleh kod JavaScript (TIDAK BOLEH DITUKAR)
@@ -490,21 +488,6 @@
         'timestamp', 'nama', 'ic', 'telefon', 'daerah', 'negeri', 
         'email', 'siri', 'tarikh', 'kehadiran', 'komen'
     ];
-
-    /* * KONFIGURASI SHEET_HEADER_MAP (DIKEMASKINI) *
-     * Map ini memetakan [NAMA LAJUR DALAM GOOGLE SHEET ANDA] kepada 
-     * [KUNCI YANG DIPERLUKAN OLEH KOD DI ATAS].
-     * Penterjemahan berdasarkan input anda:
-     * - 'no kp' -> 'ic'
-     * - 'emel' -> 'email'
-    */
-    const SHEET_HEADER_MAP = {
-        // Nama kolom Sheet (HARUS HURUF KECIL) : Kunci JavaScript (WAJIB IKUT REQUIRED_KEYS)
-        // Kunci asas anda: timestamp, nama, telefon, daerah, negeri, siri, tarikh, kehadiran, komen
-        'no kp': 'ic',       
-        'emel': 'email',     
-    };
-    // ====================================================================
 
     // Peta Paparan Laporan untuk menghasilkan header dan data yang diminta (9 lajur)
     const REPORT_COLUMN_MAP = [
@@ -525,11 +508,11 @@
     let realRegistrations = []; // Variabel untuk menyimpan data sebenar dari Sheet
     let currentFilteredData = []; // Data yang sedang dipaparkan/ditapis
 
-    // URL Apps Script anda (Hanya digunakan untuk hantar borang)
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJf5VOkmm5rs1mcRLYFW7nklt82ExSnt4VVnRAIz4CnKcXtQUdyc1WBCMdev2iQex3/exec';
+    // URL Apps Script anda (DIKEMASKINI)
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJn_lGd3Mxqv91ebGcV5FpCLihM87dfygfWGb0riafwi_Dkq5-fVJi8_PjRp83vgDX/exec';
     
     // URL CSV untuk pengambilan data
-    const CSV_DATA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVuXTBG4keekYEdzrx5MG4oqDrCnXvO307S4yK86uzKHp4l5UiqTek8hTQm-p6LTt4NU5UJl9exGje/pub?output=csv';
+    const CSV_DATA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVuXTBG4keekYEdzrx5MG4oqDrCnXvO307S4yK86uzKHp4l5UiqTek8hTQm-p6LTt4NU5UJl9exGje/pub?gid=0&single=true&output=csv';
 
     /**
      * DEBUGGING TOOL: Mengambil header CSV mentah dan memaparkannya.
@@ -556,8 +539,10 @@
                 <ul class="list-disc list-inside mt-2 text-left mx-auto max-w-sm text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">
                     ${rawHeaders.map(h => `<li>'${h}'</li>`).join('')}
                 </ul>
-                <p class="text-red-500 mt-2">Gunakan string ini (cth: 'no kp') di bahagian kiri SHEET_HEADER_MAP.</p>
+                <p class="text-red-500 mt-2">Sila semak konsol untuk rujukan.</p>
             `;
+            // Log ke konsol untuk debug
+            console.log("CSV RAW HEADERS (HURUF KECIL):", rawHeaders);
 
         } catch (error) {
             dataStatusMessage.textContent = `RALAT DEBUG: Gagal mencapai CSV. ${error.message}`;
@@ -566,12 +551,13 @@
 
 
     /**
-     * Mengambil data CSV dari Google Sheet dan memprosesnya.
+     * Mengambil data sebenar dari Apps Script (getData function) dan memproses JSON.
+     * KEMBALI KEPADA KAEDAH CSV UNTUK KESTABILAN
      */
     async function fetchRegistrations() {
         const tableBody = document.getElementById('participantsTableBody');
         const dataStatusMessage = document.getElementById('dataStatusMessage');
-        tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-blue-500">Memuatkan data dari Google Sheet...</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-blue-500">Memuatkan data dari Google Sheet secara langsung (CSV)...</td></tr>';
         dataStatusMessage.textContent = "Memuatkan data...";
         
         try {
@@ -596,11 +582,13 @@
                     // Membersihkan nilai (buang petikan jika ada dan trim)
                     const value = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
                     
-                    // 2. Gunakan header CSV sebagai kunci data selepas terjemahan (jika ada)
-                    const expectedKey = SHEET_HEADER_MAP[csvHeader] || csvHeader; 
+                    // 2. Tentukan kunci JavaScript yang betul (dengan penterjemahan)
+                    let finalKey = csvHeader;
+                    if (finalKey === 'no kp') finalKey = 'ic';
+                    else if (finalKey === 'emel') finalKey = 'email';
                     
-                    if (REQUIRED_KEYS.includes(expectedKey)) {
-                        obj[expectedKey] = value;
+                    if (REQUIRED_KEYS.includes(finalKey) || finalKey === 'negerilain') {
+                        obj[finalKey] = value;
                     } 
                 });
 
@@ -616,60 +604,47 @@
 
             realRegistrations = data; // Simpan data sebenar
             
-            initializeSeriesFilter(realRegistrations); // Sediakan penapis siri
-            filterDashboard(); // Tapis dan paparkan semua data secara lalai
+            filterDashboard(true); 
             
             dataStatusMessage.textContent = `Data berjaya dimuatkan. Jumlah rekod: ${realRegistrations.length}`;
 
         } catch (error) {
-            console.error("Gagal mengambil atau memparsing data CSV:", error);
-            dataStatusMessage.textContent = `Ralat memuatkan data: ${error.message}. Sila pastikan pautan CSV Google Sheet diterbitkan dengan betul (Public View).`;
+            console.error("Gagal mengambil atau memproses data JSON/CSV:", error);
+            dataStatusMessage.textContent = `Ralat memuatkan data: ${error.message}. Sila pastikan Sheet diterbitkan sebagai Public CSV.`;
             tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-red-500">Gagal memuatkan data. Sila semak konsol untuk maklumat lanjut.</td></tr>';
         }
     }
 
-    /**
-     * Menyediakan pilihan penapis siri berdasarkan data yang dimuatkan.
-     */
-    function initializeSeriesFilter(data) {
-        const filter = document.getElementById('siriFilter');
-        // Dapatkan siri unik, tapis nilai kosong, dan susun
-        // Pastikan kita menggunakan 'siri' lajur
-        const uniqueSeries = [...new Set(data.map(p => p.siri))].filter(s => s).sort((a, b) => b.localeCompare(a));
-        
-        filter.innerHTML = '<option value="SEMUA">-- SEMUA SIRI --</option>';
-        uniqueSeries.forEach(siri => {
-            filter.innerHTML += `<option value="${siri}">${siri}</option>`;
-        });
-        
-        // Tetapkan siri semasa borang sebagai lalai jika wujud
-        const currentSiri = document.getElementById('siri').value;
-        if (currentSiri && uniqueSeries.includes(currentSiri)) {
-            filter.value = currentSiri;
-        } else {
-             filter.value = 'SEMUA';
-        }
-    }
 
     /**
-     * Menapis data berdasarkan siri yang dipilih dan mengemas kini dashboard.
+     * Menapis data berdasarkan input carian Siri dan mengemas kini dashboard.
      */
-    function filterDashboard() {
-        const filterValue = document.getElementById('siriFilter').value;
+    function filterDashboard(isInitialLoad = false) {
+        const filterInput = document.getElementById('siriSearchInput');
+        const filterValue = filterInput ? filterInput.value.trim().toLowerCase() : '';
         
-        if (filterValue === 'SEMUA') {
-            currentFilteredData = realRegistrations;
-        } else {
-            currentFilteredData = realRegistrations.filter(p => p.siri === filterValue);
+        let filteredData = realRegistrations;
+
+        if (filterValue) {
+            filteredData = realRegistrations.filter(p => {
+                // Cari padanan dalam lajur 'siri' (case-insensitive)
+                return (p.siri && p.siri.toLowerCase().includes(filterValue));
+            });
         }
         
+        currentFilteredData = filteredData;
         renderDashboard(currentFilteredData);
+
+        // Jika ini bukan muatan awal, kemas kini tajuk ringkasan
+        if (!isInitialLoad) {
+            const statusMessage = currentFilteredData.length > 0 ? `Paparan ${currentFilteredData.length} rekod` : 'Tiada rekod ditemui';
+            const siriLabel = filterValue ? ` untuk siri '${filterValue.toUpperCase()}'` : '';
+            document.getElementById('dataStatusMessage').textContent = `* ${statusMessage}${siriLabel}.`;
+        }
     }
 
     /**
      * Helper function to display custom success or error messages, replacing standard alert().
-     * @param {string} type - 'success' or 'error'
-     * @param {string} message - The message content for errors.
      */
     function showMessage(type, message) {
         const success = document.getElementById('successMessage');
@@ -754,11 +729,10 @@
 
     /**
      * Menghasilkan HTML untuk jadual peserta (digunakan untuk Dashboard dan Laporan)
-     * Dashboard: Nama, IC, Telefon, Negeri, Kehadiran (top 10 filtered)
      */
     function generateParticipantTable(data, isReport = false) {
         let html = '';
-        // Sort akan menggunakan timestamp sebagai fallback tetapi tidak kritikal untuk fungsi ini.
+        // Sort akan menggunakan timestamp sebagai fallback tetapi kritikal untuk fungsi ini.
         data.sort((a, b) => {
             const timeA = a.timestamp || '';
             const timeB = b.timestamp || '';
@@ -769,19 +743,27 @@
             const statusClass = p.kehadiran === 'YA' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
             const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
 
+            // Dapatkan nilai negeri yang betul (sama ada dari 'negeri' atau 'negeriLain')
+            const displayNegeri = p.negeri === 'LAIN-LAIN' && p.negeriLain ? p.negeriLain.toUpperCase() : p.negeri;
+            const displayIC = p.ic || 'N/A';
+            const displayTelefon = p.telefon || 'N/A';
+            const displayEmail = p.email || 'N/A';
+            const displayDaerah = p.daerah || 'N/A';
+            const displayKomen = p.komen || '-';
+            const displaySiri = p.siri || 'N/A';
+
             html += `<tr class="${rowClass} border-b border-gray-100 hover:bg-gray-100 text-sm">
                 <td class="py-3 px-4">${p.nama || 'N/A'}</td>
-                <td class="py-3 px-4 hidden sm:table-cell">${p.ic || 'N/A'}</td>
-                <td class="py-3 px-4 hidden sm:table-cell">${p.telefon || 'N/A'}</td>
-                <td class="py-3 px-4">${p.negeri || 'N/A'}</td>
+                <td class="py-3 px-4 hidden sm:table-cell">${displayIC}</td>
+                <td class="py-3 px-4 hidden sm:table-cell">${displayTelefon}</td>
+                <td class="py-3 px-4">${displayNegeri}</td>
                 <td class="py-3 px-4"><span class="${statusClass}">${p.kehadiran || 'TIDAK JAWAB'}</span></td>
                 
-                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.daerah || 'N/A')}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.email || 'N/A')}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.komen || '-')}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.siri || 'N/A')}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${displayDaerah}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${displayEmail}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${displayKomen}</td>` : ''}
+                ${isReport ? `<td class="py-3 px-4 text-xs">${displaySiri}</td>` : ''}
                 ${isReport ? `<td class="py-3 px-4 text-xs">${(p.tarikh || 'N/A')}</td>` : ''}
-                <!-- TIMESTAMP DIBUANG DARI LAPORAN -->
                 
             </tr>`;
         });
@@ -825,7 +807,7 @@
         const yaCount = data.filter(p => p.kehadiran === 'YA').length;
         const tidakCount = total - yaCount;
         const percentage = total > 0 ? ((yaCount / total) * 100).toFixed(1) : 0;
-        const siriTitle = document.getElementById('siriFilter').value;
+        const siriTitle = document.getElementById('siriSearchInput').value.trim().toUpperCase() || 'SEMUA';
         
         // 1. Sembunyikan Dashboard dan paparkan Laporan
         adminDashboard.classList.add('hidden');
@@ -852,9 +834,16 @@
             bodyHtml = data.map(p => {
                 const statusClass = p.kehadiran === 'YA' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
                 const rowClass = 'text-sm'; // Simple class for printing
+                const displayNegeri = p.negeri === 'LAIN-LAIN' && p.negeriLain ? p.negeriLain.toUpperCase() : p.negeri;
+
 
                 let rowCells = REPORT_COLUMN_MAP.map(col => {
-                    let value = p[col.key] || 'N/A';
+                    let value;
+                    if (col.key === 'negeri') {
+                         value = displayNegeri;
+                    } else {
+                         value = p[col.key] || 'N/A';
+                    }
                     
                     if (col.key === 'kehadiran') {
                         return `<td class="py-3 px-4"><span class="${statusClass}">${value}</span></td>`;
@@ -906,12 +895,20 @@
             console.log('🚀 Menghantar data ke Google Sheets:', data);
                 
             // URL GOOGLE APP SCRIPT BARU
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJf5VOkmm5rs1mcRLYFW7nklt82ExSnt4VVnRAIz4CnKcXtQUdyc1WBCMdev2iQex3/exec';
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJn_lGd3Mxqv91ebGcV5FpCLihM87dfygfWGb0riafwi_Dkq5-fVJi8_PjRp83vgDX/exec';
                 
             // Create URL with parameters
             const params = new URLSearchParams();
+            // PENTING: Jika Negeri adalah LAIN-LAIN, kita hantar nilai 'negeriLain' sebagai 'negeri' ke Sheets
+            if (data.negeri === 'LAIN-LAIN' && data.negeriLain) {
+                 data.negeri = data.negeriLain.toUpperCase(); // Guna nilai input lain-lain
+            }
+            
             for (const key in data) {
-                params.append(key, data[key]);
+                // Elakkan menghantar medan sementara 'negeriLain' kecuali jika kita memang mahukannya di Sheet
+                if (key !== 'negeriLain') {
+                    params.append(key, data[key]);
+                }
             }
                 
             const urlWithParams = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
@@ -936,6 +933,26 @@
             });
         });
     }
+    
+    /**
+     * Menukar medan input negeri lain berdasarkan pilihan dropdown.
+     */
+    function toggleNegeriLain() {
+        const select = document.getElementById('negeri');
+        const container = document.getElementById('negeriLainContainer');
+        const input = document.getElementById('negeriLain');
+        
+        if (select.value === 'LAIN-LAIN') {
+            container.classList.remove('hidden');
+            input.setAttribute('required', 'required');
+            input.focus();
+        } else {
+            container.classList.add('hidden');
+            input.removeAttribute('required');
+            input.value = ''; // Kosongkan nilai jika medan disembunyikan
+        }
+    }
+
 
     // Format IC number input
     document.getElementById('ic').addEventListener('input', function(e) {
