@@ -22,8 +22,12 @@
 
     <!-- HEADER CETAKAN -->
     <div id="printHeader" class="hidden print-only text-center mb-8 border-b-2 border-slate-800 pb-4">
+        <div class="flex justify-center items-center gap-6 mb-4">
+            <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-20">
+            <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-20">
+        </div>
         <h1 id="printTitle" class="text-2xl font-bold uppercase">KEHADIRAN PESERTA PERKADERAN</h1>
-        <p id="printSubtitle" class="text-lg font-semibold uppercase">Program Perkaderan Kepimpinan <span class="dyn-year">2026</span></p>
+        <p id="printSubtitle" class="text-lg font-semibold uppercase"><span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span></p>
         <div class="mt-4 text-sm flex justify-center gap-8 font-medium">
             <span><strong>TARIKH:</strong> <span id="printDate">-</span></span>
             <span><strong>TEMPAT:</strong> <span id="printVenue">-</span></span>
@@ -32,13 +36,18 @@
 
     <!-- HEADER UTAMA -->
     <header class="bg-indigo-900 text-white pb-24 pt-12 px-4 no-print relative overflow-hidden">
-        <div class="absolute top-0 right-0 opacity-10 text-[180px] font-bold leading-none select-none pointer-events-none tracking-tighter dyn-year">2026</div>
+        <div class="absolute top-0 right-0 opacity-10 text-[100px] font-bold leading-none select-none pointer-events-none tracking-tighter">FUQAHA</div>
         <div class="max-w-5xl mx-auto text-center relative z-10">
-            <div class="inline-flex items-center justify-center p-4 bg-white rounded-2xl shadow-xl mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3730a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <!-- LOGO SECTION (TRANSPARENT BACKGROUND) -->
+            <div class="flex flex-wrap items-center justify-center gap-8 mb-8">
+                <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-20 md:h-24 drop-shadow-md">
+                <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-20 md:h-24 drop-shadow-md">
             </div>
+            
             <h1 class="text-3xl md:text-5xl font-extrabold mb-2 tracking-tight uppercase dyn-title">Kehadiran Peserta Perkaderan</h1>
-            <p class="text-indigo-200 text-lg md:text-xl font-medium uppercase tracking-wide">Program Perkaderan Kepimpinan <span class="dyn-year">2026</span></p>
+            <p class="text-indigo-200 text-lg md:text-xl font-medium uppercase tracking-wide">
+                <span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span>
+            </p>
         </div>
     </header>
 
@@ -81,7 +90,7 @@
                 <div class="glass-card p-8 rounded-b-2xl shadow-none">
                     <form id="meetingSettingsForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tajuk Program</label><input type="text" id="setMeetingTitle" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tahun</label><input type="number" id="setMeetingYear" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Peringkat/Tahun</label><input type="text" id="setMeetingYear" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tarikh</label><input type="date" id="setMeetingDate" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Masa</label><input type="text" id="setMeetingTime" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Lokasi</label><input type="text" id="setMeetingVenue" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
@@ -98,7 +107,7 @@
     </main>
 
     <footer class="bg-white border-t border-slate-200 py-8 mt-auto text-center no-print">
-        <p class="text-slate-400 text-[10px] mb-2 uppercase font-black tracking-[0.3em]">&copy; <span class="dyn-year">2026</span> Program Perkaderan</p>
+        <p class="text-slate-400 text-[10px] mb-2 uppercase font-black tracking-[0.3em]">&copy; Jabatan Hal Ehwal Agama Islam Pulau Pinang</p>
         <button onclick="openModal('loginModal')" class="text-[10px] font-bold text-slate-300 hover:text-indigo-600 uppercase tracking-widest transition-all p-2 rounded">Portal Pentadbir</button>
     </footer>
 
@@ -111,7 +120,11 @@
                 <form id="attendForm" class="p-6 space-y-4">
                     <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Masukkan nama penuh"></div>
                     <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. K/P atau ID Peserta</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Cth: 90010101xxxx"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Peranan</label><select id="inpRole" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"><option value="" disabled selected>Pilih Peranan</option><option value="Peserta">Peserta</option><option value="Urus Setia">Urus Setia</option><option value="Penceramah">Penceramah</option><option value="Fasilitator">Fasilitator</option></select></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Peranan</label><select id="inpRole" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                        <option value="" disabled selected>Pilih Peranan</option>
+                        <option value="Peserta">Peserta</option>
+                        <option value="Urus Setia">Urus Setia</option>
+                    </select></div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. Telefon</label><input type="tel" id="inpPhone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
@@ -164,13 +177,18 @@
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-id';
 
         let attendanceData = [];
-        let meetingSettings = { title: "Kehadiran Peserta Perkaderan", year: "2026", date: "2026-01-17", time: "08:00 Pagi", venue: "Dewan Latihan" };
+        let meetingSettings = { 
+            title: "Kehadiran Peserta Perkaderan", 
+            year: "Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia", 
+            date: "2026-01-17", 
+            time: "08:00 Pagi", 
+            venue: "Dewan Latihan" 
+        };
         let activeDateFilter = meetingSettings.date;
 
         const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { 
-                    // Cuba log masuk dengan token, jika gagal (token mismatch), beralih ke anonim
                     await signInWithCustomToken(auth, __initial_auth_token).catch(async (err) => {
                         await signInAnonymously(auth);
                     });
