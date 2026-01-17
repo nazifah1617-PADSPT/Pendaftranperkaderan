@@ -1,1038 +1,349 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ms">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pendaftaran Program Perkaderan Fuqaha Guru Takmir JAKIM</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-  <style>
-  
-        /* Ciri-ciri Laman Web Kerajaan & Kontras Tinggi */
-        body { 
-            font-family: 'Inter', sans-serif; 
-            /* Latar Belakang Biru Gelap yang Formal */
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); 
-            min-height: 100vh;
-        }
-        .glass-card {
-            /* Ditukar kepada kad solid, mengurangkan efek blur untuk profesionalisme */
-            background: #ffffff; 
-            border: 1px solid #e5e7eb; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .input-modern {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-color: #d1d5db; /* Border kelabu standard */
-        }
-        .input-modern:focus {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 10px -2px rgba(30, 64, 175, 0.1); /* Shadow biru lebih formal */
-            border-color: #1e40af; /* Biru tua untuk fokus */
-        }
-        .btn-gradient {
-            /* Biru korporat yang lebih dalam */
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
-            transition: all 0.3s ease;
-        }
-        .btn-gradient:hover {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px -5px rgba(30, 64, 175, 0.4);
-        }
-        .text-shadow {
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-        /* Penyesuaian warna kad info untuk kontras yang lebih baik */
-        .info-card-date { background: #d1fae5; border-color: #34d399; }
-        .info-card-time { background: #fffbeb; border-color: #fcd34d; }
-        .info-card-platform { background: #ede9fe; border-color: #a78bfa; }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kehadiran Peserta Perkaderan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .signature-box { background-color: #ffffff; background-size: 20px 20px; cursor: crosshair; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); }
+        @media print { .no-print { display: none !important; } .print-only { display: block !important; } body { background: white; padding: 0; } .glass-card { box-shadow: none; border: none !important; width: 100%; } th, td { border: 1px solid #cbd5e1 !important; padding: 8px !important; font-size: 10pt; } @page { margin: 1.5cm; size: A4; } }
+        .tab-active { border-bottom: 3px solid #2563eb; color: #1e40af; background: #eff6ff; }
+        .tab-inactive { border-bottom: 3px solid transparent; color: #94a3b8; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
 
-        /* Gaya Khusus untuk Notifikasi Kejayaan */
-        #successMessage > div {
-            background: #e6ffed; /* Latar belakang hijau cerah */
-            border-color: #38a169; /* Border hijau gelap */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        #successMessage h4 {
-             color: #276749; /* Teks hijau tua */
-        }
-        #successMessage p {
-             color: #38a169; /* Teks hijau sederhana */
-        }
-        /* CSS untuk Paparan Cetak */
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-            .print-only {
-                display: block !important;
-            }
-            #reportPreview .glass-card {
-                box-shadow: none !important;
-                border: none !important;
-            }
-            #reportPreview table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            #reportPreview th, #reportPreview td {
-                border: 1px solid #ccc;
-                padding: 8px;
-                font-size: 10px;
-            }
-            #reportPreview th {
-                background-color: #f3f4f6;
-            }
-        }
-        .print-only {
-            display: none;
-        }
-  </style>
- </head>
- <body class="min-h-screen">
-  <!-- Background Pattern -->
-  <div class="fixed inset-0 opacity-10 no-print">
-   <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, white 2px, transparent 2px); background-size: 50px 50px;"></div>
-  </div>
-  <div class="relative z-10 min-h-screen flex flex-col">
-   <!-- Header Section -->
-   <header class="pt-6 pb-4 no-print">
-    <div class="container mx-auto px-4 max-w-4xl">
-     <div class="glass-card rounded-2xl p-6 text-center">
-      <!-- Logo Section -->
-      <div class="flex items-center justify-center gap-6 mb-4">
-       <!-- Logo 1 - JAKIM -->
-       <div class="w-20 h-20 flex items-center justify-center">
-        <img src="https://i.postimg.cc/7frn73HY/image.png" alt="Logo JAKIM" class="w-full h-full object-contain" onerror="this.style.display='none';">
-       </div>
-       <!-- Logo 2 - JHEAIPP -->
-       <div class="w-20 h-20 flex items-center justify-center">
-        <img src="https://i.postimg.cc/xk8vYgR8/image.png" alt="Logo JHEAIPP" class="w-full h-full object-contain" onerror="this.style.display='none';">
-       </div>
-      </div>
-      <!-- Title -->
-      <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-shadow leading-tight">
-       Program Perkaderan Fuqaha
-       <br>
-       <span class="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent"> Guru Takmir JAKIM </span>
-      </h1>
-      <!-- Subtitle -->
-      <p class="text-lg text-gray-600 mb-6 font-medium">Disember 2025 • Zon Utara • Siri 09/2025</p>
-      <!-- Info Cards (Tanpa Ikon) -->
-      <div class="grid md:grid-cols-3 gap-4">
-       <div class="info-card-date rounded-xl p-4 border text-center">
-        <h3 class="font-bold text-emerald-900 text-base mb-1">6-8 Disember 2025</h3>
-        <p class="text-emerald-700 text-xs">(Sabtu - Isnin)</p>
-       </div>
-       <div class="info-card-time rounded-xl p-4 border text-center">
-        <h3 class="font-bold text-amber-900 text-base mb-1">8:45 AM - 5:30 PM</h3>
-        <p class="text-amber-700 text-xs">Waktu Malaysia</p>
-       </div>
-       <div class="info-card-platform rounded-xl p-4 border text-center">
-        <h3 class="font-bold text-purple-900 text-base mb-1">Video Conference</h3>
-        <p class="text-purple-700 text-xs">Google Meet &amp; Live Facebook</p>
-       </div>
-      </div>
-     </div>
+    <!-- HEADER CETAKAN -->
+    <div id="printHeader" class="hidden print-only text-center mb-8 border-b-2 border-slate-800 pb-4">
+        <h1 id="printTitle" class="text-2xl font-bold uppercase">KEHADIRAN PESERTA PERKADERAN</h1>
+        <p id="printSubtitle" class="text-lg font-semibold uppercase">Program Perkaderan Kepimpinan <span class="dyn-year">2026</span></p>
+        <div class="mt-4 text-sm flex justify-center gap-8 font-medium">
+            <span><strong>TARIKH:</strong> <span id="printDate">-</span></span>
+            <span><strong>TEMPAT:</strong> <span id="printVenue">-</span></span>
+        </div>
     </div>
-   </header>
-   
-   <!-- Main Content (Borang Pendaftaran) -->
-   <main class="flex-1 py-8" id="formMain">
-    <div class="container mx-auto px-4 max-w-2xl">
-     <div class="glass-card rounded-3xl p-8">
-      <!-- Form Header -->
-      <div class="text-center mb-8">
-       <h2 class="text-3xl font-bold text-gray-800 mb-2">Borang Pendaftaran</h2>
-       <p class="text-gray-600">Sila lengkapkan maklumat di bawah untuk mendaftar</p>
-      </div>
-      <!-- Registration Form -->
-      <form id="registrationForm" class="space-y-6">
-       <!-- Nama -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> Nama Peserta (Huruf Besar) * </label>
-        <input type="text" id="nama" name="nama" required placeholder="MASUKKAN NAMA PENUH ANDA" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg font-medium uppercase" style="text-transform: uppercase;">
-       </div>
-       <!-- IC -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> No Kad Pengenalan * </label>
-        <input type="text" id="ic" name="ic" required placeholder="850008-xx-xxxx" pattern="[0-9]{6}-[0-9]{2}-[0-9]{4}" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
-        <p class="text-sm text-gray-500 mt-2">Contoh: 850008-14-1234</p>
-       </div>
-       <!-- Phone -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> No Telefon Bimbit * </label>
-        <input type="tel" id="telefon" name="telefon" required placeholder="01X-XXXXXXX" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
-       </div>
-       <!-- District -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> Daerah * </label>
-        <input type="text" id="daerah" name="daerah" required placeholder="MASUKKAN DAERAH ANDA" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
-       </div>
-       <!-- State -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> Negeri * </label>
-        <select id="negeri" name="negeri" required onchange="toggleNegeriLain()" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
-         <option value="">PILIH NEGERI</option>
-         <option value="PULAU PINANG">PULAU PINANG</option>
-         <option value="PERAK">PERAK</option>
-         <option value="KEDAH">KEDAH</option>
-         <option value="PERLIS">PERLIS</option>
-         <option value="LAIN-LAIN">LAIN-LAIN</option>
-        </select>
-       </div>
-       <!-- Negeri Lain Input (NEW) -->
-        <div id="negeriLainContainer" class="hidden mt-4">
-            <label class="block text-sm font-semibold text-gray-700 mb-3"> Nyatakan Negeri Lain * </label>
-            <input type="text" id="negeriLain" name="negeriLain" placeholder="Masukkan Negeri Lain" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg uppercase" style="text-transform: uppercase;">
-            <p class="text-sm text-gray-500 mt-2">Cth: SELANGOR, JOHOR</p>
-        </div>
-       <!-- Email -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> E-mel * </label>
-        <input type="email" id="email" name="email" required placeholder="nama@email.com" class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg">
-       </div>
-       <!-- Siri -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> Siri * </label>
-        <input type="text" id="siri" name="siri" required value="09/2025" readonly class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl bg-gray-100 text-lg font-medium text-gray-700">
-       </div>
-       <!-- Tarikh -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> Tarikh Program * </label>
-        <input type="text" id="tarikh" name="tarikh" required value="6-8 Disember 2025" readonly class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl bg-gray-100 text-lg font-medium text-gray-700">
-       </div>
-       <!-- Attendance -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-4"> Saya akan menghadiri dengan jayanya program ini * </label>
-        <div class="flex gap-8">
-         <label class="flex items-center cursor-pointer">
-          <input type="radio" name="kehadiran" value="YA" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500">
-          <span class="ml-3 text-lg font-medium text-gray-700">Ya</span>
-         </label>
-         <label class="flex items-center cursor-pointer">
-          <input type="radio" name="kehadiran" value="TIDAK" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-blue-500">
-          <span class="ml-3 text-lg font-medium text-gray-700">Tidak</span>
-         </label>
-        </div>
-       </div>
-       <!-- Comments -->
-       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-3"> Komen (Pilihan) </label>
-        <textarea id="komen" name="komen" rows="4" placeholder="Masukkan komen atau catatan tambahan..." class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl input-modern focus:outline-none bg-white/80 text-lg resize-none"></textarea>
-       </div>
-       <!-- Submit Button -->
-       <div class="pt-6">
-        <button type="submit" id="submitBtn" class="w-full btn-gradient text-white font-bold py-4 px-8 rounded-2xl text-lg shadow-lg relative overflow-hidden group">
-         <span class="relative z-10 flex items-center justify-center">
-          Hantar Pendaftaran
-         </span>
-        </button>
-       </div>
-      </form>
-     </div>
-    </div>
-   </main>
-   
-   <!-- Admin Dashboard (NEW) -->
-   <div id="adminDashboard" class="hidden container mx-auto px-4 max-w-4xl py-8">
-    <div class="glass-card rounded-3xl p-8">
-        <div class="flex justify-between items-center mb-6 border-b pb-4">
-            <h2 class="text-3xl font-bold text-gray-800">Dashboard Admin</h2>
-            <button onclick="logoutAdmin()" class="text-sm text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-300 hover:bg-red-50 transition duration-200">
-                Log Keluar
-            </button>
-        </div>
 
-        <!-- Kolum Carian Siri (BARU) -->
-        <div class="mb-6">
-            <label for="siriSearchInput" class="block text-sm font-semibold text-gray-700 mb-2">Carian Siri:</label>
-            <input 
-                type="text" 
-                id="siriSearchInput" 
-                oninput="filterDashboard()" 
-                placeholder="Cth: 09/2025" 
-                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-base"
-            >
-        </div>
-        
-        <!-- Ringkasan Statistik -->
-        <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-lg">
-                <p class="text-sm text-gray-500">Jumlah Pendaftaran</p>
-                <p class="text-2xl font-bold text-blue-800" id="totalParticipants">Memuatkan...</p>
+    <!-- HEADER UTAMA -->
+    <header class="bg-indigo-900 text-white pb-24 pt-12 px-4 no-print relative overflow-hidden">
+        <div class="absolute top-0 right-0 opacity-10 text-[180px] font-bold leading-none select-none pointer-events-none tracking-tighter dyn-year">2026</div>
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center justify-center p-4 bg-white rounded-2xl shadow-xl mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3730a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
-            <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg">
-                <p class="text-sm text-gray-500">Kehadiran YA</p>
-                <p class="text-2xl font-bold text-green-800" id="totalYa">Memuatkan...</p>
-            </div>
-            <div class="bg-yellow-50 border-l-4 border-yellow-600 p-4 rounded-lg">
-                <p class="text-sm text-gray-500">Peratus YA</p>
-                <p class="text-2xl font-bold text-yellow-800" id="percentageYa">Memuatkan...</p>
-            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-2 tracking-tight uppercase dyn-title">Kehadiran Peserta Perkaderan</h1>
+            <p class="text-indigo-200 text-lg md:text-xl font-medium uppercase tracking-wide">Program Perkaderan Kepimpinan <span class="dyn-year">2026</span></p>
         </div>
+    </header>
 
-
-        <!-- Butang Laporan & PDF -->
-        <div class="mb-8 flex gap-4 no-print">
-             <button onclick="showReportPreview()" class="btn-gradient text-white font-bold py-2 px-6 rounded-lg text-base shadow-md">
-                Pratonton Laporan & PDF
-            </button>
-        </div>
-
-        <!-- Senarai Peserta -->
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Senarai Peserta (Terbaru)</h3>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
-                <thead class="bg-gray-100 border-b border-gray-200" id="participantsTableHead">
-                    <!-- STRUKTUR HEADER DASHBOARD DIKEMASKINI -->
-                    <tr class="text-left text-xs font-semibold uppercase text-gray-600">
-                        <th class="py-3 px-4">Nama</th>
-                        <th class="py-3 px-4 hidden sm:table-cell">No KP</th>
-                        <th class="py-3 px-4 hidden sm:table-cell">Telefon</th>
-                        <th class="py-3 px-4">Negeri</th>
-                        <th class="py-3 px-4">Kehadiran</th>
-                    </tr>
-                </thead>
-                <tbody id="participantsTableBody">
-                    <tr><td colspan="5" class="py-4 text-center text-gray-500">Memuatkan data...</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- DEBUGGING TOOL -->
-        <div class="mt-4 no-print">
-             <button onclick="debugHeaders()" class="text-xs text-gray-600 hover:text-red-700 border border-gray-300 px-3 py-1 rounded-full">
-                Tunjukkan Header CSV Mentah
-            </button>
-        </div>
-        <p id="dataStatusMessage" class="text-sm text-blue-600 mt-4 italic">
-            *Data dimuatkan secara langsung dari Google Sheet.
-        </p>
-    </div>
-   </div>
-   
-    <!-- Report/PDF Preview (NEW) -->
-    <div id="reportPreview" class="hidden container mx-auto px-4 max-w-4xl py-8">
-        <div class="glass-card rounded-3xl p-8">
-            <div class="print-only text-center mb-8">
-                <!-- Logo Header untuk Cetakan -->
-                <div class="flex items-center justify-center gap-6 mb-4">
-                    <div class="w-16 h-16 flex items-center justify-center">
-                        <img src="https://i.postimg.cc/7frn73HY/image.png" alt="Logo JAKIM" class="w-full h-full object-contain" onerror="this.style.display='none';">
+    <main class="flex-grow px-4 -mt-16 pb-12 w-full max-w-5xl mx-auto z-20 relative">
+        <div id="dashboardView" class="grid grid-cols-1 lg:grid-cols-3 gap-6 no-print">
+            <div class="lg:col-span-2 space-y-4">
+                <div class="glass-card rounded-2xl p-6 md:p-8 border-t-4 border-t-indigo-600">
+                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">Maklumat Program</h2>
+                        <span id="systemStatus" class="px-3 py-1 bg-yellow-100 text-yellow-700 text-[10px] font-bold rounded-full uppercase">Menyambung...</span>
                     </div>
-                    <div class="w-16 h-16 flex items-center justify-center">
-                        <img src="https://i.postimg.cc/xk8vYgR8/image.png" alt="Logo JHEAIPP" class="w-full h-full object-contain" onerror="this.style.display='none';">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100"><div class="text-xs font-bold text-indigo-600 uppercase mb-1">Tarikh</div><div class="font-bold text-slate-800 text-lg dyn-date">-</div></div>
+                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100"><div class="text-xs font-bold text-indigo-600 uppercase mb-1">Masa</div><div class="font-bold text-slate-800 text-lg dyn-time">-</div></div>
+                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100"><div class="text-xs font-bold text-indigo-600 uppercase mb-1">Tempat</div><div class="font-bold text-slate-800 text-sm leading-tight dyn-venue">-</div></div>
                     </div>
                 </div>
-                <h1 class="text-2xl font-bold text-gray-800">LAPORAN PENUH PENDAFTARAN PESERTA</h1>
-                <p class="text-gray-600">Program Perkaderan Fuqaha Guru Takmir JAKIM Siri <span id="reportSiriTitle">SEMUA</span></p>
-                <p class="text-sm text-gray-500 mt-2">Dicetak pada: <span id="printDate"></span></p>
-                <hr class="my-4"/>
+                <button onclick="openModal('regModal')" class="w-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold py-6 px-8 rounded-2xl shadow-lg transition-all transform hover:-translate-y-1 flex items-center justify-between group">
+                    <div class="text-left"><div class="text-xl uppercase font-extrabold tracking-tight">✍ Daftar Kehadiran</div><div class="text-indigo-200 text-xs font-normal">Sila klik untuk merekod kehadiran anda hari ini</div></div>
+                    <div class="text-3xl bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">➜</div>
+                </button>
             </div>
+            <aside class="glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden border-t-4 border-t-emerald-500">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Peserta Hadir</h3>
+                <div class="relative mb-4"><span class="text-7xl font-black text-slate-800 tracking-tighter" id="liveCount">0</span><span class="absolute top-0 right-0 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span></span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2 mb-2 overflow-hidden"><div id="liveProgress" class="bg-emerald-600 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div></div>
+            </aside>
+        </div>
 
-            <!-- Butang Cetak (disediakan di Preview) -->
-            <div class="flex justify-between items-center mb-6 no-print">
-                <h2 class="text-2xl font-bold text-gray-800">Pratonton PDF / Laporan</h2>
-                <div>
-                    <button onclick="window.print()" class="btn-gradient text-white font-bold py-2 px-6 rounded-lg text-base shadow-md">
-                        Cetak Laporan
-                    </button>
-                    <button onclick="closeReportPreview()" class="ml-3 text-sm text-gray-600 hover:text-gray-900 px-3 py-2 border rounded-lg hover:bg-gray-50">
-                        Tutup
-                    </button>
-                </div>
+        <div id="adminPanel" class="hidden space-y-6 mt-6 transition-all duration-300">
+            <div class="glass-card p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4 bg-slate-800 text-white no-print">
+                <div><h2 class="text-xl font-bold">🔒 Pengurusan Pentadbir</h2></div>
+                <button onclick="logout()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-bold border border-slate-600 transition-all">Keluar</button>
             </div>
-
-            <!-- Ringkasan Laporan -->
-            <div class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4 no-print">
-                <div class="p-3 border rounded-lg bg-gray-50">
-                    <p class="text-xs text-gray-500">Jumlah Peserta</p>
-                    <p class="font-bold text-lg text-gray-800" id="reportTotal">0</p>
-                </div>
-                <div class="p-3 border rounded-lg bg-gray-50">
-                    <p class="text-xs text-gray-500">Ya (Kehadiran)</p>
-                    <p class="font-bold text-lg text-green-700" id="reportYa">0</p>
-                </div>
-                <div class="p-3 border rounded-lg bg-gray-50">
-                    <p class="text-xs text-gray-500">Tidak (Kehadiran)</p>
-                    <p class="font-bold text-lg text-red-700" id="reportTidak">0</p>
-                </div>
-                 <div class="p-3 border rounded-lg bg-gray-50">
-                    <p class="text-xs text-gray-500">Peratus Ya</p>
-                    <p class="font-bold text-lg text-blue-700" id="reportPercentage">0%</p>
+            <nav class="flex border-b border-slate-200 no-print bg-white rounded-t-xl overflow-hidden">
+                <button onclick="switchAdminTab('archive')" id="tabBtnArchive" class="flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-active">📂 Arkib Rekod</button>
+                <button onclick="switchAdminTab('settings')" id="tabBtnSettings" class="flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-inactive">⚙️ Tetapan Sesi</button>
+            </nav>
+            <div id="adminSettingsSection" class="hidden animate-fade-in no-print">
+                <div class="glass-card p-8 rounded-b-2xl shadow-none">
+                    <form id="meetingSettingsForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tajuk Program</label><input type="text" id="setMeetingTitle" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tahun</label><input type="number" id="setMeetingYear" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tarikh</label><input type="date" id="setMeetingDate" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Masa</label><input type="text" id="setMeetingTime" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Lokasi</label><input type="text" id="setMeetingVenue" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div class="md:col-span-2 pt-4"><button type="submit" id="saveSettingsBtn" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-10 py-4 rounded-xl flex items-center justify-center gap-2"><span>Simpan Tetapan</span><div id="settingsSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></button></div>
+                    </form>
                 </div>
             </div>
+            <div id="meetingArchiveSection" class="space-y-4 no-print"><div class="grid grid-cols-1 gap-4" id="archiveListContainer"></div></div>
+            <div id="detailedRecordView" class="hidden space-y-6 animate-fade-in">
+                <button onclick="hideMeetingDetails()" class="no-print text-indigo-600 font-bold text-[10px] uppercase hover:underline">⬅ Kembali ke Senarai</button>
+                <section class="glass-card p-6 rounded-2xl"><div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"><h3 id="viewHeaderTitle" class="font-extrabold text-lg uppercase text-indigo-800">Senarai Peserta</h3><button onclick="window.print()" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-bold border border-slate-200 flex items-center gap-2">🖨 Cetak Senarai</button></div><div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead><tr class="text-[10px] font-bold text-slate-400 uppercase bg-slate-50 border-y border-slate-200"><th class="py-4 px-4 text-center">Bil</th><th class="py-4 px-4">Nama Penuh</th><th class="py-4 px-4">No. K/P @ ID</th><th class="py-4 px-4">Peranan</th><th class="py-4 px-4 text-center">T/Tangan</th><th class="py-4 px-4 text-right no-print">Aksi</th></tr></thead><tbody id="dataTableBody" class="text-sm text-slate-700"></tbody></table></div><div id="noDataMsg" class="hidden text-center py-20 text-slate-400 bg-slate-50/50 rounded-2xl border-2 border-dashed border-slate-100 mt-4"><p class="font-bold uppercase tracking-widest text-[10px]">Tiada rekod ditemui.</p></div></section>
+            </div>
+        </div>
+    </main>
 
-            <!-- Jadual Laporan Peserta (Akan dipaparkan di sini) -->
-            <div id="reportTableContainer">
-                <p class="text-center text-gray-500 py-8">Sila muatkan data dahulu di dashboard admin.</p>
+    <footer class="bg-white border-t border-slate-200 py-8 mt-auto text-center no-print">
+        <p class="text-slate-400 text-[10px] mb-2 uppercase font-black tracking-[0.3em]">&copy; <span class="dyn-year">2026</span> Program Perkaderan</p>
+        <button onclick="openModal('loginModal')" class="text-[10px] font-bold text-slate-300 hover:text-indigo-600 uppercase tracking-widest transition-all p-2 rounded">Portal Pentadbir</button>
+    </footer>
+
+    <!-- MODAL PENDAFTARAN -->
+    <div id="regModal" class="fixed inset-0 z-50 hidden no-print">
+        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeModal('regModal')"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto flex flex-col">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10"><h3 class="font-bold text-lg text-slate-800 uppercase">Daftar Kehadiran</h3><button onclick="closeModal('regModal')" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button></div>
+                <form id="attendForm" class="p-6 space-y-4">
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Masukkan nama penuh"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. K/P atau ID Peserta</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Cth: 90010101xxxx"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Peranan</label><select id="inpRole" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"><option value="" disabled selected>Pilih Peranan</option><option value="Peserta">Peserta</option><option value="Urus Setia">Urus Setia</option><option value="Penceramah">Penceramah</option><option value="Fasilitator">Fasilitator</option></select></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. Telefon</label><input type="tel" id="inpPhone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
+                    </div>
+                    <div><div class="flex justify-between items-center mb-1"><label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tandatangan</label><button type="button" id="clearSig" class="text-[10px] text-red-500 font-bold uppercase">Padam</button></div><div class="border-2 border-dashed border-slate-300 rounded-xl h-40 w-full relative signature-box overflow-hidden"><canvas id="sigCanvas"></canvas></div></div>
+                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 flex justify-center items-center gap-2 uppercase tracking-widest"><span>Hantar</span><div id="spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></button>
+                </form>
             </div>
         </div>
     </div>
 
-
-   <!-- Success Message (Notifikasi Ringkas tanpa Ikon) -->
-   <div id="successMessage" class="hidden container mx-auto px-4 max-w-2xl pb-8">
-    <div class="bg-gradient-to-r from-green-100 to-emerald-200 border-2 border-green-600 rounded-2xl p-6 shadow-xl">
-     <div class="flex items-center">
-      <div>
-       <h4 class="text-xl font-bold text-green-900 mb-1">Pendaftaran Berjaya Dihantar!</h4>
-       <p class="text-green-700">Maklumat anda telah direkodkan. Terima kasih.</p>
-      </div>
-     </div>
-    </div>
-   </div>
-   <!-- Error Message (Tanpa Ikon) -->
-   <div id="errorMessage" class="hidden container mx-auto px-4 max-w-2xl pb-8">
-    <div class="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200 rounded-2xl p-6">
-     <div class="flex items-start">
-      <div>
-       <h4 class="text-xl font-bold text-red-800 mb-1">Ralat Pendaftaran!</h4>
-       <p id="errorText" class="text-red-700"></p>
-       <p class="text-red-600 text-sm mt-2">Sila cuba lagi atau hubungi pentadbir jika masalah berterusan.</p>
-      </div>
-     </div>
-    </div>
-   </div>
-   <!-- Government Footer -->
-   <footer class="bg-gray-900 text-white mt-12 no-print">
-    <div class="container mx-auto px-4 py-8">
-     <!-- Main Footer Content -->
-     <div class="mb-8">
-      <!-- Department Info -->
-      <div class="text-center">
-       <div class="text-center mb-4">
-        <h3 class="text-lg font-bold">JHEAIPP</h3>
-        <p class="text-sm text-gray-300">Jabatan Hal Ehwal Agama Islam Negeri Pulau Pinang</p>
-       </div>
-       <div class="text-sm text-gray-300 space-y-1">
-        <p>Lebuh Pantai, 10300 Pulau Pinang</p>
-        <p class="mt-2">
-         <span class="font-medium">Tel:</span> 04-684 7000
-         <br>
-         <span class="font-medium">Faks:</span> 04-684 7777
-         <br>
-         <span class="font-medium">E-mel:</span> jheaipp@penang.gov.my
-        </p>
-       </div>
-      </div>
-     </div>
-     <!-- Bottom Footer -->
-     <div class="border-t border-gray-700 pt-6">
-      <div class="text-center text-sm text-gray-400 mb-4">
-       <p>© 2025 Jabatan Hal Ehwal Agama Islam Negeri Pulau Pinang (JHEAIPP). Hak Cipta Terpelihara.</p>
-       <p class="mt-1">Sistem Pendaftaran Program Perkaderan Fuqaha Guru Takmir</p>
-       <div class="mt-3 inline-flex items-center gap-4">
-        <span class="px-3 py-1 bg-gray-800 rounded-full text-xs"> Sokongan Teknikal: it.jheaipp@gmail.com </span>
-        <!-- Admin Button (MOVED HERE) -->
-        <button onclick="showAdminLogin()" class="text-xs text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-full font-medium transition duration-200">
-           Admin
-        </button>
-       </div>
-      </div>
-      <!-- System Info -->
-      <div class="text-center mt-4">
-       <h4 class="text-sm font-bold mb-3 text-gray-300">Maklumat Sistem</h4>
-       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-400">
-        <div>
-         <span class="block text-gray-500">Versi</span>
-         <span class="font-mono text-blue-300">v2.1.0</span>
-        </div>
-        <div>
-         <span class="block text-gray-500">Build</span>
-         <span class="font-mono text-blue-300">20250115</span>
-        </div>
-        <div>
-         <span class="block text-gray-500">Status</span>
-         <span class="text-green-400 font-medium">● Aktif</span>
-        </div>
-        <div>
-         <span class="block text-gray-500">Kemaskini</span>
-         <span class="font-medium">15 Jan 2025</span>
-        </div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </footer>
-  </div>
-
-  <!-- Modal Login Admin (NEW) -->
-  <div id="adminLoginModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex items-center justify-center transition-opacity duration-300">
-    <div class="bg-white rounded-xl p-8 max-w-sm w-full shadow-2xl transform scale-100 transition-transform duration-300">
-        <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Log Masuk Admin</h3>
-        <p class="text-sm text-gray-600 mb-4">Masukkan kata laluan untuk mengakses papan pemuka.</p>
-        <input type="password" id="adminPasswordInput" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-lg" placeholder="Kata Laluan...">
-        <p id="passwordError" class="text-red-500 text-sm mt-2 hidden">Kata laluan salah. Sila cuba lagi.</p>
-        <div class="flex justify-between mt-6">
-            <button onclick="closeAdminLogin()" class="text-sm text-gray-600 hover:text-gray-900 px-4 py-2 border rounded-lg hover:bg-gray-100">
-                Batal
-            </button>
-            <button onclick="loginAdmin()" class="btn-gradient text-white font-bold py-2 px-4 rounded-lg text-base">
-                Log Masuk
-            </button>
+    <!-- MODAL LOGIN ADMIN -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden no-print">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8 text-center border-t-8 border-t-indigo-800">
+                <h3 class="font-bold text-xl text-slate-800 mb-6 uppercase">Login Pentadbir</h3>
+                <div class="space-y-4 text-left">
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">ID</label><input type="text" id="admUser" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">Katalaluan</label><input type="password" id="admPass" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
+                    <p id="loginErr" class="hidden text-[10px] text-red-500 font-bold text-center">Ralat: Maklumat salah.</p>
+                </div>
+                <div class="mt-8 flex gap-3"><button onclick="attemptLogin()" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-bold uppercase hover:bg-indigo-700 transition-all">Masuk</button><button onclick="closeModal('loginModal')" class="flex-1 bg-slate-100 text-slate-600 py-3 rounded-xl font-bold uppercase">Batal</button></div>
+            </div>
         </div>
     </div>
-  </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
 
-  <script>
-    // ====================================================================
-    // Bahagian Konfigurasi Header (DIKEKALKAN UNTUK KONSISTENSI FORM)
-    // ====================================================================
-    
-    // Kunci yang diperlukan oleh kod JavaScript (TIDAK BOLEH DITUKAR)
-    const REQUIRED_KEYS = [
-        'timestamp', 'nama', 'ic', 'telefon', 'daerah', 'negeri', 
-        'email', 'siri', 'tarikh', 'kehadiran', 'komen'
-    ];
+        // --- FIREBASE CONFIG ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyDAzN1ojEQ6fUNyRKY1I6DxZvMkahKukds",
+          authDomain: "kehadiran-peserta-perkaderan.firebaseapp.com",
+          projectId: "kehadiran-peserta-perkaderan",
+          storageBucket: "kehadiran-peserta-perkaderan.firebasestorage.app",
+          messagingSenderId: "790915248624",
+          appId: "1:790915248624:web:0ff69bcace88f4fdb86d35",
+          measurementId: "G-0LSGF613Y7"
+        };
+        // -----------------------
 
-    // Peta Paparan Laporan untuk menghasilkan header dan data yang diminta (9 lajur)
-    const REPORT_COLUMN_MAP = [
-        { key: 'nama', label: 'Nama' },
-        { key: 'ic', label: 'No KP' },
-        { key: 'telefon', label: 'Telefon' },
-        { key: 'negeri', label: 'Negeri' },
-        { key: 'daerah', label: 'Daerah' },
-        { key: 'email', label: 'Emel' },
-        { key: 'kehadiran', label: 'Kehadiran' },
-        { key: 'komen', label: 'Komen' },
-        { key: 'siri', label: 'Siri' },
-    ];
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-id';
 
+        let attendanceData = [];
+        let meetingSettings = { title: "Kehadiran Peserta Perkaderan", year: "2026", date: "2026-01-17", time: "08:00 Pagi", venue: "Dewan Latihan" };
+        let activeDateFilter = meetingSettings.date;
 
-    // Konstanta Kata Laluan Admin
-    const ADMIN_PASSWORD = 'padspt1617';
-    let realRegistrations = []; // Variabel untuk menyimpan data sebenar dari Sheet
-    let currentFilteredData = []; // Data yang sedang dipaparkan/ditapis
-
-    // URL Apps Script anda (DIKEMASKINI)
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJn_lGd3Mxqv91ebGcV5FpCLihM87dfygfWGb0riafwi_Dkq5-fVJi8_PjRp83vgDX/exec';
-    
-    // URL CSV untuk pengambilan data
-    const CSV_DATA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVuXTBG4keekYEdzrx5MG4oqDrCnXvO307S4yK86uzKHp4l5UiqTek8hTQm-p6LTt4NU5UJl9exGje/pub?gid=0&single=true&output=csv';
-
-    /**
-     * DEBUGGING TOOL: Mengambil header CSV mentah dan memaparkannya.
-     */
-    async function debugHeaders() {
-        const dataStatusMessage = document.getElementById('dataStatusMessage');
-        dataStatusMessage.textContent = "Mengambil header...";
-        
-        try {
-            const response = await fetch(CSV_DATA_URL); 
-            const csvText = await response.text();
-            
-            const rows = csvText.trim().split('\n');
-            if (rows.length === 0) {
-                dataStatusMessage.textContent = "RALAT: Tiada data CSV ditemui.";
-                return;
-            }
-            
-            // Ambil baris pertama (header) dan bersihkan
-            const rawHeaders = rows[0].split(',').map(h => h.replace(/^"|"$/g, '').trim().toLowerCase()); 
-            
-            dataStatusMessage.innerHTML = `
-                <span class="font-bold text-red-600">HEADER MENTAH DARI CSV:</span>
-                <ul class="list-disc list-inside mt-2 text-left mx-auto max-w-sm text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">
-                    ${rawHeaders.map(h => `<li>'${h}'</li>`).join('')}
-                </ul>
-                <p class="text-red-500 mt-2">Sila semak konsol untuk rujukan.</p>
-            `;
-            // Log ke konsol untuk debug
-            console.log("CSV RAW HEADERS (HURUF KECIL):", rawHeaders);
-
-        } catch (error) {
-            dataStatusMessage.textContent = `RALAT DEBUG: Gagal mencapai CSV. ${error.message}`;
-        }
-    }
-
-
-    /**
-     * Mengambil data sebenar dari Apps Script (getData function) dan memproses JSON.
-     * KEMBALI KEPADA KAEDAH CSV UNTUK KESTABILAN
-     */
-    async function fetchRegistrations() {
-        const tableBody = document.getElementById('participantsTableBody');
-        const dataStatusMessage = document.getElementById('dataStatusMessage');
-        tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-blue-500">Memuatkan data dari Google Sheet secara langsung (CSV)...</td></tr>';
-        dataStatusMessage.textContent = "Memuatkan data...";
-        
-        try {
-            const response = await fetch(CSV_DATA_URL); 
-            const csvText = await response.text();
-            
-            const rows = csvText.trim().split('\n');
-            if (rows.length <= 1) {
-                realRegistrations = [];
-                throw new Error("Tiada data pendaftaran ditemui dalam Sheet (hanya header).");
-            }
-            
-            // 1. Ambil header dan tukar ke lowercase untuk pemetaan
-            const csvHeaders = rows[0].split(',').map(h => h.replace(/^"|"$/g, '').trim().toLowerCase()); 
-            
-            const data = [];
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i].split(',');
-                const obj = {};
-                
-                csvHeaders.forEach((csvHeader, j) => {
-                    // Membersihkan nilai (buang petikan jika ada dan trim)
-                    const value = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
-                    
-                    // 2. Tentukan kunci JavaScript yang betul (dengan penterjemahan)
-                    let finalKey = csvHeader;
-                    if (finalKey === 'no kp') finalKey = 'ic';
-                    else if (finalKey === 'emel') finalKey = 'email';
-                    
-                    if (REQUIRED_KEYS.includes(finalKey) || finalKey === 'negerilain') {
-                        obj[finalKey] = value;
-                    } 
-                });
-
-                // Pastikan objek mempunyai semua kunci yang diperlukan (walaupun kosong)
-                REQUIRED_KEYS.forEach(key => {
-                    if (!obj.hasOwnProperty(key)) {
-                        obj[key] = '';
-                    }
-                });
-
-                data.push(obj);
-            }
-
-            realRegistrations = data; // Simpan data sebenar
-            
-            filterDashboard(true); 
-            
-            dataStatusMessage.textContent = `Data berjaya dimuatkan. Jumlah rekod: ${realRegistrations.length}`;
-
-        } catch (error) {
-            console.error("Gagal mengambil atau memproses data JSON/CSV:", error);
-            dataStatusMessage.textContent = `Ralat memuatkan data: ${error.message}. Sila pastikan Sheet diterbitkan sebagai Public CSV.`;
-            tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-red-500">Gagal memuatkan data. Sila semak konsol untuk maklumat lanjut.</td></tr>';
-        }
-    }
-
-
-    /**
-     * Menapis data berdasarkan input carian Siri dan mengemas kini dashboard.
-     */
-    function filterDashboard(isInitialLoad = false) {
-        const filterInput = document.getElementById('siriSearchInput');
-        const filterValue = filterInput ? filterInput.value.trim().toLowerCase() : '';
-        
-        let filteredData = realRegistrations;
-
-        if (filterValue) {
-            filteredData = realRegistrations.filter(p => {
-                // Cari padanan dalam lajur 'siri' (case-insensitive)
-                return (p.siri && p.siri.toLowerCase().includes(filterValue));
-            });
-        }
-        
-        currentFilteredData = filteredData;
-        renderDashboard(currentFilteredData);
-
-        // Jika ini bukan muatan awal, kemas kini tajuk ringkasan
-        if (!isInitialLoad) {
-            const statusMessage = currentFilteredData.length > 0 ? `Paparan ${currentFilteredData.length} rekod` : 'Tiada rekod ditemui';
-            const siriLabel = filterValue ? ` untuk siri '${filterValue.toUpperCase()}'` : '';
-            document.getElementById('dataStatusMessage').textContent = `* ${statusMessage}${siriLabel}.`;
-        }
-    }
-
-    /**
-     * Helper function to display custom success or error messages, replacing standard alert().
-     */
-    function showMessage(type, message) {
-        const success = document.getElementById('successMessage');
-        const error = document.getElementById('errorMessage');
-        const main = document.getElementById('formMain');
-        const admin = document.getElementById('adminDashboard');
-        const report = document.getElementById('reportPreview');
-        
-        // Sembunyikan semua kecuali header dan footer
-        success.classList.add('hidden');
-        error.classList.add('hidden');
-        main.style.display = 'block'; 
-        admin.classList.add('hidden');
-        report.classList.add('hidden');
-
-        if (type === 'success') {
-            main.style.display = 'none'; // Sembunyikan borang selepas kejayaan
-            success.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (type === 'error') {
-            const errorTextElement = document.getElementById('errorText');
-            errorTextElement.textContent = message;
-            error.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (type === 'admin') {
-            main.style.display = 'none';
-            admin.classList.remove('hidden');
-            fetchRegistrations(); // MULA MUAT DATA SEBENAR
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (type === 'form') {
-             // Kembali ke borang pendaftaran
-            main.style.display = 'block';
-        }
-    }
-
-    /**
-     * Memaparkan modal log masuk admin
-     */
-    function showAdminLogin() {
-        document.getElementById('adminLoginModal').classList.remove('hidden');
-        document.getElementById('adminPasswordInput').focus();
-        // Sembunyikan borang pendaftaran semasa log masuk
-        document.getElementById('formMain').style.display = 'none';
-        document.getElementById('successMessage').classList.add('hidden');
-    }
-
-    /**
-     * Menutup modal log masuk admin
-     */
-    function closeAdminLogin() {
-        document.getElementById('adminLoginModal').classList.add('hidden');
-        document.getElementById('passwordError').classList.add('hidden');
-        document.getElementById('adminPasswordInput').value = '';
-        showMessage('form'); // Kembali ke borang pendaftaran
-    }
-
-    /**
-     * Log masuk admin dengan kata laluan ringkas
-     */
-    function loginAdmin() {
-        const passwordInput = document.getElementById('adminPasswordInput');
-        const passwordError = document.getElementById('passwordError');
-        
-        if (passwordInput.value === ADMIN_PASSWORD) {
-            closeAdminLogin();
-            showMessage('admin'); // Panggil showMessage('admin') untuk memuatkan data
-        } else {
-            passwordError.classList.remove('hidden');
-            passwordInput.value = ''; // Kosongkan input
-            passwordInput.focus();
-        }
-    }
-
-    /**
-     * Log keluar admin dan kembali ke borang pendaftaran
-     */
-    function logoutAdmin() {
-        document.getElementById('adminDashboard').classList.add('hidden');
-        showMessage('form');
-    }
-
-
-    /**
-     * Menghasilkan HTML untuk jadual peserta (digunakan untuk Dashboard dan Laporan)
-     */
-    function generateParticipantTable(data, isReport = false) {
-        let html = '';
-        // Sort akan menggunakan timestamp sebagai fallback tetapi kritikal untuk fungsi ini.
-        data.sort((a, b) => {
-            const timeA = a.timestamp || '';
-            const timeB = b.timestamp || '';
-            return timeB.localeCompare(timeA); // Susun secara menurun
-        });
-
-        data.forEach((p, index) => {
-            const statusClass = p.kehadiran === 'YA' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
-            const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
-
-            // Dapatkan nilai negeri yang betul (sama ada dari 'negeri' atau 'negeriLain')
-            const displayNegeri = p.negeri === 'LAIN-LAIN' && p.negeriLain ? p.negeriLain.toUpperCase() : p.negeri;
-            const displayIC = p.ic || 'N/A';
-            const displayTelefon = p.telefon || 'N/A';
-            const displayEmail = p.email || 'N/A';
-            const displayDaerah = p.daerah || 'N/A';
-            const displayKomen = p.komen || '-';
-            const displaySiri = p.siri || 'N/A';
-
-            html += `<tr class="${rowClass} border-b border-gray-100 hover:bg-gray-100 text-sm">
-                <td class="py-3 px-4">${p.nama || 'N/A'}</td>
-                <td class="py-3 px-4 hidden sm:table-cell">${displayIC}</td>
-                <td class="py-3 px-4 hidden sm:table-cell">${displayTelefon}</td>
-                <td class="py-3 px-4">${displayNegeri}</td>
-                <td class="py-3 px-4"><span class="${statusClass}">${p.kehadiran || 'TIDAK JAWAB'}</span></td>
-                
-                ${isReport ? `<td class="py-3 px-4 text-xs">${displayDaerah}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${displayEmail}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${displayKomen}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${displaySiri}</td>` : ''}
-                ${isReport ? `<td class="py-3 px-4 text-xs">${(p.tarikh || 'N/A')}</td>` : ''}
-                
-            </tr>`;
-        });
-        
-        return html;
-    }
-
-    /**
-     * Memaparkan Dashboard Admin dengan data yang ditapis
-     */
-    function renderDashboard(data) {
-        const tableBody = document.getElementById('participantsTableBody');
-        const total = data.length;
-        const yaCount = data.filter(p => p.kehadiran === 'YA').length;
-        const percentage = total > 0 ? ((yaCount / total) * 100).toFixed(1) : 0;
-        
-        // Kemas kini Statistik Dashboard
-        document.getElementById('totalParticipants').textContent = total;
-        document.getElementById('totalYa').textContent = yaCount;
-        document.getElementById('percentageYa').textContent = `${percentage}%`;
-        
-        // Paparkan Jadual
-        if (total > 0) {
-            // Hadkan kepada 10 rekod terbaru untuk paparan dashboard
-            const dashboardData = [...data].slice(0, 10); // Guna salinan untuk slice
-            tableBody.innerHTML = generateParticipantTable(dashboardData);
-        } else {
-            tableBody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-gray-500">Tiada data pendaftaran direkodkan untuk siri ini.</td></tr>';
-        }
-    }
-
-    /**
-     * Memaparkan Pratonton Laporan (PDF friendly)
-     */
-    function showReportPreview() {
-        const adminDashboard = document.getElementById('adminDashboard');
-        const reportPreview = document.getElementById('reportPreview');
-        const reportTableContainer = document.getElementById('reportTableContainer');
-        const data = currentFilteredData; // Guna data yang sedang ditapis
-        const total = data.length;
-        const yaCount = data.filter(p => p.kehadiran === 'YA').length;
-        const tidakCount = total - yaCount;
-        const percentage = total > 0 ? ((yaCount / total) * 100).toFixed(1) : 0;
-        const siriTitle = document.getElementById('siriSearchInput').value.trim().toUpperCase() || 'SEMUA';
-        
-        // 1. Sembunyikan Dashboard dan paparkan Laporan
-        adminDashboard.classList.add('hidden');
-        reportPreview.classList.remove('hidden');
-
-        // 2. Kemas kini Statistik Laporan
-        document.getElementById('reportTotal').textContent = total;
-        document.getElementById('reportYa').textContent = yaCount;
-        document.getElementById('reportTidak').textContent = tidakCount;
-        document.getElementById('reportPercentage').textContent = `${percentage}%`;
-        document.getElementById('reportSiriTitle').textContent = siriTitle; // Tajuk Siri Laporan
-        
-        // 3. Kemas kini Tarikh Cetak
-        document.getElementById('printDate').textContent = new Date().toLocaleString('ms-MY', {
-            timeZone: 'Asia/Kuala_Lumpur',
-            year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit'
-        });
-
-        // 4. Bina Jadual Laporan Penuh
-        let headerHtml = REPORT_COLUMN_MAP.map(col => `<th class="py-3 px-4">${col.label}</th>`).join('');
-        
-        let bodyHtml = '';
-        if (total > 0) {
-            bodyHtml = data.map(p => {
-                const statusClass = p.kehadiran === 'YA' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold';
-                const rowClass = 'text-sm'; // Simple class for printing
-                const displayNegeri = p.negeri === 'LAIN-LAIN' && p.negeriLain ? p.negeriLain.toUpperCase() : p.negeri;
-
-
-                let rowCells = REPORT_COLUMN_MAP.map(col => {
-                    let value;
-                    if (col.key === 'negeri') {
-                         value = displayNegeri;
-                    } else {
-                         value = p[col.key] || 'N/A';
-                    }
-                    
-                    if (col.key === 'kehadiran') {
-                        return `<td class="py-3 px-4"><span class="${statusClass}">${value}</span></td>`;
-                    }
-                    if (col.key === 'email' || col.key === 'komen') {
-                        return `<td class="py-3 px-4 text-xs">${value}</td>`;
-                    }
-                    return `<td class="py-3 px-4">${value}</td>`;
-                }).join('');
-                
-                return `<tr class="${rowClass} border-b border-gray-100">${rowCells}</tr>`;
-            }).join('');
-        } else {
-            bodyHtml = `<tr><td colspan="${REPORT_COLUMN_MAP.length}" class="py-4 text-center text-gray-500">Tiada data pendaftaran direkodkan.</td></tr>`;
-        }
-
-        let reportHtml = `
-            <table class="min-w-full border-collapse">
-                <thead class="bg-gray-200 border-b-2 border-gray-300">
-                    <tr class="text-left text-sm font-semibold uppercase text-gray-700">
-                        ${headerHtml}
-                    </tr>
-                </thead>
-                <tbody>
-                    ${bodyHtml}
-                </tbody>
-            </table>
-        `;
-        reportTableContainer.innerHTML = reportHtml;
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /**
-     * Menutup Pratonton Laporan dan kembali ke Dashboard
-     */
-    function closeReportPreview() {
-        document.getElementById('reportPreview').classList.add('hidden');
-        document.getElementById('adminDashboard').classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /**
-     * Function to send data to Google Sheets Web App.
-     * @param {object} data - The form data object.
-     */
-    function sendToGoogleSheets(data) {
-        return new Promise((resolve, reject) => {
-            console.log('🚀 Menghantar data ke Google Sheets:', data);
-                
-            // URL GOOGLE APP SCRIPT BARU
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJn_lGd3Mxqv91ebGcV5FpCLihM87dfygfWGb0riafwi_Dkq5-fVJi8_PjRp83vgDX/exec';
-                
-            // Create URL with parameters
-            const params = new URLSearchParams();
-            // PENTING: Jika Negeri adalah LAIN-LAIN, kita hantar nilai 'negeriLain' sebagai 'negeri' ke Sheets
-            if (data.negeri === 'LAIN-LAIN' && data.negeriLain) {
-                 data.negeri = data.negeriLain.toUpperCase(); // Guna nilai input lain-lain
-            }
-            
-            for (const key in data) {
-                // Elakkan menghantar medan sementara 'negeriLain' kecuali jika kita memang mahukannya di Sheet
-                if (key !== 'negeriLain') {
-                    params.append(key, data[key]);
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { 
+                    // Cuba log masuk dengan token, jika gagal (token mismatch), beralih ke anonim
+                    await signInWithCustomToken(auth, __initial_auth_token).catch(async (err) => {
+                        await signInAnonymously(auth);
+                    });
+                } else { 
+                    await signInAnonymously(auth); 
                 }
+            } catch (err) {
+                console.error("Auth initialization failed:", err);
             }
-                
-            const urlWithParams = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
-                
-            // Send data using fetch (method 'GET', mode 'no-cors')
-            fetch(urlWithParams, {
-                method: 'GET',
-                mode: 'no-cors'
-            })
-            .then(() => {
-                console.log('✅ Data telah dihantar ke Google Sheets');
-                resolve(true);
-            })
-            .catch(() => {
-                // Fallback method using Image object (common for Google Scripts in iframes)
-                const img = new Image();
-                img.onload = img.onerror = () => {
-                    console.log('✅ Data telah dihantar ke Google Sheets (fallback)');
-                    resolve(true);
-                };
-                img.src = urlWithParams;
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('systemStatus').textContent = "SISTEM AKTIF";
+                document.getElementById('systemStatus').className = "px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase";
+                startListeners();
+            }
+        });
+
+        function startListeners() {
+            onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), (snap) => {
+                if (snap.exists()) { meetingSettings = snap.data(); updateUI(); } 
+                else { setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), meetingSettings); }
             });
-        });
-    }
-    
-    /**
-     * Menukar medan input negeri lain berdasarkan pilihan dropdown.
-     */
-    function toggleNegeriLain() {
-        const select = document.getElementById('negeri');
-        const container = document.getElementById('negeriLainContainer');
-        const input = document.getElementById('negeriLain');
-        
-        if (select.value === 'LAIN-LAIN') {
-            container.classList.remove('hidden');
-            input.setAttribute('required', 'required');
-            input.focus();
-        } else {
-            container.classList.add('hidden');
-            input.removeAttribute('required');
-            input.value = ''; // Kosongkan nilai jika medan disembunyikan
-        }
-    }
 
-
-    // Format IC number input
-    document.getElementById('ic').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 6) {
-            value = value.substring(0, 6) + '-' + value.substring(6);
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), (snap) => {
+                attendanceData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                updateDashboard();
+                renderArchive();
+                if (!document.getElementById('detailedRecordView').classList.contains('hidden')) renderTable();
+            });
         }
-        if (value.length >= 9) {
-            value = value.substring(0, 9) + '-' + value.substring(9, 13);
-        }
-        e.target.value = value;
-    });
 
-    // Format phone number
-    document.getElementById('telefon').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 3) {
-            value = value.substring(0, 3) + '-' + value.substring(3);
+        function updateUI() {
+            document.querySelectorAll('.dyn-title').forEach(el => el.textContent = meetingSettings.title);
+            document.querySelectorAll('.dyn-year').forEach(el => el.textContent = meetingSettings.year);
+            document.querySelectorAll('.dyn-time').forEach(el => el.textContent = meetingSettings.time);
+            document.querySelectorAll('.dyn-venue').forEach(el => el.textContent = meetingSettings.venue);
+            const d = new Date(meetingSettings.date);
+            const formatted = isNaN(d) ? meetingSettings.date : d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'long', year: 'numeric' });
+            document.querySelectorAll('.dyn-date').forEach(el => el.textContent = formatted);
+            document.getElementById('setMeetingTitle').value = meetingSettings.title;
+            document.getElementById('setMeetingYear').value = meetingSettings.year;
+            document.getElementById('setMeetingDate').value = meetingSettings.date;
+            document.getElementById('setMeetingTime').value = meetingSettings.time;
+            document.getElementById('setMeetingVenue').value = meetingSettings.venue;
+            document.getElementById('printTitle').textContent = meetingSettings.title;
+            document.getElementById('printDate').textContent = formatted;
+            document.getElementById('printVenue').textContent = meetingSettings.venue;
         }
-        e.target.value = value;
-    });
 
-    // Auto uppercase for name field
-    document.getElementById('nama').addEventListener('input', function(e) {
-        e.target.value = e.target.value.toUpperCase();
-    });
-
-    // Handle form submission
-    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        // Reset error message display
-        document.getElementById('errorMessage').classList.add('hidden');
-            
-        // Show loading state
-        const submitBtn = document.getElementById('submitBtn');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Menghantar...</span>';
-        submitBtn.disabled = true;
-            
-        // Get form data
-        const formData = new FormData(this);
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-            data[key] = value;
+        function updateDashboard() {
+            const today = attendanceData.filter(item => {
+                if (!item.createdAt) return false;
+                return new Date(item.createdAt.seconds * 1000).toISOString().split('T')[0] === meetingSettings.date;
+            });
+            const count = today.length;
+            document.getElementById('liveCount').textContent = count;
+            document.getElementById('liveProgress').style.width = Math.min((count / 50) * 100, 100) + "%";
         }
-            
-        // Validate IC format
-        const icPattern = /^[0-9]{6}-[0-9]{2}-[0-9]{4}$/;
-        if (!icPattern.test(data.ic)) {
-            showMessage('error', 'Sila masukkan No Kad Pengenalan dalam format yang betul: XXXXXX-XX-XXXX');
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            return;
-        }
-            
-        // Add timestamp
-        data.timestamp = new Date().toLocaleString('ms-MY', {
-            timeZone: 'Asia/Kuala_Lumpur',
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-            
-        // Send to Google Sheets
-        try {
-            await sendToGoogleSheets(data);
-            // Show success message and hide form
-            showMessage('success');
-            // Reset form
-            this.reset();
-        } catch (error) {
-            console.error('Error:', error);
-            showMessage('error', 'Maaf, terdapat masalah semasa menghantar pendaftaran. Sila cuba lagi.');
-        } finally {
-            // Restore button state
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    });
 
-  </script>
- </body>
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        function resizeCanvas() { const r = canvas.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; }
+        window.addEventListener('resize', resizeCanvas);
+        const getPos = (e) => { const r = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: clientX - r.left, y: clientY - r.top }; };
+        ['mousedown', 'touchstart'].forEach(v => canvas.addEventListener(v, (e) => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); if(e.type==='touchstart') e.preventDefault(); }, {passive: false}));
+        ['mousemove', 'touchmove'].forEach(v => canvas.addEventListener(v, (e) => { if(!drawing) return; const p = getPos(e); ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.strokeStyle = '#1e293b'; ctx.lineTo(p.x, p.y); ctx.stroke(); if(e.type==='touchmove') e.preventDefault(); }, {passive: false}));
+        ['mouseup', 'touchend'].forEach(v => window.addEventListener(v, () => drawing = false));
+        document.getElementById('clearSig').onclick = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        document.getElementById('attendForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const spin = document.getElementById('spinner');
+            const blank = document.createElement('canvas'); blank.width = canvas.width; blank.height = canvas.height;
+            if (canvas.toDataURL() === blank.toDataURL()) { alert("Sila tandatangan!"); return; }
+            btn.disabled = true; spin.classList.remove('hidden');
+            try {
+                const payload = {
+                    name: document.getElementById('inpName').value,
+                    idNo: document.getElementById('inpId').value,
+                    role: document.getElementById('inpRole').value,
+                    phone: document.getElementById('inpPhone').value,
+                    email: document.getElementById('inpEmail').value,
+                    signature: canvas.toDataURL(),
+                    createdAt: serverTimestamp()
+                };
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), payload);
+                closeModal('regModal'); e.target.reset(); ctx.clearRect(0,0, canvas.width, canvas.height);
+                alert("Berjaya mendaftar!");
+            } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
+        };
+
+        document.getElementById('meetingSettingsForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveSettingsBtn');
+            const spin = document.getElementById('settingsSpinner');
+            btn.disabled = true; spin.classList.remove('hidden');
+            try {
+                const updated = {
+                    title: document.getElementById('setMeetingTitle').value,
+                    year: document.getElementById('setMeetingYear').value,
+                    date: document.getElementById('setMeetingDate').value,
+                    time: document.getElementById('setMeetingTime').value,
+                    venue: document.getElementById('setMeetingVenue').value
+                };
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), updated);
+                alert("Tetapan disimpan!");
+            } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
+        };
+
+        window.openModal = (id) => { document.getElementById(id).classList.remove('hidden'); if(id==='regModal') setTimeout(resizeCanvas, 200); };
+        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+        window.logout = () => { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('dashboardView').classList.remove('hidden'); };
+        window.attemptLogin = () => {
+            const u = document.getElementById('admUser').value;
+            const p = document.getElementById('admPass').value;
+            if(u === 'Admin' && p === 'Admin123') { closeModal('loginModal'); document.getElementById('dashboardView').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); switchAdminTab('archive'); } 
+            else { document.getElementById('loginErr').classList.remove('hidden'); }
+        };
+
+        window.switchAdminTab = (tab) => {
+            const archBtn = document.getElementById('tabBtnArchive'); const setBtn = document.getElementById('tabBtnSettings');
+            const archSec = document.getElementById('meetingArchiveSection'); const setSec = document.getElementById('adminSettingsSection');
+            const detailSec = document.getElementById('detailedRecordView');
+            if(tab === 'archive') { archBtn.className = "flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-active"; setBtn.className = "flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-inactive"; archSec.classList.remove('hidden'); setSec.classList.add('hidden'); detailSec.classList.add('hidden'); } 
+            else { setBtn.className = "flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-active"; archBtn.className = "flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-inactive"; setSec.classList.remove('hidden'); archSec.classList.add('hidden'); detailSec.classList.add('hidden'); }
+        };
+
+        function renderArchive() {
+            const container = document.getElementById('archiveListContainer');
+            container.innerHTML = '';
+            const dates = [...new Set(attendanceData.map(d => { if(!d.createdAt) return null; return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0]; }))].filter(Boolean);
+            if(!dates.includes(meetingSettings.date)) dates.push(meetingSettings.date);
+            dates.sort((a,b) => b.localeCompare(a));
+            dates.forEach(dateStr => {
+                const isCurrent = dateStr === meetingSettings.date;
+                const d = new Date(dateStr);
+                const display = d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric' });
+                const card = document.createElement('div');
+                card.className = "glass-card p-6 rounded-2xl flex items-center justify-between border-l-4 " + (isCurrent ? "border-l-indigo-600 bg-indigo-50/20" : "border-l-slate-300") + " cursor-pointer hover:shadow-md transition-all";
+                card.onclick = () => showDetails(dateStr, display);
+                card.innerHTML = `<div class="flex items-center gap-4"><div class="w-10 h-10 rounded-lg flex items-center justify-center bg-white shadow-sm text-xl">${isCurrent ? '📅' : '📁'}</div><div><h4 class="font-bold text-slate-800 uppercase text-sm">${isCurrent ? meetingSettings.title : 'Rekod Kehadiran'}</h4><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${display}</p></div></div><span class="text-indigo-300">➜</span>`;
+                container.appendChild(card);
+            });
+        }
+
+        window.showDetails = (dateStr, display) => {
+            activeDateFilter = dateStr; document.getElementById('viewHeaderTitle').textContent = `Rekod Kehadiran (${display})`;
+            document.getElementById('meetingArchiveSection').classList.add('hidden'); document.getElementById('detailedRecordView').classList.remove('hidden');
+            renderTable();
+        };
+
+        window.hideMeetingDetails = () => { document.getElementById('detailedRecordView').classList.add('hidden'); document.getElementById('meetingArchiveSection').classList.remove('hidden'); };
+
+        function renderTable() {
+            const tbody = document.getElementById('dataTableBody'); tbody.innerHTML = '';
+            const filtered = attendanceData.filter(d => { if(!d.createdAt) return false; return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0] === activeDateFilter; }).sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+            if(filtered.length === 0) { document.getElementById('noDataMsg').classList.remove('hidden'); return; }
+            document.getElementById('noDataMsg').classList.add('hidden');
+            filtered.forEach((item, i) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
+                tr.innerHTML = `<td class="py-4 px-4 text-center text-xs font-bold text-slate-400">${i + 1}</td><td class="py-4 px-4 font-bold text-slate-800 uppercase text-xs">${item.name}</td><td class="py-4 px-4 text-xs font-mono text-indigo-600">${item.idNo}</td><td class="py-4 px-4"><span class="bg-indigo-100 text-indigo-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase">${item.role}</span></td><td class="py-4 px-4 text-center"><img src="${item.signature}" class="h-8 mx-auto border bg-white rounded hover:scale-[3] transition-all"></td><td class="py-4 px-4 text-right no-print"><button onclick="deleteEntry('${item.id}')" class="text-slate-300 hover:text-red-500">🗑</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.deleteEntry = async (id) => { if(confirm("Padam rekod ini?")) { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'attendance', id)); } };
+
+        initAuth();
+    </script>
+</body>
 </html>
