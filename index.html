@@ -11,24 +11,52 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .glass-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .signature-box { background-color: #ffffff; background-size: 20px 20px; cursor: crosshair; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); }
-        @media print { .no-print { display: none !important; } .print-only { display: block !important; } body { background: white; padding: 0; } .glass-card { box-shadow: none; border: none !important; width: 100%; } th, td { border: 1px solid #cbd5e1 !important; padding: 8px !important; font-size: 10pt; } @page { margin: 1.5cm; size: A4; } }
+        
+        /* Layout Khas Untuk Cetakan PDF */
+        @media print { 
+            .no-print { display: none !important; } 
+            .print-only { display: block !important; } 
+            body { background: white; padding: 0; } 
+            .glass-card { box-shadow: none; border: none !important; width: 100%; } 
+            th, td { border: 1px solid #cbd5e1 !important; padding: 6px !important; font-size: 8pt; } 
+            img { max-height: 40px !important; }
+            @page { margin: 1cm; size: A4 landscape; } 
+        }
+
         .tab-active { border-bottom: 3px solid #2563eb; color: #1e40af; background: #eff6ff; }
         .tab-inactive { border-bottom: 3px solid transparent; color: #94a3b8; }
         .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Gaya Khas Untuk Kertas Pratonton */
+        .preview-paper {
+            background: white;
+            width: 297mm; /* Lebar A4 Landscape */
+            min-height: 210mm;
+            padding: 20mm;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .preview-scroll {
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #64748b;
+            padding: 2rem 1rem;
+            border-radius: 1rem;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- HEADER CETAKAN -->
+    <!-- HEADER CETAKAN (Hanya muncul dalam PDF) -->
     <div id="printHeader" class="hidden print-only text-center mb-8 border-b-2 border-slate-800 pb-4">
         <div class="flex justify-center items-center gap-6 mb-4">
             <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-20">
             <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-20">
         </div>
-        <h1 id="printTitle" class="text-2xl font-bold uppercase">KEHADIRAN PESERTA PERKADERAN</h1>
-        <p id="printSubtitle" class="text-lg font-semibold uppercase"><span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span></p>
-        <div class="mt-4 text-sm flex justify-center gap-8 font-medium">
+        <h1 id="printTitle" class="text-xl font-bold uppercase">KEHADIRAN PESERTA PERKADERAN</h1>
+        <p id="printSubtitle" class="text-sm font-semibold uppercase"><span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span></p>
+        <div class="mt-4 text-[10px] flex justify-center gap-8 font-medium">
             <span><strong>TARIKH:</strong> <span id="printDate">-</span></span>
             <span><strong>TEMPAT:</strong> <span id="printVenue">-</span></span>
         </div>
@@ -38,12 +66,10 @@
     <header class="bg-indigo-900 text-white pb-24 pt-12 px-4 no-print relative overflow-hidden">
         <div class="absolute top-0 right-0 opacity-10 text-[100px] font-bold leading-none select-none pointer-events-none tracking-tighter">FUQAHA</div>
         <div class="max-w-5xl mx-auto text-center relative z-10">
-            <!-- LOGO SECTION (TRANSPARENT BACKGROUND) -->
             <div class="flex flex-wrap items-center justify-center gap-8 mb-8">
                 <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-20 md:h-24 drop-shadow-md">
                 <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-20 md:h-24 drop-shadow-md">
             </div>
-            
             <h1 class="text-3xl md:text-5xl font-extrabold mb-2 tracking-tight uppercase dyn-title">Kehadiran Peserta Perkaderan</h1>
             <p class="text-indigo-200 text-lg md:text-xl font-medium uppercase tracking-wide">
                 <span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span>
@@ -52,6 +78,7 @@
     </header>
 
     <main class="flex-grow px-4 -mt-16 pb-12 w-full max-w-5xl mx-auto z-20 relative">
+        <!-- VIEW DASHBOARD -->
         <div id="dashboardView" class="grid grid-cols-1 lg:grid-cols-3 gap-6 no-print">
             <div class="lg:col-span-2 space-y-4">
                 <div class="glass-card rounded-2xl p-6 md:p-8 border-t-4 border-t-indigo-600">
@@ -77,16 +104,18 @@
             </aside>
         </div>
 
-        <div id="adminPanel" class="hidden space-y-6 mt-6 transition-all duration-300">
-            <div class="glass-card p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4 bg-slate-800 text-white no-print">
+        <!-- PANEL ADMIN -->
+        <div id="adminPanel" class="hidden space-y-6 mt-6 transition-all duration-300 no-print">
+            <div class="glass-card p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4 bg-slate-800 text-white">
                 <div><h2 class="text-xl font-bold">🔒 Pengurusan Pentadbir</h2></div>
                 <button onclick="logout()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-bold border border-slate-600 transition-all">Keluar</button>
             </div>
-            <nav class="flex border-b border-slate-200 no-print bg-white rounded-t-xl overflow-hidden">
+            <nav class="flex border-b border-slate-200 bg-white rounded-t-xl overflow-hidden">
                 <button onclick="switchAdminTab('archive')" id="tabBtnArchive" class="flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-active">📂 Arkib Rekod</button>
                 <button onclick="switchAdminTab('settings')" id="tabBtnSettings" class="flex-1 px-6 py-4 font-bold text-xs uppercase tracking-widest tab-inactive">⚙️ Tetapan Sesi</button>
             </nav>
-            <div id="adminSettingsSection" class="hidden animate-fade-in no-print">
+            
+            <div id="adminSettingsSection" class="hidden animate-fade-in">
                 <div class="glass-card p-8 rounded-b-2xl shadow-none">
                     <form id="meetingSettingsForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tajuk Program</label><input type="text" id="setMeetingTitle" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
@@ -98,10 +127,36 @@
                     </form>
                 </div>
             </div>
-            <div id="meetingArchiveSection" class="space-y-4 no-print"><div class="grid grid-cols-1 gap-4" id="archiveListContainer"></div></div>
+            
+            <div id="meetingArchiveSection" class="space-y-4"><div class="grid grid-cols-1 gap-4" id="archiveListContainer"></div></div>
+            
             <div id="detailedRecordView" class="hidden space-y-6 animate-fade-in">
-                <button onclick="hideMeetingDetails()" class="no-print text-indigo-600 font-bold text-[10px] uppercase hover:underline">⬅ Kembali ke Senarai</button>
-                <section class="glass-card p-6 rounded-2xl"><div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"><h3 id="viewHeaderTitle" class="font-extrabold text-lg uppercase text-indigo-800">Senarai Peserta</h3><button onclick="window.print()" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-bold border border-slate-200 flex items-center gap-2">🖨 Cetak Senarai</button></div><div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead><tr class="text-[10px] font-bold text-slate-400 uppercase bg-slate-50 border-y border-slate-200"><th class="py-4 px-4 text-center">Bil</th><th class="py-4 px-4">Nama Penuh</th><th class="py-4 px-4">No. K/P @ ID</th><th class="py-4 px-4">Peranan</th><th class="py-4 px-4 text-center">T/Tangan</th><th class="py-4 px-4 text-right no-print">Aksi</th></tr></thead><tbody id="dataTableBody" class="text-sm text-slate-700"></tbody></table></div><div id="noDataMsg" class="hidden text-center py-20 text-slate-400 bg-slate-50/50 rounded-2xl border-2 border-dashed border-slate-100 mt-4"><p class="font-bold uppercase tracking-widest text-[10px]">Tiada rekod ditemui.</p></div></section>
+                <button onclick="hideMeetingDetails()" class="text-indigo-600 font-bold text-[10px] uppercase hover:underline">⬅ Kembali ke Senarai</button>
+                <section class="glass-card p-6 rounded-2xl">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <h3 id="viewHeaderTitle" class="font-extrabold text-lg uppercase text-indigo-800">Senarai Peserta</h3>
+                        <button onclick="openPrintPreview()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold flex items-center gap-2 transition-all shadow-md">
+                            🖨 Cetak Senarai (PDF)
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-[10px] font-bold text-slate-400 uppercase bg-slate-50 border-y border-slate-200">
+                                    <th class="py-4 px-4 text-center">Bil</th>
+                                    <th class="py-4 px-4">Nama Penuh</th>
+                                    <th class="py-4 px-4">No. K/P</th>
+                                    <th class="py-4 px-4">No. Telefon</th>
+                                    <th class="py-4 px-4">Emel</th>
+                                    <th class="py-4 px-4">Peranan</th>
+                                    <th class="py-4 px-4 text-center">T/Tangan</th>
+                                    <th class="py-4 px-4 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTableBody" class="text-sm text-slate-700"></tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
         </div>
     </main>
@@ -111,6 +166,28 @@
         <button onclick="openModal('loginModal')" class="text-[10px] font-bold text-slate-300 hover:text-indigo-600 uppercase tracking-widest transition-all p-2 rounded">Portal Pentadbir</button>
     </footer>
 
+    <!-- MODAL PRATONTON CETAKAN (PREVIEW) -->
+    <div id="printPreviewModal" class="fixed inset-0 z-[100] hidden no-print">
+        <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-md" onclick="closeModal('printPreviewModal')"></div>
+        <div class="absolute inset-0 flex flex-col p-4 md:p-8">
+            <div class="max-w-6xl mx-auto w-full flex justify-between items-center mb-4 text-white">
+                <h3 class="font-bold text-lg uppercase tracking-widest">Pratonton Dokumen PDF</h3>
+                <div class="flex gap-3">
+                    <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg transition-all active:scale-95">
+                        <span>Cetak / Simpan PDF</span>
+                    </button>
+                    <button onclick="closeModal('printPreviewModal')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl font-bold text-sm">Tutup</button>
+                </div>
+            </div>
+            
+            <div class="preview-scroll">
+                <div class="preview-paper" id="previewContent">
+                    <!-- Kandungan dijana oleh JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL PENDAFTARAN -->
     <div id="regModal" class="fixed inset-0 z-50 hidden no-print">
         <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeModal('regModal')"></div>
@@ -119,12 +196,8 @@
                 <div class="p-5 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10"><h3 class="font-bold text-lg text-slate-800 uppercase">Daftar Kehadiran</h3><button onclick="closeModal('regModal')" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button></div>
                 <form id="attendForm" class="p-6 space-y-4">
                     <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Masukkan nama penuh"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. K/P atau ID Peserta</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Cth: 90010101xxxx"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Peranan</label><select id="inpRole" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
-                        <option value="" disabled selected>Pilih Peranan</option>
-                        <option value="Peserta">Peserta</option>
-                        <option value="Urus Setia">Urus Setia</option>
-                    </select></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. K/P</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Cth: 90010101xxxx"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Peranan</label><select id="inpRole" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"><option value="" disabled selected>Pilih Peranan</option><option value="Peserta">Peserta</option><option value="Urus Setia">Urus Setia</option></select></div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. Telefon</label><input type="tel" id="inpPhone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
@@ -143,7 +216,7 @@
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8 text-center border-t-8 border-t-indigo-800">
                 <h3 class="font-bold text-xl text-slate-800 mb-6 uppercase">Login Pentadbir</h3>
                 <div class="space-y-4 text-left">
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">ID</label><input type="text" id="admUser" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">ID Pengguna</label><input type="text" id="admUser" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
                     <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">Katalaluan</label><input type="password" id="admPass" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
                     <p id="loginErr" class="hidden text-[10px] text-red-500 font-bold text-center">Ralat: Maklumat salah.</p>
                 </div>
@@ -156,22 +229,17 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
 
-        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
           apiKey: "AIzaSyDAzN1ojEQ6fUNyRKY1I6DxZvMkahKukds",
           authDomain: "kehadiran-peserta-perkaderan.firebaseapp.com",
           projectId: "kehadiran-peserta-perkaderan",
           storageBucket: "kehadiran-peserta-perkaderan.firebasestorage.app",
           messagingSenderId: "790915248624",
-          appId: "1:790915248624:web:0ff69bcace88f4fdb86d35",
-          measurementId: "G-0LSGF613Y7"
+          appId: "1:790915248624:web:0ff69bcace88f4fdb86d35"
         };
-        // -----------------------
 
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-id';
@@ -189,15 +257,9 @@
         const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { 
-                    await signInWithCustomToken(auth, __initial_auth_token).catch(async (err) => {
-                        await signInAnonymously(auth);
-                    });
-                } else { 
-                    await signInAnonymously(auth); 
-                }
-            } catch (err) {
-                console.error("Auth initialization failed:", err);
-            }
+                    await signInWithCustomToken(auth, __initial_auth_token).catch(async () => await signInAnonymously(auth));
+                } else { await signInAnonymously(auth); }
+            } catch (err) { console.error(err); }
         };
 
         onAuthStateChanged(auth, (user) => {
@@ -213,7 +275,6 @@
                 if (snap.exists()) { meetingSettings = snap.data(); updateUI(); } 
                 else { setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), meetingSettings); }
             });
-
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), (snap) => {
                 attendanceData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 updateDashboard();
@@ -230,14 +291,17 @@
             const d = new Date(meetingSettings.date);
             const formatted = isNaN(d) ? meetingSettings.date : d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'long', year: 'numeric' });
             document.querySelectorAll('.dyn-date').forEach(el => el.textContent = formatted);
+            
+            document.getElementById('printTitle').textContent = meetingSettings.title;
+            document.getElementById('printDate').textContent = formatted;
+            document.getElementById('printVenue').textContent = meetingSettings.venue;
+
+            // Form inputs
             document.getElementById('setMeetingTitle').value = meetingSettings.title;
             document.getElementById('setMeetingYear').value = meetingSettings.year;
             document.getElementById('setMeetingDate').value = meetingSettings.date;
             document.getElementById('setMeetingTime').value = meetingSettings.time;
             document.getElementById('setMeetingVenue').value = meetingSettings.venue;
-            document.getElementById('printTitle').textContent = meetingSettings.title;
-            document.getElementById('printDate').textContent = formatted;
-            document.getElementById('printVenue').textContent = meetingSettings.venue;
         }
 
         function updateDashboard() {
@@ -250,26 +314,26 @@
             document.getElementById('liveProgress').style.width = Math.min((count / 50) * 100, 100) + "%";
         }
 
+        // Signature
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let drawing = false;
         function resizeCanvas() { const r = canvas.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; }
-        window.addEventListener('resize', resizeCanvas);
-        const getPos = (e) => { const r = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: clientX - r.left, y: clientY - r.top }; };
+        const getPos = (e) => { const r = canvas.getBoundingClientRect(); const cx = e.touches ? e.touches[0].clientX : e.clientX; const cy = e.touches ? e.touches[0].clientY : e.clientY; return { x: cx - r.left, y: cy - r.top }; };
         ['mousedown', 'touchstart'].forEach(v => canvas.addEventListener(v, (e) => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); if(e.type==='touchstart') e.preventDefault(); }, {passive: false}));
         ['mousemove', 'touchmove'].forEach(v => canvas.addEventListener(v, (e) => { if(!drawing) return; const p = getPos(e); ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.strokeStyle = '#1e293b'; ctx.lineTo(p.x, p.y); ctx.stroke(); if(e.type==='touchmove') e.preventDefault(); }, {passive: false}));
         ['mouseup', 'touchend'].forEach(v => window.addEventListener(v, () => drawing = false));
         document.getElementById('clearSig').onclick = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Submit Attendance
         document.getElementById('attendForm').onsubmit = async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const spin = document.getElementById('spinner');
             const blank = document.createElement('canvas'); blank.width = canvas.width; blank.height = canvas.height;
             if (canvas.toDataURL() === blank.toDataURL()) { alert("Sila tandatangan!"); return; }
+            const btn = document.getElementById('submitBtn'); const spin = document.getElementById('spinner');
             btn.disabled = true; spin.classList.remove('hidden');
             try {
-                const payload = {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), {
                     name: document.getElementById('inpName').value,
                     idNo: document.getElementById('inpId').value,
                     role: document.getElementById('inpRole').value,
@@ -277,41 +341,97 @@
                     email: document.getElementById('inpEmail').value,
                     signature: canvas.toDataURL(),
                     createdAt: serverTimestamp()
-                };
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), payload);
+                });
                 closeModal('regModal'); e.target.reset(); ctx.clearRect(0,0, canvas.width, canvas.height);
-                alert("Berjaya mendaftar!");
+                alert("Pendaftaran Berjaya!");
             } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
+        // Submit Settings
         document.getElementById('meetingSettingsForm').onsubmit = async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('saveSettingsBtn');
-            const spin = document.getElementById('settingsSpinner');
+            const btn = document.getElementById('saveSettingsBtn'); const spin = document.getElementById('settingsSpinner');
             btn.disabled = true; spin.classList.remove('hidden');
             try {
-                const updated = {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), {
                     title: document.getElementById('setMeetingTitle').value,
                     year: document.getElementById('setMeetingYear').value,
                     date: document.getElementById('setMeetingDate').value,
                     time: document.getElementById('setMeetingTime').value,
                     venue: document.getElementById('setMeetingVenue').value
-                };
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), updated);
+                });
                 alert("Tetapan disimpan!");
             } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
+        // Print Preview Logic
+        window.openPrintPreview = () => {
+            const container = document.getElementById('previewContent');
+            const filtered = attendanceData.filter(d => {
+                if(!d.createdAt) return false;
+                return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0] === activeDateFilter;
+            }).sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+
+            const d = new Date(activeDateFilter);
+            const dateStr = isNaN(d) ? activeDateFilter : d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'long', year: 'numeric' });
+
+            let rows = filtered.map((item, i) => `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 8px; text-align: center;">${i+1}</td>
+                    <td style="padding: 8px; font-weight: bold; text-transform: uppercase;">${item.name}</td>
+                    <td style="padding: 8px; font-family: monospace;">${item.idNo}</td>
+                    <td style="padding: 8px;">${item.phone || '-'}</td>
+                    <td style="padding: 8px; font-size: 0.7rem;">${item.email || '-'}</td>
+                    <td style="padding: 8px; text-transform: uppercase; font-size: 0.7rem;">${item.role}</td>
+                    <td style="padding: 8px; text-align: center;"><img src="${item.signature}" style="height: 30px; margin: 0 auto;"></td>
+                </tr>
+            `).join('');
+
+            container.innerHTML = `
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
+                        <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" style="height: 80px;">
+                        <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" style="height: 80px;">
+                    </div>
+                    <h1 style="font-size: 1.5rem; font-weight: bold; margin: 0;">SENARAI KEHADIRAN PESERTA</h1>
+                    <p style="font-weight: 600; margin: 5px 0;">${meetingSettings.year}</p>
+                    <div style="margin-top: 15px; font-size: 0.9rem; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 10px 0; display: flex; justify-content: space-around;">
+                        <span><strong>TARIKH:</strong> ${dateStr}</span>
+                        <span><strong>TEMPAT:</strong> ${meetingSettings.venue}</span>
+                    </div>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                    <thead>
+                        <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                            <th style="padding: 10px; border: 1px solid #cbd5e1;">BIL</th>
+                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">NAMA PENUH</th>
+                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">NO. K/P</th>
+                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">NO. TELEFON</th>
+                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">EMEL</th>
+                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">PERANAN</th>
+                            <th style="padding: 10px; border: 1px solid #cbd5e1;">TANDATANGAN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows || '<tr><td colspan="7" style="text-align: center; padding: 50px;">Tiada data ditemui.</td></tr>'}
+                    </tbody>
+                </table>
+                <div style="margin-top: 40px; font-size: 0.7rem; text-align: center; color: #94a3b8;">
+                    Dokumen ini dijana secara digital oleh Sistem Kehadiran Fuqaha.
+                </div>
+            `;
+            openModal('printPreviewModal');
+        };
+
+        // Helpers
         window.openModal = (id) => { document.getElementById(id).classList.remove('hidden'); if(id==='regModal') setTimeout(resizeCanvas, 200); };
         window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
         window.logout = () => { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('dashboardView').classList.remove('hidden'); };
         window.attemptLogin = () => {
-            const u = document.getElementById('admUser').value;
-            const p = document.getElementById('admPass').value;
+            const u = document.getElementById('admUser').value; const p = document.getElementById('admPass').value;
             if(u === 'Admin' && p === 'Admin123') { closeModal('loginModal'); document.getElementById('dashboardView').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); switchAdminTab('archive'); } 
             else { document.getElementById('loginErr').classList.remove('hidden'); }
         };
-
         window.switchAdminTab = (tab) => {
             const archBtn = document.getElementById('tabBtnArchive'); const setBtn = document.getElementById('tabBtnSettings');
             const archSec = document.getElementById('meetingArchiveSection'); const setSec = document.getElementById('adminSettingsSection');
@@ -321,15 +441,13 @@
         };
 
         function renderArchive() {
-            const container = document.getElementById('archiveListContainer');
-            container.innerHTML = '';
+            const container = document.getElementById('archiveListContainer'); container.innerHTML = '';
             const dates = [...new Set(attendanceData.map(d => { if(!d.createdAt) return null; return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0]; }))].filter(Boolean);
             if(!dates.includes(meetingSettings.date)) dates.push(meetingSettings.date);
             dates.sort((a,b) => b.localeCompare(a));
             dates.forEach(dateStr => {
                 const isCurrent = dateStr === meetingSettings.date;
-                const d = new Date(dateStr);
-                const display = d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric' });
+                const d = new Date(dateStr); const display = d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric' });
                 const card = document.createElement('div');
                 card.className = "glass-card p-6 rounded-2xl flex items-center justify-between border-l-4 " + (isCurrent ? "border-l-indigo-600 bg-indigo-50/20" : "border-l-slate-300") + " cursor-pointer hover:shadow-md transition-all";
                 card.onclick = () => showDetails(dateStr, display);
@@ -349,12 +467,11 @@
         function renderTable() {
             const tbody = document.getElementById('dataTableBody'); tbody.innerHTML = '';
             const filtered = attendanceData.filter(d => { if(!d.createdAt) return false; return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0] === activeDateFilter; }).sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
-            if(filtered.length === 0) { document.getElementById('noDataMsg').classList.remove('hidden'); return; }
-            document.getElementById('noDataMsg').classList.add('hidden');
+            if(filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="py-10 text-center text-slate-400">Tiada rekod ditemui.</td></tr>'; return; }
             filtered.forEach((item, i) => {
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
-                tr.innerHTML = `<td class="py-4 px-4 text-center text-xs font-bold text-slate-400">${i + 1}</td><td class="py-4 px-4 font-bold text-slate-800 uppercase text-xs">${item.name}</td><td class="py-4 px-4 text-xs font-mono text-indigo-600">${item.idNo}</td><td class="py-4 px-4"><span class="bg-indigo-100 text-indigo-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase">${item.role}</span></td><td class="py-4 px-4 text-center"><img src="${item.signature}" class="h-8 mx-auto border bg-white rounded hover:scale-[3] transition-all"></td><td class="py-4 px-4 text-right no-print"><button onclick="deleteEntry('${item.id}')" class="text-slate-300 hover:text-red-500">🗑</button></td>`;
+                tr.innerHTML = `<td class="py-4 px-4 text-center text-xs font-bold text-slate-400">${i + 1}</td><td class="py-4 px-4 font-bold text-slate-800 uppercase text-[10px]">${item.name}</td><td class="py-4 px-4 text-[10px] font-mono text-indigo-600">${item.idNo}</td><td class="py-4 px-4 text-[10px] font-medium">${item.phone || '-'}</td><td class="py-4 px-4 text-[10px] font-medium truncate max-w-[120px]">${item.email || '-'}</td><td class="py-4 px-4"><span class="bg-indigo-100 text-indigo-700 text-[9px] px-2 py-1 rounded-full font-bold uppercase">${item.role}</span></td><td class="py-4 px-4 text-center"><img src="${item.signature}" class="h-8 mx-auto border bg-white rounded hover:scale-[3] transition-all"></td><td class="py-4 px-4 text-right"><button onclick="deleteEntry('${item.id}')" class="text-slate-300 hover:text-red-500">🗑</button></td>`;
                 tbody.appendChild(tr);
             });
         }
