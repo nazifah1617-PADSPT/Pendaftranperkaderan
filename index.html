@@ -166,6 +166,36 @@
         <button onclick="openModal('loginModal')" class="text-[10px] font-bold text-slate-300 hover:text-indigo-600 uppercase tracking-widest transition-all p-2 rounded">Portal Pentadbir</button>
     </footer>
 
+    <!-- MODAL KEJAYAAN (SUCCESS MODAL) -->
+    <div id="successModal" class="fixed inset-0 z-[110] hidden no-print">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-md" onclick="closeModal('successModal')"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-fade-in border-t-8 border-t-emerald-500">
+                <div class="p-8 text-center">
+                    <!-- Logo Header Modal -->
+                    <div class="flex justify-center items-center gap-4 mb-6">
+                        <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-12">
+                        <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-12">
+                    </div>
+                    
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">BERJAYA!</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-8">
+                        Kehadiran anda telah berjaya direkodkan.<br>
+                        <span class="font-bold">Terima Kasih.</span>
+                    </p>
+                    
+                    <button onclick="closeModal('successModal')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all active:scale-95 uppercase tracking-widest text-sm">
+                        Selesai
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL PRATONTON CETAKAN (PREVIEW) -->
     <div id="printPreviewModal" class="fixed inset-0 z-[100] hidden no-print">
         <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-md" onclick="closeModal('printPreviewModal')"></div>
@@ -296,7 +326,6 @@
             document.getElementById('printDate').textContent = formatted;
             document.getElementById('printVenue').textContent = meetingSettings.venue;
 
-            // Form inputs
             document.getElementById('setMeetingTitle').value = meetingSettings.title;
             document.getElementById('setMeetingYear').value = meetingSettings.year;
             document.getElementById('setMeetingDate').value = meetingSettings.date;
@@ -314,7 +343,6 @@
             document.getElementById('liveProgress').style.width = Math.min((count / 50) * 100, 100) + "%";
         }
 
-        // Signature
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let drawing = false;
@@ -325,7 +353,6 @@
         ['mouseup', 'touchend'].forEach(v => window.addEventListener(v, () => drawing = false));
         document.getElementById('clearSig').onclick = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Submit Attendance
         document.getElementById('attendForm').onsubmit = async (e) => {
             e.preventDefault();
             const blank = document.createElement('canvas'); blank.width = canvas.width; blank.height = canvas.height;
@@ -343,11 +370,11 @@
                     createdAt: serverTimestamp()
                 });
                 closeModal('regModal'); e.target.reset(); ctx.clearRect(0,0, canvas.width, canvas.height);
-                alert("Pendaftaran Berjaya!");
+                // BUKA MODAL KEJAYAAN
+                openModal('successModal');
             } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
-        // Submit Settings
         document.getElementById('meetingSettingsForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('saveSettingsBtn'); const spin = document.getElementById('settingsSpinner');
@@ -364,17 +391,14 @@
             } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
-        // Print Preview Logic
         window.openPrintPreview = () => {
             const container = document.getElementById('previewContent');
             const filtered = attendanceData.filter(d => {
                 if(!d.createdAt) return false;
                 return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0] === activeDateFilter;
             }).sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
-
             const d = new Date(activeDateFilter);
             const dateStr = isNaN(d) ? activeDateFilter : d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'long', year: 'numeric' });
-
             let rows = filtered.map((item, i) => `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                     <td style="padding: 8px; text-align: center;">${i+1}</td>
@@ -386,7 +410,6 @@
                     <td style="padding: 8px; text-align: center;"><img src="${item.signature}" style="height: 30px; margin: 0 auto;"></td>
                 </tr>
             `).join('');
-
             container.innerHTML = `
                 <div style="text-align: center; margin-bottom: 30px;">
                     <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
@@ -416,14 +439,10 @@
                         ${rows || '<tr><td colspan="7" style="text-align: center; padding: 50px;">Tiada data ditemui.</td></tr>'}
                     </tbody>
                 </table>
-                <div style="margin-top: 40px; font-size: 0.7rem; text-align: center; color: #94a3b8;">
-                    Dokumen ini dijana secara digital oleh Sistem Kehadiran Fuqaha.
-                </div>
             `;
             openModal('printPreviewModal');
         };
 
-        // Helpers
         window.openModal = (id) => { document.getElementById(id).classList.remove('hidden'); if(id==='regModal') setTimeout(resizeCanvas, 200); };
         window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
         window.logout = () => { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('dashboardView').classList.remove('hidden'); };
