@@ -12,15 +12,14 @@
         .glass-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .signature-box { background-color: #ffffff; background-size: 20px 20px; cursor: crosshair; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); }
         
-        /* Layout Khas Untuk Cetakan PDF */
         @media print { 
             .no-print { display: none !important; } 
             .print-only { display: block !important; } 
             body { background: white; padding: 0; } 
             .glass-card { box-shadow: none; border: none !important; width: 100%; } 
-            th, td { border: 1px solid #cbd5e1 !important; padding: 6px !important; font-size: 8pt; } 
-            img { max-height: 40px !important; }
-            @page { margin: 1cm; size: A4 landscape; } 
+            th, td { border: 1px solid #cbd5e1 !important; padding: 4px !important; font-size: 7pt; } 
+            img { max-height: 35px !important; }
+            @page { margin: 0.5cm; size: A4 landscape; } 
         }
 
         .tab-active { border-bottom: 3px solid #2563eb; color: #1e40af; background: #eff6ff; }
@@ -28,35 +27,21 @@
         .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Gaya Khas Untuk Kertas Pratonton */
-        .preview-paper {
-            background: white;
-            width: 297mm; /* Lebar A4 Landscape */
-            min-height: 210mm;
-            padding: 20mm;
-            margin: 0 auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .preview-scroll {
-            max-height: 80vh;
-            overflow-y: auto;
-            background: #64748b;
-            padding: 2rem 1rem;
-            border-radius: 1rem;
-        }
+        .preview-paper { background: white; width: 297mm; min-height: 210mm; padding: 15mm; margin: 0 auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .preview-scroll { max-height: 80vh; overflow-y: auto; background: #64748b; padding: 2rem 1rem; border-radius: 1rem; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- HEADER CETAKAN (Hanya muncul dalam PDF) -->
-    <div id="printHeader" class="hidden print-only text-center mb-8 border-b-2 border-slate-800 pb-4">
+    <!-- HEADER CETAKAN -->
+    <div id="printHeader" class="hidden print-only text-center mb-6 border-b-2 border-slate-800 pb-4">
         <div class="flex justify-center items-center gap-6 mb-4">
-            <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-20">
-            <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-20">
+            <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-16">
+            <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-16">
         </div>
-        <h1 id="printTitle" class="text-xl font-bold uppercase">KEHADIRAN PESERTA PERKADERAN</h1>
-        <p id="printSubtitle" class="text-sm font-semibold uppercase"><span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span></p>
-        <div class="mt-4 text-[10px] flex justify-center gap-8 font-medium">
+        <h1 id="printTitle" class="text-lg font-bold uppercase">KEHADIRAN PESERTA PERKADERAN</h1>
+        <p id="printSubtitle" class="text-xs font-semibold uppercase"><span class="dyn-year">Perkaderan Fuqaha Guru Takmir Jakim Peringkat Zon Utara Malaysia</span></p>
+        <div class="mt-2 text-[9px] flex justify-center gap-6 font-medium">
             <span><strong>TARIKH:</strong> <span id="printDate">-</span></span>
             <span><strong>TEMPAT:</strong> <span id="printVenue">-</span></span>
         </div>
@@ -142,18 +127,18 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="text-[10px] font-bold text-slate-400 uppercase bg-slate-50 border-y border-slate-200">
-                                    <th class="py-4 px-4 text-center">Bil</th>
-                                    <th class="py-4 px-4">Nama Penuh</th>
-                                    <th class="py-4 px-4">No. K/P</th>
-                                    <th class="py-4 px-4">No. Telefon</th>
-                                    <th class="py-4 px-4">Emel</th>
-                                    <th class="py-4 px-4">Peranan</th>
-                                    <th class="py-4 px-4 text-center">T/Tangan</th>
-                                    <th class="py-4 px-4 text-right">Aksi</th>
+                                <tr class="text-[9px] font-bold text-slate-400 uppercase bg-slate-50 border-y border-slate-200">
+                                    <th class="py-3 px-2 text-center">Bil</th>
+                                    <th class="py-3 px-2">Nama Penuh</th>
+                                    <th class="py-3 px-2">No. K/P</th>
+                                    <th class="py-3 px-2">No. Tel</th>
+                                    <th class="py-3 px-2">Lokaliti</th>
+                                    <th class="py-3 px-2">Hadir</th>
+                                    <th class="py-3 px-2 text-center">T/Tangan</th>
+                                    <th class="py-3 px-2 text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="dataTableBody" class="text-sm text-slate-700"></tbody>
+                            <tbody id="dataTableBody" class="text-[10px] text-slate-700"></tbody>
                         </table>
                     </div>
                 </section>
@@ -166,54 +151,40 @@
         <button onclick="openModal('loginModal')" class="text-[10px] font-bold text-slate-300 hover:text-indigo-600 uppercase tracking-widest transition-all p-2 rounded">Portal Pentadbir</button>
     </footer>
 
-    <!-- MODAL KEJAYAAN (SUCCESS MODAL) -->
+    <!-- MODAL KEJAYAAN -->
     <div id="successModal" class="fixed inset-0 z-[110] hidden no-print">
         <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-md" onclick="closeModal('successModal')"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-fade-in border-t-8 border-t-emerald-500">
                 <div class="p-8 text-center">
-                    <!-- Logo Header Modal -->
                     <div class="flex justify-center items-center gap-4 mb-6">
                         <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" alt="Logo JAKIM" class="h-12">
                         <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" alt="Logo Pulau Pinang" class="h-12">
                     </div>
-                    
-                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
-                    
                     <h3 class="text-xl font-bold text-slate-800 mb-2">BERJAYA!</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-8">
-                        Kehadiran anda telah berjaya direkodkan.<br>
-                        <span class="font-bold">Terima Kasih.</span>
-                    </p>
-                    
-                    <button onclick="closeModal('successModal')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all active:scale-95 uppercase tracking-widest text-sm">
-                        Selesai
-                    </button>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-8">Kehadiran anda telah berjaya direkodkan.<br><span class="font-bold">Terima Kasih.</span></p>
+                    <button onclick="closeModal('successModal')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all active:scale-95 uppercase text-sm">Selesai</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL PRATONTON CETAKAN (PREVIEW) -->
+    <!-- MODAL PRATONTON CETAKAN -->
     <div id="printPreviewModal" class="fixed inset-0 z-[100] hidden no-print">
         <div class="absolute inset-0 bg-slate-900/90 backdrop-blur-md" onclick="closeModal('printPreviewModal')"></div>
         <div class="absolute inset-0 flex flex-col p-4 md:p-8">
             <div class="max-w-6xl mx-auto w-full flex justify-between items-center mb-4 text-white">
                 <h3 class="font-bold text-lg uppercase tracking-widest">Pratonton Dokumen PDF</h3>
                 <div class="flex gap-3">
-                    <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg transition-all active:scale-95">
-                        <span>Cetak / Simpan PDF</span>
-                    </button>
+                    <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg transition-all active:scale-95"><span>Cetak / Simpan PDF</span></button>
                     <button onclick="closeModal('printPreviewModal')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl font-bold text-sm">Tutup</button>
                 </div>
             </div>
-            
             <div class="preview-scroll">
-                <div class="preview-paper" id="previewContent">
-                    <!-- Kandungan dijana oleh JS -->
-                </div>
+                <div class="preview-paper" id="previewContent"></div>
             </div>
         </div>
     </div>
@@ -222,18 +193,70 @@
     <div id="regModal" class="fixed inset-0 z-50 hidden no-print">
         <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeModal('regModal')"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto flex flex-col">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto flex flex-col">
                 <div class="p-5 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10"><h3 class="font-bold text-lg text-slate-800 uppercase">Daftar Kehadiran</h3><button onclick="closeModal('regModal')" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button></div>
-                <form id="attendForm" class="p-6 space-y-4">
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Masukkan nama penuh"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. K/P</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="Cth: 90010101xxxx"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Peranan</label><select id="inpRole" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"><option value="" disabled selected>Pilih Peranan</option><option value="Peserta">Peserta</option><option value="Urus Setia">Urus Setia</option></select></div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. Telefon</label><input type="tel" id="inpPhone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none"></div>
+                <form id="attendForm" class="p-6 space-y-5">
+                    <!-- NAMA PENUH -->
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Sila masukkan nama penuh anda"></div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- NO K/P -->
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">No. K/P</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Contoh: 90010101xxxx"></div>
+                        <!-- NO TEL -->
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">No. Tel</label><input type="tel" id="inpPhone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="01x-xxxxxxx"></div>
                     </div>
-                    <div><div class="flex justify-between items-center mb-1"><label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tandatangan</label><button type="button" id="clearSig" class="text-[10px] text-red-500 font-bold uppercase">Padam</button></div><div class="border-2 border-dashed border-slate-300 rounded-xl h-40 w-full relative signature-box overflow-hidden"><canvas id="sigCanvas"></canvas></div></div>
-                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 flex justify-center items-center gap-2 uppercase tracking-widest"><span>Hantar</span><div id="spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></button>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- DAERAH -->
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Daerah</label><input type="text" id="inpDaerah" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan daerah anda"></div>
+                        <!-- NEGERI -->
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Negeri</label>
+                            <select id="inpNegeri" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="" disabled selected>Pilih Negeri</option>
+                                <option value="Pulau Pinang">Pulau Pinang</option>
+                                <option value="Perak">Perak</option>
+                                <option value="Kedah">Kedah</option>
+                                <option value="Perlis">Perlis</option>
+                                <option value="Lain-lain">Lain-lain</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- NEGERI LAIN (Conditional) -->
+                    <div id="otherNegeriContainer" class="hidden animate-fade-in">
+                        <label class="block text-[10px] font-bold text-indigo-500 uppercase mb-1 ml-1 tracking-wider">Sila Nyatakan Negeri</label>
+                        <input type="text" id="inpOtherNegeri" class="w-full px-4 py-3 bg-indigo-50 border border-indigo-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Sila nyatakan negeri anda">
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="nama@email.com"></div>
+
+                    <!-- SOALAN KOMITMEN -->
+                    <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
+                        <p class="text-xs font-bold text-indigo-900 mb-3 leading-relaxed">Saya akan menghadiri dengan jayanya program ini.</p>
+                        <div class="flex gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="commitment" value="Ya" required class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <span class="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Ya</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="commitment" value="Tidak" class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <span class="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Tidak</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- KOMEN -->
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Komen</label><textarea id="inpKomen" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 min-h-[80px]" placeholder="Sila berikan maklum balas atau komen jika ada"></textarea></div>
+
+                    <!-- TANDATANGAN -->
+                    <div><div class="flex justify-between items-center mb-1"><label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Tandatangan</label><button type="button" id="clearSig" class="text-[10px] text-red-500 font-bold uppercase hover:underline">Padam</button></div><div class="border-2 border-dashed border-slate-300 rounded-xl h-40 w-full relative signature-box overflow-hidden"><canvas id="sigCanvas"></canvas></div></div>
+                    
+                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl shadow-lg mt-2 flex justify-center items-center gap-2 uppercase tracking-widest transition-all active:scale-95 shadow-indigo-200">
+                        <span>Hantar Kehadiran</span>
+                        <div id="spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </button>
                 </form>
             </div>
         </div>
@@ -246,7 +269,7 @@
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8 text-center border-t-8 border-t-indigo-800">
                 <h3 class="font-bold text-xl text-slate-800 mb-6 uppercase">Login Pentadbir</h3>
                 <div class="space-y-4 text-left">
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">ID Pengguna</label><input type="text" id="admUser" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">ID</label><input type="text" id="admUser" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
                     <div><label class="block text-[10px] font-bold text-slate-400 uppercase ml-1">Katalaluan</label><input type="password" id="admPass" class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
                     <p id="loginErr" class="hidden text-[10px] text-red-500 font-bold text-center">Ralat: Maklumat salah.</p>
                 </div>
@@ -321,11 +344,9 @@
             const d = new Date(meetingSettings.date);
             const formatted = isNaN(d) ? meetingSettings.date : d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'long', year: 'numeric' });
             document.querySelectorAll('.dyn-date').forEach(el => el.textContent = formatted);
-            
             document.getElementById('printTitle').textContent = meetingSettings.title;
             document.getElementById('printDate').textContent = formatted;
             document.getElementById('printVenue').textContent = meetingSettings.venue;
-
             document.getElementById('setMeetingTitle').value = meetingSettings.title;
             document.getElementById('setMeetingYear').value = meetingSettings.year;
             document.getElementById('setMeetingDate').value = meetingSettings.date;
@@ -343,6 +364,7 @@
             document.getElementById('liveProgress').style.width = Math.min((count / 50) * 100, 100) + "%";
         }
 
+        // Signature Canvas
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let drawing = false;
@@ -353,28 +375,49 @@
         ['mouseup', 'touchend'].forEach(v => window.addEventListener(v, () => drawing = false));
         document.getElementById('clearSig').onclick = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Logic Negeri Dropdown
+        const inpNegeri = document.getElementById('inpNegeri');
+        const otherNegeriContainer = document.getElementById('otherNegeriContainer');
+        inpNegeri.addEventListener('change', () => {
+            if (inpNegeri.value === "Lain-lain") {
+                otherNegeriContainer.classList.remove('hidden');
+                document.getElementById('inpOtherNegeri').required = true;
+            } else {
+                otherNegeriContainer.classList.add('hidden');
+                document.getElementById('inpOtherNegeri').required = false;
+            }
+        });
+
+        // Submit Form
         document.getElementById('attendForm').onsubmit = async (e) => {
             e.preventDefault();
             const blank = document.createElement('canvas'); blank.width = canvas.width; blank.height = canvas.height;
             if (canvas.toDataURL() === blank.toDataURL()) { alert("Sila tandatangan!"); return; }
             const btn = document.getElementById('submitBtn'); const spin = document.getElementById('spinner');
             btn.disabled = true; spin.classList.remove('hidden');
+            
+            const selectedNegeri = inpNegeri.value === "Lain-lain" ? document.getElementById('inpOtherNegeri').value : inpNegeri.value;
+            const commitment = document.querySelector('input[name="commitment"]:checked').value;
+
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), {
                     name: document.getElementById('inpName').value,
                     idNo: document.getElementById('inpId').value,
-                    role: document.getElementById('inpRole').value,
                     phone: document.getElementById('inpPhone').value,
+                    daerah: document.getElementById('inpDaerah').value,
+                    negeri: selectedNegeri,
                     email: document.getElementById('inpEmail').value,
+                    commitment: commitment,
+                    komen: document.getElementById('inpKomen').value,
                     signature: canvas.toDataURL(),
                     createdAt: serverTimestamp()
                 });
-                closeModal('regModal'); e.target.reset(); ctx.clearRect(0,0, canvas.width, canvas.height);
-                // BUKA MODAL KEJAYAAN
+                closeModal('regModal'); e.target.reset(); otherNegeriContainer.classList.add('hidden'); ctx.clearRect(0,0, canvas.width, canvas.height);
                 openModal('successModal');
             } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
+        // Submit Settings
         document.getElementById('meetingSettingsForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('saveSettingsBtn'); const spin = document.getElementById('settingsSpinner');
@@ -391,6 +434,7 @@
             } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
+        // Print Preview Logic
         window.openPrintPreview = () => {
             const container = document.getElementById('previewContent');
             const filtered = attendanceData.filter(d => {
@@ -399,45 +443,45 @@
             }).sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
             const d = new Date(activeDateFilter);
             const dateStr = isNaN(d) ? activeDateFilter : d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'long', year: 'numeric' });
+            
             let rows = filtered.map((item, i) => `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 8px; text-align: center;">${i+1}</td>
-                    <td style="padding: 8px; font-weight: bold; text-transform: uppercase;">${item.name}</td>
-                    <td style="padding: 8px; font-family: monospace;">${item.idNo}</td>
-                    <td style="padding: 8px;">${item.phone || '-'}</td>
-                    <td style="padding: 8px; font-size: 0.7rem;">${item.email || '-'}</td>
-                    <td style="padding: 8px; text-transform: uppercase; font-size: 0.7rem;">${item.role}</td>
-                    <td style="padding: 8px; text-align: center;"><img src="${item.signature}" style="height: 30px; margin: 0 auto;"></td>
+                    <td style="padding: 6px; text-align: center;">${i+1}</td>
+                    <td style="padding: 6px; font-weight: bold; text-transform: uppercase;">${item.name}</td>
+                    <td style="padding: 6px; font-family: monospace;">${item.idNo}</td>
+                    <td style="padding: 6px;">${item.phone || '-'}</td>
+                    <td style="padding: 6px; font-size: 0.6rem;">${item.daerah}, ${item.negeri}</td>
+                    <td style="padding: 6px; text-align: center; font-weight: bold; font-size: 0.6rem;">${item.commitment}</td>
+                    <td style="padding: 6px; text-align: center;"><img src="${item.signature}" style="height: 25px; margin: 0 auto;"></td>
                 </tr>
             `).join('');
+
             container.innerHTML = `
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
-                        <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" style="height: 80px;">
-                        <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" style="height: 80px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 15px;">
+                        <img src="https://i.postimg.cc/tgt23Mn3/LOGO_JAKIM_OUTLINE.png" style="height: 60px;">
+                        <img src="https://i.postimg.cc/HsVZqzF5/JATAPenang.png" style="height: 60px;">
                     </div>
-                    <h1 style="font-size: 1.5rem; font-weight: bold; margin: 0;">SENARAI KEHADIRAN PESERTA</h1>
-                    <p style="font-weight: 600; margin: 5px 0;">${meetingSettings.year}</p>
-                    <div style="margin-top: 15px; font-size: 0.9rem; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 10px 0; display: flex; justify-content: space-around;">
+                    <h1 style="font-size: 1.2rem; font-weight: bold; margin: 0;">SENARAI KEHADIRAN PESERTA</h1>
+                    <p style="font-weight: 600; margin: 3px 0; font-size: 0.8rem;">${meetingSettings.year}</p>
+                    <div style="margin-top: 10px; font-size: 0.75rem; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 6px 0; display: flex; justify-content: space-around;">
                         <span><strong>TARIKH:</strong> ${dateStr}</span>
                         <span><strong>TEMPAT:</strong> ${meetingSettings.venue}</span>
                     </div>
                 </div>
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.7rem;">
                     <thead>
                         <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
-                            <th style="padding: 10px; border: 1px solid #cbd5e1;">BIL</th>
-                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">NAMA PENUH</th>
-                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">NO. K/P</th>
-                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">NO. TELEFON</th>
-                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">EMEL</th>
-                            <th style="padding: 10px; border: 1px solid #cbd5e1; text-align: left;">PERANAN</th>
-                            <th style="padding: 10px; border: 1px solid #cbd5e1;">TANDATANGAN</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">BIL</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1; text-align: left;">NAMA PENUH</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1; text-align: left;">NO. K/P</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1; text-align: left;">NO. TEL</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1; text-align: left;">LOKALITI</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">HADIR</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">TANDATANGAN</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        ${rows || '<tr><td colspan="7" style="text-align: center; padding: 50px;">Tiada data ditemui.</td></tr>'}
-                    </tbody>
+                    <tbody>${rows || '<tr><td colspan="7" style="text-align: center; padding: 30px;">Tiada data.</td></tr>'}</tbody>
                 </table>
             `;
             openModal('printPreviewModal');
@@ -486,11 +530,20 @@
         function renderTable() {
             const tbody = document.getElementById('dataTableBody'); tbody.innerHTML = '';
             const filtered = attendanceData.filter(d => { if(!d.createdAt) return false; return new Date(d.createdAt.seconds * 1000).toISOString().split('T')[0] === activeDateFilter; }).sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
-            if(filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="py-10 text-center text-slate-400">Tiada rekod ditemui.</td></tr>'; return; }
+            if(filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="py-10 text-center text-slate-400">Tiada rekod.</td></tr>'; return; }
             filtered.forEach((item, i) => {
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-all";
-                tr.innerHTML = `<td class="py-4 px-4 text-center text-xs font-bold text-slate-400">${i + 1}</td><td class="py-4 px-4 font-bold text-slate-800 uppercase text-[10px]">${item.name}</td><td class="py-4 px-4 text-[10px] font-mono text-indigo-600">${item.idNo}</td><td class="py-4 px-4 text-[10px] font-medium">${item.phone || '-'}</td><td class="py-4 px-4 text-[10px] font-medium truncate max-w-[120px]">${item.email || '-'}</td><td class="py-4 px-4"><span class="bg-indigo-100 text-indigo-700 text-[9px] px-2 py-1 rounded-full font-bold uppercase">${item.role}</span></td><td class="py-4 px-4 text-center"><img src="${item.signature}" class="h-8 mx-auto border bg-white rounded hover:scale-[3] transition-all"></td><td class="py-4 px-4 text-right"><button onclick="deleteEntry('${item.id}')" class="text-slate-300 hover:text-red-500">🗑</button></td>`;
+                tr.innerHTML = `
+                    <td class="py-3 px-2 text-center text-[8px] font-bold text-slate-400">${i + 1}</td>
+                    <td class="py-3 px-2 font-bold text-slate-800 uppercase text-[9px]">${item.name}</td>
+                    <td class="py-3 px-2 text-[9px] font-mono text-indigo-600">${item.idNo}</td>
+                    <td class="py-3 px-2 text-[9px] font-medium">${item.phone || '-'}</td>
+                    <td class="py-3 px-2 text-[8px] font-medium truncate max-w-[100px]">${item.daerah}, ${item.negeri}</td>
+                    <td class="py-3 px-2 text-center"><span class="bg-indigo-100 text-indigo-700 text-[8px] px-2 py-0.5 rounded-full font-bold">${item.commitment}</span></td>
+                    <td class="py-3 px-2 text-center"><img src="${item.signature}" class="h-6 mx-auto border bg-white rounded hover:scale-[4] transition-all"></td>
+                    <td class="py-3 px-2 text-right"><button onclick="deleteEntry('${item.id}')" class="text-slate-300 hover:text-red-500">🗑</button></td>
+                `;
                 tbody.appendChild(tr);
             });
         }
