@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kehadiran Peserta Perkaderan</title>
+    <!-- Menghalang ralat 404 favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -108,12 +111,12 @@
             <div id="adminSettingsSection" class="hidden animate-fade-in">
                 <div class="glass-card p-8 rounded-b-2xl shadow-none">
                     <form id="meetingSettingsForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tajuk Program</label><input type="text" id="setMeetingTitle" required class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Peringkat/Tahun</label><input type="text" id="setMeetingYear" required class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Lokasi</label><input type="text" id="setMeetingVenue" required class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tarikh Mula</label><input type="date" id="setStartDate" required class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tarikh Akhir</label><input type="date" id="setEndDate" required class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Waktu Program (Paparan)</label><input type="text" id="setMeetingTime" required class="w-full px-4 py-3 border border-slate-200 rounded-xl outline-none"></div>
+                        <div class="md:col-span-2"><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tajuk Program</label><input type="text" id="setMeetingTitle" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Peringkat/Tahun</label><input type="text" id="setMeetingYear" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Lokasi</label><input type="text" id="setMeetingVenue" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tarikh Mula</label><input type="date" id="setStartDate" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tarikh Akhir</label><input type="date" id="setEndDate" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Waktu Program (Paparan)</label><input type="text" id="setMeetingTime" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"></div>
                         <div class="md:col-span-2 pt-4"><button type="submit" id="saveSettingsBtn" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-10 py-4 rounded-xl flex items-center justify-center gap-2"><span>Simpan Tetapan</span><div id="settingsSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></button></div>
                     </form>
                 </div>
@@ -202,16 +205,18 @@
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto flex flex-col">
                 <div class="p-5 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10"><h3 class="font-bold text-lg text-slate-800 uppercase">Daftar Kehadiran</h3><button onclick="closeModal('regModal')" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button></div>
                 <form id="attendForm" class="p-6 space-y-5">
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan nama penuh"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Nama Penuh</label><input type="text" id="inpName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Sila masukkan nama penuh anda"></div>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">No. K/P</label><input type="text" id="inpId" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Contoh: 90010101xxxx"></div>
                         <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">No. Tel</label><input type="tel" id="inpPhone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="01x-xxxxxxx"></div>
                     </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Daerah</label><input type="text" id="inpDaerah" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan daerah"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Daerah</label><input type="text" id="inpDaerah" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan daerah anda"></div>
                         <div>
                             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Negeri</label>
-                            <select id="inpNegeri" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                            <select id="inpNegeri" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="" disabled selected>Pilih Negeri</option>
                                 <option value="Pulau Pinang">Pulau Pinang</option>
                                 <option value="Perak">Perak</option>
@@ -221,19 +226,37 @@
                             </select>
                         </div>
                     </div>
-                    <div id="otherNegeriContainer" class="hidden animate-fade-in"><label class="block text-[10px] font-bold text-indigo-500 uppercase mb-1 tracking-wider">Nyatakan Negeri</label><input type="text" id="inpOtherNegeri" class="w-full px-4 py-3 bg-indigo-50 border border-indigo-200 rounded-xl outline-none"></div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" placeholder="nama@email.com"></div>
+
+                    <div id="otherNegeriContainer" class="hidden animate-fade-in">
+                        <label class="block text-[10px] font-bold text-indigo-500 uppercase mb-1 ml-1 tracking-wider">Sila Nyatakan Negeri</label>
+                        <input type="text" id="inpOtherNegeri" class="w-full px-4 py-3 bg-indigo-50 border border-indigo-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Sila nyatakan negeri anda">
+                    </div>
+
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Emel</label><input type="email" id="inpEmail" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500" placeholder="nama@email.com"></div>
+
                     <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
-                        <p class="text-xs font-bold text-indigo-900 mb-3">Saya akan menghadiri dengan jayanya program ini.</p>
+                        <p class="text-xs font-bold text-indigo-900 mb-3 leading-relaxed">Saya akan menghadiri dengan jayanya program ini.</p>
                         <div class="flex gap-6">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="commitment" value="Ya" required><span class="text-sm font-bold">Ya</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="commitment" value="Tidak"><span class="text-sm font-bold">Tidak</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="commitment" value="Ya" required class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <span class="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Ya</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="commitment" value="Tidak" class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <span class="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Tidak</span>
+                            </label>
                         </div>
                     </div>
-                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-wider">Komen</label><textarea id="inpKomen" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none min-h-[80px]"></textarea></div>
-                    <div><div class="flex justify-between items-center mb-1"><label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tandatangan</label><button type="button" id="clearSig" class="text-red-500 text-[10px] font-bold uppercase">Padam</button></div><div class="border-2 border-dashed border-slate-300 rounded-xl h-40 w-full relative signature-box overflow-hidden"><canvas id="sigCanvas"></canvas></div></div>
+
+                    <div><label class="block text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1 tracking-wider">Komen</label><textarea id="inpKomen" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 min-h-[80px]" placeholder="Sila berikan maklum balas atau komen jika ada"></textarea></div>
+
+                    <div><div class="flex justify-between items-center mb-1"><label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Tandatangan</label><button type="button" id="clearSig" class="text-[10px] text-red-500 font-bold uppercase hover:underline">Padam</button></div><div class="border-2 border-dashed border-slate-300 rounded-xl h-40 w-full relative signature-box overflow-hidden"><canvas id="sigCanvas"></canvas></div></div>
+                    
                     <div id="submitContainer">
-                        <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl shadow-lg mt-2 uppercase tracking-widest transition-all active:scale-95"><span>Hantar Kehadiran</span><div id="spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div></button>
+                        <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-xl shadow-lg mt-2 flex justify-center items-center gap-2 uppercase tracking-widest transition-all active:scale-95 shadow-indigo-200">
+                            <span>Hantar Kehadiran</span>
+                            <div id="spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        </button>
                         <p id="formDisabledMsg" class="hidden text-center text-red-600 text-xs font-bold mt-3 bg-red-50 p-3 rounded-lg border border-red-100"></p>
                     </div>
                 </form>
@@ -288,7 +311,13 @@
             } catch (err) { console.error(err); }
         };
 
-        onAuthStateChanged(auth, (user) => { if (user) { startListeners(); } });
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('systemStatus').textContent = "SISTEM AKTIF";
+                document.getElementById('systemStatus').className = "px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase";
+                startListeners();
+            }
+        });
 
         function startListeners() {
             onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), (snap) => {
@@ -348,7 +377,11 @@
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let drawing = false;
-        function resizeCanvas() { const r = canvas.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; }
+        function resizeCanvas() { 
+            const r = canvas.getBoundingClientRect(); 
+            canvas.width = canvas.parentElement.clientWidth; 
+            canvas.height = canvas.parentElement.clientHeight; 
+        }
         const getPos = (e) => { const r = canvas.getBoundingClientRect(); const cx = e.touches ? e.touches[0].clientX : e.clientX; const cy = e.touches ? e.touches[0].clientY : e.clientY; return { x: cx - r.left, y: cy - r.top }; };
         ['mousedown', 'touchstart'].forEach(v => canvas.addEventListener(v, (e) => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); if(e.type==='touchstart') e.preventDefault(); }, {passive: false}));
         ['mousemove', 'touchmove'].forEach(v => canvas.addEventListener(v, (e) => { if(!drawing) return; const p = getPos(e); ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.strokeStyle = '#000'; ctx.lineTo(p.x, p.y); ctx.stroke(); if(e.type==='touchmove') e.preventDefault(); }, {passive: false}));
@@ -460,7 +493,7 @@
                 </table>
             `;
             container.innerHTML = contentHtml;
-            printArea.innerHTML = contentHtml; // PENTING: Salin ke kawasan cetakan
+            printArea.innerHTML = contentHtml; 
             openModal('printPreviewModal');
         };
 
