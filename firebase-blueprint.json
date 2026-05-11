@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "AttendanceRecord": {
+      "title": "Attendance Record",
+      "description": "A record of a participant's attendance.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "idNo": { "type": "string" },
+        "phone": { "type": "string" },
+        "daerah": { "type": "string" },
+        "negeri": { "type": "string" },
+        "email": { "type": "string" },
+        "commitment": { "type": "string", "enum": ["Ya", "Tidak"] },
+        "komen": { "type": "string" },
+        "signature": { "type": "string", "description": "Base64 data URL of the signature image." },
+        "createdAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["name", "idNo", "daerah", "negeri", "commitment", "signature"]
+    },
+    "MeetingSettings": {
+      "title": "Meeting Settings",
+      "description": "Configuration for the current meeting.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "year": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "time": { "type": "string" },
+        "venue": { "type": "string" }
+      },
+      "required": ["title", "year", "startDate", "endDate", "time", "venue"]
+    }
+  },
+  "firestore": {
+    "artifacts/{appId}/public/data/attendance": {
+      "schema": "AttendanceRecord",
+      "description": "Stores attendance records submitted by participants."
+    },
+    "artifacts/{appId}/public/data/settings": {
+      "schema": "MeetingSettings",
+      "description": "Stores meeting configuration settings."
+    }
+  }
+}

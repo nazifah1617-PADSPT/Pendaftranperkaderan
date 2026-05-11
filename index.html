@@ -286,17 +286,18 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-          apiKey: "AIzaSyDAzN1ojEQ6fUNyRKY1I6DxZvMkahKukds",
-          authDomain: "kehadiran-peserta-perkaderan.firebaseapp.com",
-          projectId: "kehadiran-peserta-perkaderan",
-          storageBucket: "kehadiran-peserta-perkaderan.firebasestorage.app",
-          messagingSenderId: "790915248624",
-          appId: "1:790915248624:web:0ff69bcace88f4fdb86d35"
+          projectId: "gen-lang-client-0748348993",
+          appId: "1:1010446600564:web:617ae7cbc8ebe26b618421",
+          apiKey: "AIzaSyDsnjcUsea-bwto-pWax-2B472XbcVkkPU",
+          authDomain: "gen-lang-client-0748348993.firebaseapp.com",
+          firestoreDatabaseId: "ai-studio-bd893ef9-fddf-4a1e-a1cd-4f457e2d0f70",
+          storageBucket: "gen-lang-client-0748348993.firebasestorage.app",
+          messagingSenderId: "1010446600564",
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
+        const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-id';
 
         let attendanceData = [];
@@ -308,7 +309,17 @@
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { 
                     await signInWithCustomToken(auth, __initial_auth_token).catch(async () => await signInAnonymously(auth));
                 } else { await signInAnonymously(auth); }
-            } catch (err) { console.error(err); }
+            } catch (err) { 
+                console.error(err); 
+                if (err.code === 'auth/admin-restricted-operation' || err.message.includes('auth/admin-restricted-operation')) {
+                    document.getElementById('systemStatus').textContent = "RALAT: ANONYMOUS AUTH CLOSED";
+                    document.getElementById('systemStatus').className = "px-3 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded-full uppercase";
+                    alert("PENTING: Sila aktifkan 'Anonymous Authentication' dalam Firebase.\n\n1. Buka pautan Firebase Project anda\n2. Pergi ke menu 'Authentication' > tab 'Sign-in method'\n3. Klik 'Add new provider' dan pilih 'Anonymous'\n4. Aktifkan (Enable) dan tekan Save.\n5. Refresh semula muka surat ini.");
+                } else {
+                    document.getElementById('systemStatus').textContent = "RALAT SISTEM";
+                    document.getElementById('systemStatus').className = "px-3 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded-full uppercase";
+                }
+            }
         };
 
         onAuthStateChanged(auth, (user) => {
@@ -322,12 +333,17 @@
         function startListeners() {
             onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), (snap) => {
                 if (snap.exists()) { meetingSettings = snap.data(); updateUI(); } 
-                else { setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), meetingSettings); }
+                else { setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'current'), meetingSettings).catch(e => console.error(e)); }
+            }, (error) => {
+                console.error("Firebase read error:", error);
+                alert("Amaran: Sistem gagal memuat turun data (Missing or insufficient permissions). Sila semak Firestore Rules anda.");
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'attendance'), (snap) => {
                 attendanceData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 updateDashboard(); renderArchive();
                 if (!document.getElementById('detailedRecordView').classList.contains('hidden')) renderTable();
+            }, (error) => {
+                console.error("Firebase read error (attendance):", error);
             });
         }
 
@@ -418,7 +434,10 @@
                 });
                 closeModal('regModal'); e.target.reset(); otherNegeriContainer.classList.add('hidden'); ctx.clearRect(0,0, canvas.width, canvas.height);
                 openModal('successModal');
-            } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
+            } catch (err) { 
+                console.error(err); 
+                alert("Ralat (Error) semasa menghantar kehadiran: \n" + err.message + "\n\nSila pastikan Firestore Rules anda membenarkan 'write'.");
+            } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
         document.getElementById('meetingSettingsForm').onsubmit = async (e) => {
@@ -435,7 +454,10 @@
                     venue: document.getElementById('setMeetingVenue').value
                 });
                 alert("Tetapan disimpan!");
-            } catch (err) { console.error(err); } finally { btn.disabled = false; spin.classList.add('hidden'); }
+            } catch (err) { 
+                console.error(err); 
+                alert("Ralat (Error) Firebase:\n" + err.message + "\n\nSila pastikan 'Rules' di Firestore pangkalan data anda membenarkan akses 'write'.");
+            } finally { btn.disabled = false; spin.classList.add('hidden'); }
         };
 
         window.openPrintPreview = () => {
