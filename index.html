@@ -366,11 +366,13 @@
         function validateRegistrationWindow(start, end) {
             const today = new Date(); today.setHours(0,0,0,0);
             const s = new Date(start); s.setHours(0,0,0,0);
+            const registrationStart = new Date(s);
+            registrationStart.setDate(registrationStart.getDate() - 1);
             const e = new Date(end); e.setHours(0,0,0,0);
             const btn = document.getElementById('openRegBtn'); const submitBtn = document.getElementById('submitBtn');
             const statusMsg = document.getElementById('regStatusMsg'); const formMsg = document.getElementById('formDisabledMsg');
             let msg = ""; let isOpen = true;
-            if (today < s) { isOpen = false; msg = `Pendaftaran belum dibuka. Sila kembali pada ${s.toLocaleDateString('ms-MY')}.`; }
+            if (today < registrationStart) { isOpen = false; msg = `Pendaftaran belum dibuka. Sila kembali pada ${registrationStart.toLocaleDateString('ms-MY')}.`; }
             else if (today > e) { isOpen = false; msg = "Pendaftaran telah ditutup."; }
             if (!isOpen) { 
                 btn.classList.add('opacity-50', 'cursor-not-allowed'); btn.removeAttribute('onclick');
