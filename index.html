@@ -387,9 +387,22 @@
         }
 
         function updateDashboard() {
-            const count = attendanceData.length;
+            const startDate = new Date(meetingSettings.startDate);
+            const registrationStart = new Date(startDate);
+            registrationStart.setDate(registrationStart.getDate() - 1);
+            registrationStart.setHours(0,0,0,0);
+            
+            const endDate = new Date(meetingSettings.endDate);
+            endDate.setHours(23,59,59,999);
+            
+            const count = attendanceData.filter(d => {
+                if(!d.createdAt) return false;
+                const recordDate = new Date(d.createdAt.seconds * 1000);
+                return recordDate >= registrationStart && recordDate <= endDate;
+            }).length;
+
             document.getElementById('liveCount').textContent = count;
-            document.getElementById('liveProgress').style.width = Math.min((count / 50) * 100, 100) + "%";
+            document.getElementById('liveProgress').style.width = Math.min((count / 150) * 100, 100) + "%";
         }
 
         const canvas = document.getElementById('sigCanvas');
